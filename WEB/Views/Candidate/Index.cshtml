@@ -1,11 +1,11 @@
-﻿@model IEnumerable<WEB.Models.CandidateViewModel>
+﻿@model IEnumerable<BLL.DTO.CandidateDTO>
 
 @{
     ViewData["Title"] = "Candidates";
     var error = ViewBag.Error;
 }
 
-<h1>Index</h1>
+<h1>Candidates</h1>
 @if (error != null)
 {
     <p>

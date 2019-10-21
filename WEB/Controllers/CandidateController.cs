@@ -12,17 +12,17 @@ namespace WEB.Controllers
 {
     public class CandidateController : Controller
     {
-        ICandidateService candidateService;
+        private readonly ICandidateService _candidateService;
         public CandidateController(ICandidateService service)
         {
-            candidateService = service;
+            _candidateService = service;
         }
         public async Task<IActionResult> Index()
         {
             IEnumerable<CandidateDTO> candidates;
             try
             {
-                 candidates = candidateService.GetCandidates();
+                 candidates = _candidateService.GetCandidates();
             }
             catch(Exception ex)
             {

@@ -11,10 +11,10 @@ namespace DAL.Entities.Contacts
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
-        public virtual ICollection<Phone> Phones { get; set; }
-        public virtual ICollection<Email> Emails { get; set; }
-        public virtual ICollection<Skype> Skypes { get; set; }
-        public virtual ICollection<Address> Address { get; set; }
+        public ICollection<Phone> Phones { get; set; }
+        public ICollection<Email> Emails { get; set; }
+        public ICollection<Skype> Skypes { get; set; }
+        public ICollection<Address> Address { get; set; }
 
     }
 }

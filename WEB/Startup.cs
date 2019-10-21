@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using BLL.Interfaces;
 using BLL.Services;
 using Microsoft.AspNetCore.Builder;
@@ -23,11 +24,11 @@ namespace WEB
     public class Startup
     {
 
-        private readonly AsyncLocal<Scope> scopeProvider = new AsyncLocal<Scope>();
+        private readonly AsyncLocal<Scope> _scopeProvider = new AsyncLocal<Scope>();
         private IKernel Kernel { get; set; }
 
         private object Resolve(Type type) => Kernel.Get(type);
-        private object RequestScope(IContext context) => scopeProvider.Value;
+        private object RequestScope(IContext context) => _scopeProvider.Value;
 
         public Startup(IConfiguration configuration)
         {
@@ -46,11 +47,12 @@ namespace WEB
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddRequestScopingMiddleware(() => scopeProvider.Value = new Scope());
+            services.AddRequestScopingMiddleware(() => _scopeProvider.Value = new Scope());
             services.AddCustomControllerActivation(Resolve);
             services.AddCustomViewComponentActivation(Resolve);
         }
@@ -65,7 +67,7 @@ namespace WEB
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                
                 app.UseHsts();
             }
 
@@ -85,7 +87,6 @@ namespace WEB
 
         private IKernel RegisterApplicationComponents(IApplicationBuilder app)
         {
-            // IKernelConfiguration config = new KernelConfiguration();
             NinjectModule serviceModule = new ServiceModule(Configuration.GetConnectionString("DefaultConnection"));
 
             var kernel = new StandardKernel(serviceModule);
@@ -96,10 +97,10 @@ namespace WEB
                 kernel.Bind(ctrlType).ToSelf().InScope(RequestScope);
             }
 
-            // This is where our bindings are configurated
+            
             kernel.Bind<ICandidateService>().To<CandidateService>().InScope(RequestScope);
             
-            // Cross-wire required framework services
+
             kernel.BindToMethod(app.GetRequestService<IViewBufferScope>);
 
             return kernel;

@@ -14,15 +14,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
     public class CandidateService : ICandidateService
     {
-        private IUnitOfWork Db { get; set; }
-        public CandidateService(IUnitOfWork unitOfWork)
+        private readonly IUnitOfWork _db;
+        private readonly IMapper _mapper;
+        public CandidateService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            Db = unitOfWork;
+            _db = unitOfWork;
+            _mapper = mapper;
         }
 
         #region SyncMethods
@@ -33,7 +36,7 @@ namespace BLL.Services
             //var mapper = AutoMapperConfig.CandidateDTOToMemberMapper;
             try
             {
-                //Db.Members.Create(mapper.Map<CandidateDTO, Member>(candidate));
+                //_db.Members.Create(mapper.Map<CandidateDTO, Member>(candidate));
                 return true;
             }
             catch (Exception)
@@ -46,50 +49,24 @@ namespace BLL.Services
         {
             if (id == null) throw new CustomValidationException("Id не указан", "");
 
-            var candidate = Db.Members.GetById(id);
+            var candidate = _db.Members.GetById(id);
             if (candidate == null)
                 throw new CustomValidationException("Кандидат не найден", "");
 
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Member, CandidateDTO>();
-                cfg.CreateMap<CandidateInfo, CandidateDTO>();
-                cfg.CreateMap<PersonalInfoDTO, PersonalInfo>();
-                cfg.CreateMap<PhoneDTO, Phone>();
-                cfg.CreateMap<EmailDTO, Email>();
-                cfg.CreateMap<SkypeDTO, Skype>();
-                cfg.CreateMap<AddressDTO, Address>();
-                cfg.CreateMap<EducationDTO, EducationInfo>();
-                cfg.CreateMap<WorkDTO, WorkInfo>();
-                cfg.CreateMap<ContactsDTO, MemberContacts>();
-            }).CreateMapper();
             if (candidate.IsCandidate)
-                return mapper.Map<Member, CandidateDTO>(candidate);
+                return _mapper.Map<CandidateDTO>(candidate);
             else throw new CustomValidationException("Пользователь не является кандидатом", "");
 
         }
 
         public IEnumerable<CandidateDTO> GetCandidates()
         {
-            List<Member> candidates = Db.Members.Find(m => m.IsCandidate).ToList();
+            var candidates = _db.Members.Find(m => m.IsCandidate).ToList();
             if (candidates == null || candidates.Count < 1)
                 throw new CustomValidationException("Кандидатов нет", "");
             else
             {
-                var mapper = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<Member, CandidateDTO>();
-                    cfg.CreateMap<CandidateInfo, CandidateDTO>();
-                    cfg.CreateMap<PersonalInfoDTO, PersonalInfo>();
-                    cfg.CreateMap<PhoneDTO, Phone>();
-                    cfg.CreateMap<EmailDTO, Email>();
-                    cfg.CreateMap<SkypeDTO, Skype>();
-                    cfg.CreateMap<AddressDTO, Address>();
-                    cfg.CreateMap<EducationDTO, EducationInfo>();
-                    cfg.CreateMap<WorkDTO, WorkInfo>();
-                    cfg.CreateMap<ContactsDTO, MemberContacts>();
-                }).CreateMapper();
-                var data = mapper.Map<IEnumerable<Member>, IEnumerable<CandidateDTO>>(candidates);
+                var data = _mapper.Map<IEnumerable<CandidateDTO>>(candidates);
                 return data;
             }
         }
@@ -114,7 +91,7 @@ namespace BLL.Services
 
         public void Dispose()
         {
-            Db.Dispose();
+            _db.Dispose();
         }
     }
 }
