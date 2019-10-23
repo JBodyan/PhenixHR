@@ -13,7 +13,7 @@ namespace BLL.Interfaces
         IEnumerable<CandidateDTO> GetCandidates();
         Task<IEnumerable<CandidateDTO>> GetCandidatesAsync();
         bool AddCandidate(CandidateDTO candidate);
-        bool AddCandidateAsync(CandidateDTO candidate);
+        Task<bool> AddCandidateAsync(CandidateDTO candidate);
         void Dispose();
     }
 }

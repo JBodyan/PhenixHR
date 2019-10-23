@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using BLL.Config.Automapper;
 using BLL.Interfaces;
 using BLL.Services;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +19,7 @@ using Ninject;
 using Ninject.Activation;
 using Ninject.Infrastructure.Disposal;
 using Ninject.Modules;
+using WEB.Config.Automapper;
 
 namespace WEB
 {
@@ -102,6 +104,23 @@ namespace WEB
             
 
             kernel.BindToMethod(app.GetRequestService<IViewBufferScope>);
+
+
+            kernel.Bind<IMapper>()
+                .ToMethod(context =>
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.AddProfile<CandidateProfile>();
+                        cfg.AddProfile<PersonalInfoProfile>();
+
+                        cfg.AddProfile<CandidateViewModelProfile>();
+                        cfg.AddProfile<PersonalInfoViewModelProfile>();
+                        
+                        cfg.ConstructServicesUsing(t => kernel.Get(t));
+                    });
+                    return config.CreateMapper();
+                }).InSingletonScope();
 
             return kernel;
         }

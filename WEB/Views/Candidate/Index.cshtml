@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BLL.DTO.CandidateDTO>
+﻿@model IEnumerable<CandidateViewModel>
 
 @{
     ViewData["Title"] = "Candidates";
@@ -14,10 +14,9 @@
 }
 else
 {
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+    @Html.ActionLink("Add new candidate", "AddCandidate")
+
+    <table class="table">
     <thead>
         <tr>
             <th>
@@ -37,6 +36,9 @@ else
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.About)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalInfo.FirstName)
             </th>
             <th></th>
         </tr>
@@ -64,9 +66,12 @@ else
                 @Html.DisplayFor(modelItem => item.About)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.DisplayFor(modelItem => item.PersonalInfo.FirstName)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                @Html.ActionLink("Details", "CandidateDetails", new {  id = item.Id })
+                @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }

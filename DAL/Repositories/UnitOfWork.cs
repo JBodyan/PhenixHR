@@ -9,7 +9,7 @@ namespace DAL.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly Data.AppContext _db;
-        private MemberRepository memberRepository;
+        private MemberRepository _memberRepository;
 
         public UnitOfWork(string connectionString)
         {
@@ -20,9 +20,9 @@ namespace DAL.Repositories
         {
             get
             {
-                if (memberRepository == null)
-                    memberRepository = new MemberRepository(_db);
-                return memberRepository;
+                if (_memberRepository == null)
+                    _memberRepository = new MemberRepository(_db);
+                return _memberRepository;
             }
         }
 
@@ -31,17 +31,17 @@ namespace DAL.Repositories
             _db.SaveChanges();
         }
 
-        private bool disposed = false;
+        private bool _disposed = false;
 
         public virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     _db.Dispose();
                 }
-                disposed = true;
+                _disposed = true;
             }
         }
 

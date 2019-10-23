@@ -62,6 +62,28 @@ namespace BLL.Services
         public IEnumerable<CandidateDTO> GetCandidates()
         {
             var candidates = _db.Members.Find(m => m.IsCandidate).ToList();
+            if (candidates == null || candidates.Count < 1) throw new CustomValidationException("Кандидатов нет", "");
+
+            var data = _mapper.Map<IEnumerable<CandidateDTO>>(candidates);
+            return data;
+        }
+        #endregion
+
+        #region AsyncMethods
+        public async Task<CandidateDTO> GetCandidateByIdAsync(Guid id)
+        {
+            if (id == null) throw new CustomValidationException("Id не указан", "");
+
+            var candidate = await _db.Members.FindAsync(x => x.Id == id && x.IsCandidate);
+            if (candidate == null) throw new CustomValidationException("Кандидат не найден", "");
+
+            var data = _mapper.Map<CandidateDTO>(candidate);
+            return data;
+        }
+
+        public async Task<IEnumerable<CandidateDTO>> GetCandidatesAsync()
+        {
+            var candidates = (await _db.Members.FindAsync(m => m.IsCandidate)).ToList();
             if (candidates == null || candidates.Count < 1)
                 throw new CustomValidationException("Кандидатов нет", "");
             else
@@ -70,22 +92,21 @@ namespace BLL.Services
                 return data;
             }
         }
-        #endregion
 
-        #region AsyncMethods
-        public Task<CandidateDTO> GetCandidateByIdAsync(Guid id)
+        public async Task<bool> AddCandidateAsync(CandidateDTO candidate)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var member = _mapper.Map<Member>(candidate);
+                await _db.Members.CreateAsync(member);
+                _db.Save();
+            }
+            catch (Exception ex)
+            {
 
-        public Task<IEnumerable<CandidateDTO>> GetCandidatesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool AddCandidateAsync(CandidateDTO candidate)
-        {
-            throw new NotImplementedException();
+                return false;
+            }
+            return true;
         }
         #endregion
 

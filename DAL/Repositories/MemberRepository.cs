@@ -30,17 +30,26 @@ namespace DAL.Repositories
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var member = _db.Members.FirstOrDefault(x => x.Id == id);
+            if (member != null)
+            {
+                member.IsArchived = true;
+            }
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var member = await _db.Members.FirstOrDefaultAsync(x => x.Id == id);
+            if (member != null)
+            {
+                member.IsArchived = true;
+            }
         }
 
         public IEnumerable<Member> Find(Func<Member, bool> predicate)
         {
             var members = _db.Members.Where(predicate).ToList();
+            if (!members.Any()) return null;
             foreach (var entity in members)
             {
                 _db.Entry(entity).Reference(x => x.PersonalInfo).Load();
@@ -59,29 +68,97 @@ namespace DAL.Repositories
 
         public async Task<IEnumerable<Member>> FindAsync(Func<Member, bool> predicate)
         {
-            return _db.Members.Where(predicate).ToList();
+            var members = _db.Members.Where(predicate).ToList();
+            if (!members.Any()) return null;
+            foreach (var entity in members)
+            {
+                _db.Entry(entity).Reference(x => x.PersonalInfo).Load();
+                _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
+                _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
+                _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Address).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+                _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
+                _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
+            }
+            return members;
         }
 
         public IEnumerable<Member> GetAll()
         {
             var members = _db.Members;
-            _db.Members.Where(x=> members.Contains(x)).Load();
+            if (!members.Any()) return null;
+            foreach (var entity in members)
+            {
+                _db.Entry(entity).Reference(x => x.PersonalInfo).Load();
+                _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
+                _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
+                _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Address).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+                _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
+                _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
+            }
             return members;
         }
 
         public async Task<IEnumerable<Member>> GetAllAsync()
         {
-            return _db.Members;
+            var members = _db.Members;
+            if (!members.Any()) return null;
+            foreach (var entity in members)
+            {
+                _db.Entry(entity).Reference(x => x.PersonalInfo).Load();
+                _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
+                _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
+                _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Address).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+                _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
+                _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
+            }
+            return members;
         }
 
         public Member GetById(Guid id)
         {
-            return _db.Members.FirstOrDefault(x => x.Id == id);
+            var member = _db.Members.FirstOrDefault(x => x.Id == id);
+            if (member == null) return null;
+            _db.Entry(member).Reference(x => x.PersonalInfo).Load();
+            _db.Entry(member).Reference(x => x.CandidateInfo).Load();
+            _db.Entry(member).Reference(x => x.EmployeeInfo).Load();
+            _db.Entry(member.PersonalInfo).Reference(x => x.Contacts).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Address).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+            _db.Entry(member.CandidateInfo).Collection(x => x.Educations).Load();
+            _db.Entry(member.CandidateInfo).Collection(x => x.Works).Load();
+            return member;
         }
 
         public async Task<Member> GetByIdAsync(Guid id)
         {
-            return await _db.Members.FirstOrDefaultAsync(x => x.Id == id);
+            var member = await _db.Members.FirstOrDefaultAsync(x => x.Id == id);
+            if (member == null) return null;
+            _db.Entry(member).Reference(x => x.PersonalInfo).Load();
+            _db.Entry(member).Reference(x => x.CandidateInfo).Load();
+            _db.Entry(member).Reference(x => x.EmployeeInfo).Load();
+            _db.Entry(member.PersonalInfo).Reference(x => x.Contacts).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Address).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+            _db.Entry(member.CandidateInfo).Collection(x => x.Educations).Load();
+            _db.Entry(member.CandidateInfo).Collection(x => x.Works).Load();
+
+            return member;
         }
 
         public void Update(Member item)
