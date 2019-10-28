@@ -6,9 +6,9 @@ namespace BLL.DTO.Contacts
 {
     public class ContactsDTO
     {
-        public ICollection<PhoneDTO> Phones { get; set; }
-        public ICollection<EmailDTO> Emails { get; set; }
-        public ICollection<SkypeDTO> Skypes { get; set; }
-        public ICollection<AddressDTO> Address { get; set; }
+        public PhoneDTO Phone { get; set; }
+        public EmailDTO Email { get; set; }
+        public SkypeDTO Skype { get; set; }
+        public AddressDTO Address { get; set; }
     }
 }

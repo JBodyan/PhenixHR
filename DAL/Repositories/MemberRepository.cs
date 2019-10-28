@@ -56,10 +56,11 @@ namespace DAL.Repositories
                 _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
                 _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
                 _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Address).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Address).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Email).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Phone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.SecondPhone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
             }
@@ -69,17 +70,18 @@ namespace DAL.Repositories
         public async Task<IEnumerable<Member>> FindAsync(Func<Member, bool> predicate)
         {
             var members = _db.Members.Where(predicate).ToList();
-            if (!members.Any()) return null;
+            if (!members.Any()) return members;
             foreach (var entity in members)
             {
                 _db.Entry(entity).Reference(x => x.PersonalInfo).Load();
                 _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
                 _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
                 _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Address).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Address).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Email).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Phone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.SecondPhone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
             }
@@ -96,10 +98,11 @@ namespace DAL.Repositories
                 _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
                 _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
                 _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Address).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Address).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Email).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Phone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.SecondPhone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
             }
@@ -116,10 +119,11 @@ namespace DAL.Repositories
                 _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
                 _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
                 _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Address).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
-                _db.Entry(entity.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Address).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Email).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Phone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.SecondPhone).Load();
+                _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
             }
@@ -134,10 +138,11 @@ namespace DAL.Repositories
             _db.Entry(member).Reference(x => x.CandidateInfo).Load();
             _db.Entry(member).Reference(x => x.EmployeeInfo).Load();
             _db.Entry(member.PersonalInfo).Reference(x => x.Contacts).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Address).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Address).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Email).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Phone).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.SecondPhone).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
             _db.Entry(member.CandidateInfo).Collection(x => x.Educations).Load();
             _db.Entry(member.CandidateInfo).Collection(x => x.Works).Load();
             return member;
@@ -151,10 +156,11 @@ namespace DAL.Repositories
             _db.Entry(member).Reference(x => x.CandidateInfo).Load();
             _db.Entry(member).Reference(x => x.EmployeeInfo).Load();
             _db.Entry(member.PersonalInfo).Reference(x => x.Contacts).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Address).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Emails).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Phones).Load();
-            _db.Entry(member.PersonalInfo.Contacts).Collection(x => x.Skypes).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Address).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Email).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Phone).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.SecondPhone).Load();
+            _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
             _db.Entry(member.CandidateInfo).Collection(x => x.Educations).Load();
             _db.Entry(member.CandidateInfo).Collection(x => x.Works).Load();
 

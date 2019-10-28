@@ -10,6 +10,7 @@ namespace WEB.Models.Contacts
     {
         [Required(ErrorMessage = "Please enter email address")]
         [EmailAddress(ErrorMessage = "Not valid email address")]
+        [Display(Name = "Email")]
         public string Value { get; set; }
     }
 }

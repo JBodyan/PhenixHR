@@ -9,6 +9,7 @@ namespace WEB.Models.Contacts
     public class AddressViewModel
     {
         [StringLength(150,ErrorMessage = "Max length {1}")]
+        [Display(Name = "Address")]
         public string Value { get; set; }
     }
 }

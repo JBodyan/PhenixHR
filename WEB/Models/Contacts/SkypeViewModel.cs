@@ -9,6 +9,7 @@ namespace WEB.Models.Contacts
     public class SkypeViewModel
     {
         [StringLength(30,ErrorMessage = "Max lenght {1}")]
+        [Display(Name = "Skype")]
         public string Value { get; set; }
     }
 }

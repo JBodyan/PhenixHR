@@ -113,10 +113,12 @@ namespace WEB
                     {
                         cfg.AddProfile<CandidateProfile>();
                         cfg.AddProfile<PersonalInfoProfile>();
+                        cfg.AddProfile<ContactsProfile>();
 
                         cfg.AddProfile<CandidateViewModelProfile>();
                         cfg.AddProfile<PersonalInfoViewModelProfile>();
-                        
+                        cfg.AddProfile<ContactsViewModelProfile>();
+
                         cfg.ConstructServicesUsing(t => kernel.Get(t));
                     });
                     return config.CreateMapper();

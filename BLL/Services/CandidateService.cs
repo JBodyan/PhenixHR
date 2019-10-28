@@ -31,18 +31,18 @@ namespace BLL.Services
         #region SyncMethods
         public bool AddCandidate(CandidateDTO candidate)
         {
-            if (candidate == null) throw new CustomValidationException("Кандидат не передан", "");
-
-            //var mapper = AutoMapperConfig.CandidateDTOToMemberMapper;
             try
             {
-                //_db.Members.Create(mapper.Map<CandidateDTO, Member>(candidate));
-                return true;
+                var member = _mapper.Map<Member>(candidate);
+                _db.Members.Create(member);
+                _db.Save();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
                 return false;
             }
+            return true;
         }
 
         public CandidateDTO GetCandidateById(Guid id)
@@ -74,7 +74,7 @@ namespace BLL.Services
         {
             if (id == null) throw new CustomValidationException("Id не указан", "");
 
-            var candidate = await _db.Members.FindAsync(x => x.Id == id && x.IsCandidate);
+            var candidate = (await _db.Members.FindAsync(x => x.Id == id && x.IsCandidate)).FirstOrDefault();
             if (candidate == null) throw new CustomValidationException("Кандидат не найден", "");
 
             var data = _mapper.Map<CandidateDTO>(candidate);
@@ -84,13 +84,11 @@ namespace BLL.Services
         public async Task<IEnumerable<CandidateDTO>> GetCandidatesAsync()
         {
             var candidates = (await _db.Members.FindAsync(m => m.IsCandidate)).ToList();
-            if (candidates == null || candidates.Count < 1)
-                throw new CustomValidationException("Кандидатов нет", "");
-            else
-            {
-                var data = _mapper.Map<IEnumerable<CandidateDTO>>(candidates);
-                return data;
-            }
+            if (candidates == null || candidates.Count < 1) throw new CustomValidationException("Кандидатов нет", "");
+
+            var data = _mapper.Map<IEnumerable<CandidateDTO>>(candidates);
+            return data;
+
         }
 
         public async Task<bool> AddCandidateAsync(CandidateDTO candidate)

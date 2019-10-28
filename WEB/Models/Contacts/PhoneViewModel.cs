@@ -9,6 +9,7 @@ namespace WEB.Models.Contacts
     public class PhoneViewModel
     {
         [Phone(ErrorMessage = "Please enter valid phone number")]
+        [Display(Name = "Phone")]
         public string Value { get; set; }
     }
 }
