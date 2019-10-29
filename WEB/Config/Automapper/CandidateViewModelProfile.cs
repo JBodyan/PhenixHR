@@ -14,88 +14,75 @@ namespace WEB.Config.Automapper
     {
         public CandidateViewModelProfile()
         {
-            #region Map<CandidateDTO,CandidateViewModel>
-            CreateMap<CandidateDTO, CandidateViewModel>()
+            #region Map<MemberDTO,CandidateViewModel>
+
+            CreateMap<MemberDTO, CandidateViewModel>()
                 .ForMember(
-                    dest => dest.City,
-                    opt => opt.MapFrom(src => src.City)
-                )
-                .ForMember(
-                    dest => dest.DesiredSalary,
-                    opt => opt.MapFrom(src => src.DesiredSalary)
-                )
-                .ForMember(
-                    dest => dest.Employment,
-                    opt => opt.MapFrom(src => src.Employment)
-                )
-                .ForMember(
-                    dest => dest.Educations,
-                    opt => opt.MapFrom(src => src.Educations)
-                )
-                .ForMember(
-                    dest => dest.About,
-                    opt => opt.MapFrom(src => src.About)
-                )
-                .ForMember(
-                    dest => dest.CareerObjective,
-                    opt => opt.MapFrom(src => src.CareerObjective)
-                )
-                .ForMember(
-                    dest => dest.Works,
-                    opt => opt.MapFrom(src => src.Works)
-                ).ForMember(
                     dest => dest.PersonalInfo,
                     opt => opt.MapFrom(src => src.PersonalInfo)
+                ).ForMember(
+                    dest => dest.City,
+                    opt => opt.MapFrom(src => src.CandidateInfo.City)
+                ).ForMember(
+                    dest => dest.CareerObjective,
+                    opt => opt.MapFrom(src => src.CandidateInfo.CareerObjective)
+                ).ForMember(
+                    dest => dest.DesiredSalary,
+                    opt => opt.MapFrom(src => src.CandidateInfo.DesiredSalary)
+                ).ForMember(
+                    dest => dest.About,
+                    opt => opt.MapFrom(src => src.CandidateInfo.About)
+                ).ForMember(
+                    dest => dest.Educations,
+                    opt => opt.MapFrom(src => src.CandidateInfo.Educations)
+                ).ForMember(
+                    dest => dest.Works,
+                    opt => opt.MapFrom(src => src.CandidateInfo.Works)
+                ).ForMember(
+                    dest => dest.Employment,
+                    opt => opt.MapFrom(src => src.CandidateInfo.Employment)
                 );
+
             #endregion
 
+            #region Map<CandidateViewModel,MemberDTO>
+
+            CreateMap<CandidateViewModel, MemberDTO>()
+                .ForMember(
+                dest => dest.CandidateInfo,
+                opt => opt.MapFrom(src => src)
+            );
+
+            #endregion
+
+
             #region Map<CandidateViewModel,CandidateDTO>
+
             CreateMap<CandidateViewModel, CandidateDTO>()
                 .ForMember(
                     dest => dest.City,
                     opt => opt.MapFrom(src => src.City)
-                )
-                .ForMember(
-                    dest => dest.DesiredSalary,
-                    opt => opt.MapFrom(src => src.DesiredSalary)
-                )
-                .ForMember(
-                    dest => dest.Employment,
-                    opt => opt.MapFrom(src => src.Employment)
-                )
-                .ForMember(
-                    dest => dest.Educations,
-                    opt => opt.MapFrom(src => src.Educations)
-                )
-                .ForMember(
-                    dest => dest.About,
-                    opt => opt.MapFrom(src => src.About)
-                )
-                .ForMember(
+                ).ForMember(
                     dest => dest.CareerObjective,
                     opt => opt.MapFrom(src => src.CareerObjective)
-                )
-                .ForMember(
+                ).ForMember(
+                    dest => dest.DesiredSalary,
+                    opt => opt.MapFrom(src => src.DesiredSalary)
+                ).ForMember(
+                    dest => dest.About,
+                    opt => opt.MapFrom(src => src.About)
+                ).ForMember(
+                    dest => dest.Educations,
+                    opt => opt.MapFrom(src => src.Educations)
+                ).ForMember(
                     dest => dest.Works,
                     opt => opt.MapFrom(src => src.Works)
                 ).ForMember(
-                    dest => dest.PersonalInfo,
-                    opt => opt.MapFrom(src => src.PersonalInfo)
+                    dest => dest.Employment,
+                    opt => opt.MapFrom(src => src.Employment)
                 );
+
             #endregion
-
-            CreateMap<ContactsDTO, ContactsViewModel>();
-            CreateMap<ContactsViewModel, ContactsDTO>();
-
-            CreateMap<PhoneDTO, PhoneViewModel>();
-            CreateMap<EmailDTO, EmailViewModel>();
-            CreateMap<SkypeDTO, SkypeViewModel>();
-            CreateMap<AddressDTO, AddressViewModel>();
-
-            CreateMap<PhoneViewModel, PhoneDTO>();
-            CreateMap<EmailViewModel, EmailDTO>();
-            CreateMap<SkypeViewModel, SkypeDTO>();
-            CreateMap<AddressViewModel, AddressDTO>();
         }
     }
 }

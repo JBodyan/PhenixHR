@@ -16,7 +16,6 @@ namespace BLL.DTO
         public ICollection<EducationDTO> Educations { get; set; }
         public string CareerObjective { get; set; }
         public string About { get; set; }
-        public PersonalInfoDTO PersonalInfo { get; set; }
-        
+
     }
 }

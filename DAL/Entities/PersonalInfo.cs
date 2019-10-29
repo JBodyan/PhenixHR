@@ -18,7 +18,7 @@ namespace DAL.Entities
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public Gender Gender { get; set; }
-        public virtual MemberContacts Contacts { get; set; }
+        public MemberContacts Contacts { get; set; }
         public string Photo { get; set; }
     }
 }

@@ -100,7 +100,7 @@ namespace WEB
             }
 
             
-            kernel.Bind<ICandidateService>().To<CandidateService>().InScope(RequestScope);
+            kernel.Bind<IMemberService>().To<MemberService>().InScope(RequestScope);
             
 
             kernel.BindToMethod(app.GetRequestService<IViewBufferScope>);
@@ -111,10 +111,14 @@ namespace WEB
                 {
                     var config = new MapperConfiguration(cfg =>
                     {
-                        cfg.AddProfile<CandidateProfile>();
+                        //BLL
+                        cfg.AddProfile<CandidateInfoProfile>();
+                        cfg.AddProfile<EmployeeInfoProfile>();
+                        cfg.AddProfile<MemberProfile>();
                         cfg.AddProfile<PersonalInfoProfile>();
                         cfg.AddProfile<ContactsProfile>();
 
+                        //WEB
                         cfg.AddProfile<CandidateViewModelProfile>();
                         cfg.AddProfile<PersonalInfoViewModelProfile>();
                         cfg.AddProfile<ContactsViewModelProfile>();

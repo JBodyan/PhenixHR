@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BLL.DTO;
 using BLL.DTO.Contacts;
 using WEB.Models.Contacts;
 

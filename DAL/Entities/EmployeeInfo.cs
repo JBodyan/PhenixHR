@@ -18,7 +18,7 @@ namespace DAL.Entities
         public Position Position { get; set; }
         public Payroll Payroll { get; set; }
         public EmployeeHistory History { get; set; }
-        public virtual ICollection<Leave> Leaves { get; set; }
+        public ICollection<Leave> Leaves { get; set; }
 
     }
 }

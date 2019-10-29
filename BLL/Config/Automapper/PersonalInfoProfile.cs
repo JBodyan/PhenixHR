@@ -14,6 +14,9 @@ namespace BLL.Config.Automapper
             #region Map<PersonalInfo,PersonalInfoDTO>
             CreateMap<PersonalInfo, PersonalInfoDTO>();
             #endregion
+            #region Map<PersonalInfoDTO,PersonalInfo>
+            CreateMap<PersonalInfoDTO, PersonalInfo>();
+            #endregion
         }
     }
 }

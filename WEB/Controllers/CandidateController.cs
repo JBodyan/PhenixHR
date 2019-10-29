@@ -13,11 +13,11 @@ namespace WEB.Controllers
 {
     public class CandidateController : Controller
     {
-        private readonly ICandidateService _candidateService;
+        private readonly IMemberService _memberService;
         private readonly IMapper _mapper;
-        public CandidateController(ICandidateService service, IMapper mapper)
+        public CandidateController(IMemberService service, IMapper mapper)
         {
-            _candidateService = service;
+            _memberService = service;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index()
@@ -25,7 +25,7 @@ namespace WEB.Controllers
             IEnumerable<CandidateViewModel> candidates;
             try
             {
-                 var models = await _candidateService.GetCandidatesAsync();
+                 var models = await _memberService.GetMembersAsync();
                  candidates = _mapper.Map<IEnumerable<CandidateViewModel>>(models);
             }
             catch(Exception ex)
@@ -41,7 +41,7 @@ namespace WEB.Controllers
             CandidateViewModel candidate;
             try
             {
-                var model = await _candidateService.GetCandidateByIdAsync(id);
+                var model = await _memberService.GetMemberByIdAsync(id);
                 candidate = _mapper.Map<CandidateViewModel>(model);
             }
             catch (Exception ex)
@@ -62,8 +62,9 @@ namespace WEB.Controllers
         {
             try
             {
-                var candidate = _mapper.Map<CandidateDTO>(model);
-                await _candidateService.AddCandidateAsync(candidate);
+                var member = _mapper.Map<MemberDTO>(model);
+                member.IsCandidate = true;
+                await _memberService.AddMemberAsync(member);
             }
             catch (Exception ex)
             {

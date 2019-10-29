@@ -33,9 +33,10 @@ namespace WEB.Config.Automapper
                 .ForMember(
                     dest => dest.Gender,
                     opt => opt.MapFrom(src => src.Gender)
+                ).ForMember(
+                    dest => dest.Contacts,
+                    opt => opt.MapFrom(src => src.Contacts)
                 );
-            //TODO
-
             #endregion
 
             #region Map<PesonalInfoDTO,PersonalInfoViewModel>
