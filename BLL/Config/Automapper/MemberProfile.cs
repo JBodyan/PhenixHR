@@ -12,54 +12,10 @@ namespace BLL.Config.Automapper
         public MemberProfile()
         {
             #region Map<Member,MemberDTO>
-            CreateMap<Member, MemberDTO>()
-                .ForMember(
-                    dest => dest.PersonalInfo,
-                    opt => opt.MapFrom(src => src.PersonalInfo)
-                )
-                .ForMember(
-                    dest => dest.IsArchived,
-                    opt => opt.MapFrom(src => src.IsArchived)
-                )
-                .ForMember(
-                    dest => dest.IsCandidate,
-                    opt => opt.MapFrom(src => src.IsCandidate)
-                )
-                .ForMember(
-                    dest => dest.IsEmployee,
-                    opt => opt.MapFrom(src => src.IsEmployee)
-                )
-                .ForMember(
-                    dest => dest.CandidateInfo,
-                    opt => opt.MapFrom(src => src.CandidateInfo)
-                )
-                .ForMember(
-                    dest => dest.EmployeeInfo,
-                    opt => opt.MapFrom(src => src.EmployeeInfo)
-                );
+            CreateMap<Member, MemberDTO>();
             #endregion
             #region Map<MemberDTO,Member>
-            CreateMap<MemberDTO, Member>()
-                .ForMember(
-                    dest => dest.IsArchived,
-                    opt => opt.MapFrom(src => src.IsArchived)
-                )
-                .ForMember(
-                    dest => dest.IsCandidate,
-                    opt => opt.MapFrom(src => src.IsCandidate)
-                )
-                .ForMember(
-                    dest => dest.IsEmployee,
-                    opt => opt.MapFrom(src => src.IsEmployee)
-                )
-                .ForMember(
-                    dest => dest.CandidateInfo,
-                    opt => opt.MapFrom(src => src.CandidateInfo)
-                )
-                .ForMember(
-                    dest => dest.EmployeeInfo,
-                    opt => opt.MapFrom(src => src.EmployeeInfo)
-                );
+            CreateMap<MemberDTO, Member>();
             #endregion
         }
     }

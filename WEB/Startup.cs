@@ -122,6 +122,7 @@ namespace WEB
                         cfg.AddProfile<CandidateViewModelProfile>();
                         cfg.AddProfile<PersonalInfoViewModelProfile>();
                         cfg.AddProfile<ContactsViewModelProfile>();
+                        cfg.AddProfile<EmployeeViewModelProfile>();
 
                         cfg.ConstructServicesUsing(t => kernel.Get(t));
                     });

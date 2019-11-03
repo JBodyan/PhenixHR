@@ -25,7 +25,7 @@ namespace WEB.Controllers
             IEnumerable<CandidateViewModel> candidates;
             try
             {
-                 var models = await _memberService.GetMembersAsync();
+                 var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate && !x.IsArchived);
                  candidates = _mapper.Map<IEnumerable<CandidateViewModel>>(models);
             }
             catch(Exception ex)

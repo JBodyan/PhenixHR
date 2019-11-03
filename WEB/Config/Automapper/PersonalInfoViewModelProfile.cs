@@ -13,58 +13,11 @@ namespace WEB.Config.Automapper
         public PersonalInfoViewModelProfile()
         {
             #region Map<PersonalInfoViewModel,PersonalInfoDTO>
-            CreateMap<PersonalnfoViewModel, PersonalInfoDTO>()
-                .ForMember(
-                    dest => dest.FirstName,
-                    opt => opt.MapFrom(src => src.FirstName)
-                )
-                .ForMember(
-                    dest => dest.MidName,
-                    opt => opt.MapFrom(src => src.MidName)
-                )
-                .ForMember(
-                    dest => dest.LastName,
-                    opt => opt.MapFrom(src => src.LastName)
-                )
-                .ForMember(
-                    dest => dest.BirthDate,
-                    opt => opt.MapFrom(src => src.BirthDate)
-                )
-                .ForMember(
-                    dest => dest.Gender,
-                    opt => opt.MapFrom(src => src.Gender)
-                ).ForMember(
-                    dest => dest.Contacts,
-                    opt => opt.MapFrom(src => src.Contacts)
-                );
+            CreateMap<PersonalnfoViewModel, PersonalInfoDTO>();
             #endregion
 
             #region Map<PesonalInfoDTO,PersonalInfoViewModel>
-            CreateMap<PersonalInfoDTO, PersonalnfoViewModel>()
-                .ForMember(
-                    dest => dest.FirstName,
-                    opt => opt.MapFrom(src => src.FirstName)
-                )
-                .ForMember(
-                    dest => dest.MidName,
-                    opt => opt.MapFrom(src => src.MidName)
-                )
-                .ForMember(
-                    dest => dest.LastName,
-                    opt => opt.MapFrom(src => src.LastName)
-                )
-                .ForMember(
-                    dest => dest.BirthDate,
-                    opt => opt.MapFrom(src => src.BirthDate)
-                )
-                .ForMember(
-                    dest => dest.Gender,
-                    opt => opt.MapFrom(src => src.Gender)
-                )
-                .ForMember(
-                    dest => dest.Contacts,
-                    opt => opt.MapFrom(src => src.Contacts)
-                );
+            CreateMap<PersonalInfoDTO, PersonalnfoViewModel>();
             #endregion
         }
     }

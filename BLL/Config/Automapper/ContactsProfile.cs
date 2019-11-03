@@ -11,40 +11,8 @@ namespace BLL.Config.Automapper
     {
         public ContactsProfile()
         {
-            CreateMap<ContactsDTO, MemberContacts>()
-                .ForMember(
-                dest => dest.Email,
-                opt => opt.MapFrom(src => src.Email)
-                ).ForMember(
-                dest => dest.Phone,
-                opt => opt.MapFrom(src => src.Phone)
-                ).ForMember(
-                dest => dest.SecondPhone,
-                opt => opt.MapFrom(src => src.SecondPhone)
-                ).ForMember(
-                dest => dest.Address,
-                opt => opt.MapFrom(src => src.Address)
-                ).ForMember(
-                dest => dest.Skype,
-                opt => opt.MapFrom(src => src.Skype)
-                );
-            CreateMap<MemberContacts, ContactsDTO>()
-                .ForMember(
-                    dest => dest.Email,
-                    opt => opt.MapFrom(src => src.Email)
-                ).ForMember(
-                    dest => dest.Phone,
-                    opt => opt.MapFrom(src => src.Phone)
-                ).ForMember(
-                    dest => dest.SecondPhone,
-                    opt => opt.MapFrom(src => src.SecondPhone)
-                ).ForMember(
-                    dest => dest.Address,
-                    opt => opt.MapFrom(src => src.Address)
-                ).ForMember(
-                    dest => dest.Skype,
-                    opt => opt.MapFrom(src => src.Skype)
-                );
+            CreateMap<ContactsDTO, MemberContacts>();
+            CreateMap<MemberContacts, ContactsDTO>();
 
             CreateMap<PhoneDTO, Phone>();
             CreateMap<EmailDTO, Email>();
