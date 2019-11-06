@@ -64,6 +64,17 @@ namespace BLL.Services
             var data = _mapper.Map<IEnumerable<MemberDTO>>(members);
             return data;
         }
+
+        public void UpdateMember(MemberDTO member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AttachEmployeeInfo(MemberDTO member)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region AsyncMethods
@@ -102,6 +113,25 @@ namespace BLL.Services
                 return false;
             }
             return true;
+        }
+
+        public async Task UpdateMemberAsync(MemberDTO member)
+        {
+            var data = _mapper.Map<Member>(member);
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
+        }
+
+        public async Task AttachEmployeeInfoAsync(MemberDTO member)
+        {
+            var data = await _db.Members.GetByIdAsync(member.Id);
+            if(data==null) throw new CustomValidationException("Member not found", "");
+            var employeeProfile = _mapper.Map<EmployeeInfo>(member.EmployeeInfo);
+            data.EmployeeInfo = employeeProfile;
+            data.IsCandidate = false;
+            data.IsEmployee = true;
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
         }
         #endregion
 

@@ -56,6 +56,18 @@ namespace WEB.Config.Automapper
 
             #endregion
 
+            CreateMap<OfficeViewModel, OfficeDTO>();
+            CreateMap<OfficeDTO, OfficeViewModel>();
+
+            CreateMap<DepartmentViewModel, DepartmentDTO>();
+            CreateMap<DepartmentDTO, DepartmentViewModel>();
+
+            CreateMap<PositionDTO, PositionViewModel>();
+            CreateMap<PositionViewModel, PositionDTO>();
+
+            CreateMap<PayrollDTO, PayrollViewModel>();
+            CreateMap<PayrollViewModel, PayrollDTO>();
+
             CreateMap<LeaveViewModel, LeaveDTO>();
             CreateMap<LeaveDTO, LeaveViewModel>();
         }

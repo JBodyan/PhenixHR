@@ -12,8 +12,12 @@ namespace BLL.Interfaces
         Task<MemberDTO> GetMemberByIdAsync(Guid id);
         IEnumerable<MemberDTO> GetMembers();
         Task<IEnumerable<MemberDTO>> GetMembersAsync();
-        bool AddMember(MemberDTO candidate);
+        bool AddMember(MemberDTO member);
         Task<bool> AddMemberAsync(MemberDTO member);
+        void UpdateMember(MemberDTO member);
+        Task UpdateMemberAsync(MemberDTO member);
+        void AttachEmployeeInfo(MemberDTO member);
+        Task AttachEmployeeInfoAsync(MemberDTO member);
         void Dispose();
     }
 }

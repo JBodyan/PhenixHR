@@ -68,7 +68,7 @@ else
                         @Html.DisplayFor(modelItem => item.PersonalInfo.FirstName)
                     </td>
                     <td>
-                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                        @Html.ActionLink("Transfer To Employee", "TransferToEmployee", new {  id = item.Id }) |
                         @Html.ActionLink("Details", "CandidateDetails", new { id = item.Id })
                         @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
                     </td>

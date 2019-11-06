@@ -73,5 +73,37 @@ namespace WEB.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> TransferToEmployee(Guid id)
+        {
+            EmployeeViewModel employee;
+            try
+            {
+                var model = await _memberService.GetMemberByIdAsync(id);
+                employee = _mapper.Map<EmployeeViewModel>(model);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
+                return View();
+            }
+            return View(employee);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TransferToEmployee(EmployeeViewModel model)
+        {
+            try
+            {
+                var member = _mapper.Map<MemberDTO>(model);
+                await _memberService.AttachEmployeeInfoAsync(member);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
+                return View();
+            }
+            return RedirectToAction("Index","Employee");
+        }
     }
 }
