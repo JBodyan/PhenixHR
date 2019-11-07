@@ -101,7 +101,8 @@ namespace WEB
 
             
             kernel.Bind<IMemberService>().To<MemberService>().InScope(RequestScope);
-            
+            kernel.Bind<IOfficeService>().To<OfficeService>().InScope(RequestScope);
+
 
             kernel.BindToMethod(app.GetRequestService<IViewBufferScope>);
 

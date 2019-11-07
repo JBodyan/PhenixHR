@@ -44,8 +44,12 @@ namespace DAL.Repositories
             if (!offices.Any()) return offices;
             foreach (var entity in offices)
             {
-                _db.Entry(entity).Reference(x => x.Members).Load();
-                _db.Entry(entity).Reference(x => x.Departments).Load();
+                _db.Entry(entity).Collection(x => x.Members).Load();
+                _db.Entry(entity).Collection(x => x.Departments).Load();
+                foreach (var department in entity.Departments)
+                {
+                    _db.Entry(department).Collection(x => x.Positions).Load();
+                }
             }
             return offices;
         }
@@ -56,8 +60,12 @@ namespace DAL.Repositories
             if (!offices.Any()) return offices;
             foreach (var entity in offices)
             {
-                _db.Entry(entity).Reference(x => x.Members).Load();
-                _db.Entry(entity).Reference(x => x.Departments).Load();
+                await _db.Entry(entity).Collection(x => x.Members).LoadAsync();
+                await _db.Entry(entity).Collection(x => x.Departments).LoadAsync();
+                foreach (var department in entity.Departments)
+                {
+                    await _db.Entry(department).Collection(x => x.Positions).LoadAsync();
+                }
             }
             return offices;
         }
@@ -68,8 +76,12 @@ namespace DAL.Repositories
             if (!offices.Any()) return offices;
             foreach (var entity in offices)
             {
-                _db.Entry(entity).Reference(x => x.Members).Load();
-                _db.Entry(entity).Reference(x => x.Departments).Load();
+                _db.Entry(entity).Collection(x => x.Members).Load();
+                _db.Entry(entity).Collection(x => x.Departments).Load();
+                foreach (var department in entity.Departments)
+                {
+                    _db.Entry(department).Collection(x => x.Positions).Load();
+                }
             }
             return offices;
         }
@@ -80,8 +92,12 @@ namespace DAL.Repositories
             if (!offices.Any()) return offices;
             foreach (var entity in offices)
             {
-                _db.Entry(entity).Reference(x => x.Members).Load();
-                _db.Entry(entity).Reference(x => x.Departments).Load();
+                await _db.Entry(entity).Collection(x => x.Members).LoadAsync();
+                await _db.Entry(entity).Collection(x => x.Departments).LoadAsync();
+                foreach (var department in entity.Departments)
+                {
+                    await _db.Entry(department).Collection(x => x.Positions).LoadAsync();
+                }
             }
             return offices;
         }
@@ -90,8 +106,12 @@ namespace DAL.Repositories
         {
             var office = _db.Offices.FirstOrDefault(x => x.Id == id);
             if (office == null) return null;
-            _db.Entry(office).Reference(x => x.Members).Load();
-            _db.Entry(office).Reference(x => x.Departments).Load();
+            _db.Entry(office).Collection(x => x.Members).Load();
+            _db.Entry(office).Collection(x => x.Departments).Load();
+            foreach (var department in office.Departments)
+            {
+                _db.Entry(department).Collection(x => x.Positions).Load();
+            }
             return office;
         }
 
@@ -99,8 +119,12 @@ namespace DAL.Repositories
         {
             var office = await _db.Offices.FirstOrDefaultAsync(x => x.Id == id);
             if (office == null) return null;
-            _db.Entry(office).Reference(x => x.Members).Load();
-            _db.Entry(office).Reference(x => x.Departments).Load();
+            await _db.Entry(office).Collection(x => x.Members).LoadAsync();
+            await _db.Entry(office).Collection(x => x.Departments).LoadAsync();
+            foreach (var department in office.Departments)
+            {
+                await _db.Entry(department).Collection(x=>x.Positions).LoadAsync();
+            }
             return office;
         }
 

@@ -8,5 +8,8 @@ namespace WEB.Models
     public class PositionViewModel
     {
         public string Name { get; set; }
+        public Guid DepartmentIdentifier { get; set; }
+        public Guid OfficeIdentifier { get; set; }
+
     }
 }
