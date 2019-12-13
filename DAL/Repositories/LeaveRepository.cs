@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -18,32 +20,32 @@ namespace DAL.Repositories
 
         public IEnumerable<Leave> GetAll()
         {
-            throw new NotImplementedException();
+            return _db.Leaves;
         }
 
-        public Task<IEnumerable<Leave>> GetAllAsync()
+        public async Task<IEnumerable<Leave>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return _db.Leaves;
         }
 
         public Leave GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _db.Leaves.FirstOrDefault(x => x.Id == id);
         }
 
-        public Task<Leave> GetByIdAsync(Guid id)
+        public async Task<Leave> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.Leaves.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public IEnumerable<Leave> Find(Func<Leave, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _db.Leaves.Where(predicate);
         }
 
-        public Task<IEnumerable<Leave>> FindAsync(Func<Leave, bool> predicate)
+        public async Task<IEnumerable<Leave>> FindAsync(Func<Leave, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _db.Leaves.Where(predicate);
         }
 
         public void Create(Leave item)
@@ -58,12 +60,12 @@ namespace DAL.Repositories
 
         public void Update(Leave item)
         {
-            throw new NotImplementedException();
+            _db.Entry(item).State = EntityState.Modified;
         }
 
-        public Task UpdateAsync(Leave item)
+        public async Task UpdateAsync(Leave item)
         {
-            throw new NotImplementedException();
+            _db.Entry(item).State = EntityState.Modified;
         }
 
         public void Delete(Guid id)

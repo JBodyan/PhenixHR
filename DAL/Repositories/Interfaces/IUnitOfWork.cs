@@ -11,6 +11,7 @@ namespace DAL.Repositories.Interfaces
         IRepository<Office> Offices { get; }
         IRepository<Department> Departments { get; }
         IRepository<Leave> Leaves { get; }
+        IRepository<EmployeeHistory> Histories { get; }
         void Save();
     }
 }

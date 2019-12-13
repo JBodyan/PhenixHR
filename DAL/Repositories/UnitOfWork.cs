@@ -12,9 +12,31 @@ namespace DAL.Repositories
         private MemberRepository _memberRepository;
         private OfficeRepository _officeRepository;
         private DepartmentRepository _departmentRepository;
+        private LeaveRepository _leaveRepository;
+        private HistoryRepository _historyRepository;
         public UnitOfWork(string connectionString)
         {
             _db = new Data.AppContext(connectionString);
+        }
+
+        public IRepository<EmployeeHistory> Histories
+        {
+            get
+            {
+                if (_historyRepository == null)
+                    _historyRepository = new HistoryRepository(_db);
+                return _historyRepository;
+            }
+        }
+
+        public IRepository<Leave> Leaves
+        {
+            get
+            {
+                if (_leaveRepository == null)
+                    _leaveRepository = new LeaveRepository(_db);
+                return _leaveRepository;
+            }
         }
 
         public IRepository<Member> Members
