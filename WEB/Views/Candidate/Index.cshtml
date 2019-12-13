@@ -6,7 +6,7 @@
 }
 
 <h1>Candidates</h1>
-@Html.ActionLink("Add new candidate", "AddCandidate")
+@Html.ActionLink("Add new candidate", "RegisterCandidate")
 @if (error != null)
 {
     <p>
@@ -68,7 +68,7 @@ else
                         @Html.DisplayFor(modelItem => item.PersonalInfo.FirstName)
                     </td>
                     <td>
-                        @Html.ActionLink("Transfer To Employee", "TransferToEmployee", new {  id = item.Id }) |
+                       
                         @Html.ActionLink("Details", "CandidateDetails", new { id = item.Id })
                         @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
                     </td>

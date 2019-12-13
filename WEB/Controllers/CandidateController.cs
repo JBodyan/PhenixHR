@@ -52,27 +52,7 @@ namespace WEB.Controllers
             return View(candidate);
         }
 
-        public IActionResult AddCandidate()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCandidate(CandidateViewModel model)
-        {
-            try
-            {
-                var member = _mapper.Map<MemberDTO>(model);
-                member.IsCandidate = true;
-                await _memberService.AddMemberAsync(member);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
-                return View();
-            }
-            return RedirectToAction("Index");
-        }
+        #region TransferCandidate
 
         public async Task<IActionResult> TransferToEmployee(Guid id)
         {
@@ -103,7 +83,36 @@ namespace WEB.Controllers
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
                 return View();
             }
-            return RedirectToAction("Index","Employee");
+            return RedirectToAction("Index", "Employee");
         }
+
+        #endregion
+
+        #region RegistrationCandidate
+
+        [HttpGet]
+        public async Task<IActionResult> RegisterCandidate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterCandidate(CandidateViewModel model)
+        {
+            try
+            {
+                var member = _mapper.Map<MemberDTO>(model);
+                member.IsCandidate = true;
+                await _memberService.AddMemberAsync(member);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }

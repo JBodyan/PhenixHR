@@ -9,6 +9,7 @@
 <div>
     <h4>Candidate</h4>
     <hr />
+    @Html.ActionLink("Transfer To Employee", "TransferToEmployee", new {  id = Model.Id })
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)

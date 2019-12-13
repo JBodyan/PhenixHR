@@ -10,6 +10,7 @@ namespace DAL.Repositories.Interfaces
         IRepository<Member> Members { get; }
         IRepository<Office> Offices { get; }
         IRepository<Department> Departments { get; }
+        IRepository<Leave> Leaves { get; }
         void Save();
     }
 }
