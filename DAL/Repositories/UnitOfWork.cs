@@ -3,6 +3,12 @@ using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using DAL.Data;
+using DAL.Entities.Users;
+using DAL.Identity;
+using DAL.Repositories.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DAL.Repositories
 {
@@ -15,6 +21,7 @@ namespace DAL.Repositories
         private LeaveRepository _leaveRepository;
         private HistoryRepository _historyRepository;
         private PayrollRepository _payrollRepository;
+
         public UnitOfWork(string connectionString)
         {
             _db = new Data.AppContext(connectionString);
@@ -78,6 +85,10 @@ namespace DAL.Repositories
                     _departmentRepository = new DepartmentRepository(_db);
                 return _departmentRepository;
             }
+        }
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
         }
 
         public void Save()

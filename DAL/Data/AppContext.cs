@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Resources.Enums;
 using System.Text;
+using DAL.Entities.Users;
 
 namespace DAL.Data
 {
@@ -17,6 +18,7 @@ namespace DAL.Data
             _connection = connectionString;
             Database.EnsureCreated();
         }
+
 
         public DbSet<Member> Members { get; set; }
         public DbSet<CandidateInfo> CandidateInfos { get; set; }

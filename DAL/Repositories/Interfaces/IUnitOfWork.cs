@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using DAL.Identity;
 
 namespace DAL.Repositories.Interfaces
 {
@@ -13,6 +15,8 @@ namespace DAL.Repositories.Interfaces
         IRepository<Leave> Leaves { get; }
         IRepository<EmployeeHistory> Histories { get; }
         IRepository<Payroll> Payrolls { get; }
+
+        Task SaveAsync();
         void Save();
     }
 }
