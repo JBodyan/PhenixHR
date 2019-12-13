@@ -12,6 +12,7 @@ namespace DAL.Repositories.Interfaces
         IRepository<Department> Departments { get; }
         IRepository<Leave> Leaves { get; }
         IRepository<EmployeeHistory> Histories { get; }
+        IRepository<Payroll> Payrolls { get; }
         void Save();
     }
 }

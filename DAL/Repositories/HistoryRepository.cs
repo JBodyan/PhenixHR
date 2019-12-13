@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    class HistoryRepository : IRepository<EmployeeHistory>
+    public class HistoryRepository : IRepository<EmployeeHistory>
     {
 
         private readonly Data.AppContext _db;

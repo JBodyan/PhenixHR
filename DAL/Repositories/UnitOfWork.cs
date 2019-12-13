@@ -14,9 +14,20 @@ namespace DAL.Repositories
         private DepartmentRepository _departmentRepository;
         private LeaveRepository _leaveRepository;
         private HistoryRepository _historyRepository;
+        private PayrollRepository _payrollRepository;
         public UnitOfWork(string connectionString)
         {
             _db = new Data.AppContext(connectionString);
+        }
+
+        public IRepository<Payroll> Payrolls
+        {
+            get
+            {
+                if (_payrollRepository == null)
+                    _payrollRepository = new PayrollRepository(_db);
+                return _payrollRepository;
+            }
         }
 
         public IRepository<EmployeeHistory> Histories
