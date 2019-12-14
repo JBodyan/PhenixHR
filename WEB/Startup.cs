@@ -7,6 +7,7 @@ using AutoMapper;
 using BLL.Config.Automapper;
 using BLL.Interfaces;
 using BLL.Services;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,12 +16,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Owin;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Infrastructure.Disposal;
 using Ninject.Modules;
 using WEB.Config.Automapper;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
+[assembly: OwinStartup(typeof(WEB.Startup))]
 namespace WEB
 {
     public class Startup
@@ -49,7 +53,6 @@ namespace WEB
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
 
@@ -85,6 +88,7 @@ namespace WEB
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
 
         private IKernel RegisterApplicationComponents(IApplicationBuilder app)
@@ -99,10 +103,9 @@ namespace WEB
                 kernel.Bind(ctrlType).ToSelf().InScope(RequestScope);
             }
 
-            
             kernel.Bind<IMemberService>().To<MemberService>().InScope(RequestScope);
             kernel.Bind<IOfficeService>().To<OfficeService>().InScope(RequestScope);
-
+            kernel.Bind<IUserService>().To<UserService>().InScope(RequestScope);
 
             kernel.BindToMethod(app.GetRequestService<IViewBufferScope>);
 

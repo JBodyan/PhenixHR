@@ -4,6 +4,7 @@ using Ninject.Modules;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DAL.Repositories.Identity;
 
 namespace BLL.Services
 {
@@ -17,6 +18,7 @@ namespace BLL.Services
         public override void Load()
         {
             Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(_connectionString);
+            Bind<IIdentityUnitOfWork>().To<IdentityUnitOfWork>().WithConstructorArgument(_connectionString);
         }
     }
 }
