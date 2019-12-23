@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BLL.ExceptionStructure
 {
+    [Obsolete("Not used any more", true)]
     public class OperationDetails
     {
         public bool Succedeed { get; }

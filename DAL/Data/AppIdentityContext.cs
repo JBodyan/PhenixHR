@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Data
 {
+    [Obsolete("Not used any more", true)]
     public class AppIdentityContext : IdentityDbContext<AppUser>
     {
         public AppIdentityContext(string conectionString) : base(conectionString) { }

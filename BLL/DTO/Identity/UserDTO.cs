@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BLL.DTO.Identity
 {
+    [Obsolete("Not used any more", true)]
     public class UserDTO
     {
         public string Id { get; set; }

@@ -6,6 +6,7 @@ using DAL.Identity;
 
 namespace DAL.Repositories.Interfaces
 {
+    [Obsolete("Not used any more", true)]
     public interface IIdentityUnitOfWork : IDisposable
     {
         AppUserManager AppUserManager { get; }

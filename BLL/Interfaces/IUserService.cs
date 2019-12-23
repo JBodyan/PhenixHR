@@ -8,6 +8,7 @@ using BLL.ExceptionStructure;
 
 namespace BLL.Interfaces
 {
+    [Obsolete("Not used any more", true)]
     public interface IUserService : IDisposable
     {
         Task<OperationDetails> CreateAsync(UserDTO userDto);

@@ -18,7 +18,7 @@ namespace BLL.Services
         public override void Load()
         {
             Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(_connectionString);
-            Bind<IIdentityUnitOfWork>().To<IdentityUnitOfWork>().WithConstructorArgument(_connectionString);
+            //Bind<IIdentityUnitOfWork>().To<IdentityUnitOfWork>().WithConstructorArgument(_connectionString);
         }
     }
 }

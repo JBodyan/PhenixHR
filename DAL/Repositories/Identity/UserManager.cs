@@ -8,6 +8,7 @@ using DAL.Repositories.Interfaces;
 
 namespace DAL.Repositories.Identity
 {
+    [Obsolete("Not used any more", true)]
     public class UserManager : IUserManager
     {
         private readonly AppIdentityContext _db;

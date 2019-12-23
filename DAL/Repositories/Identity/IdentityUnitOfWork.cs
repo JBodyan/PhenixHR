@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DAL.Repositories.Identity
 {
+    [Obsolete("Not used any more", true)]
     public class IdentityUnitOfWork : IIdentityUnitOfWork
     {
 

@@ -6,6 +6,7 @@ using DAL.Entities.Users;
 
 namespace DAL.Repositories.Interfaces
 {
+    [Obsolete("Not used any more", true)]
     public interface IUserManager : IDisposable
     {
         void Create(UserDetails item);

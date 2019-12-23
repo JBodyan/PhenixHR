@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace BLL.Services
 {
+    [Obsolete("Not used any more", true)]
     public class UserService : IUserService
     {
         private readonly IIdentityUnitOfWork _db;

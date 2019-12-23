@@ -6,6 +6,7 @@ using System.Text;
 
 namespace DAL.Entities.Users
 {
+    [Obsolete("Not used any more", true)]
     public class UserDetails
     {
         [Key]

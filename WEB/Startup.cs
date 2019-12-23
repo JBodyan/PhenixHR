@@ -8,23 +8,28 @@ using BLL.Config.Automapper;
 using BLL.Interfaces;
 using BLL.Services;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Infrastructure.Disposal;
 using Ninject.Modules;
+using Owin;
 using WEB.Config.Automapper;
-using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
+using WEB.Data;
 
-[assembly: OwinStartup(typeof(WEB.Startup))]
 namespace WEB
 {
     public class Startup
@@ -50,16 +55,22 @@ namespace WEB
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRequestScopingMiddleware(() => _scopeProvider.Value = new Scope());
             services.AddCustomControllerActivation(Resolve);
             services.AddCustomViewComponentActivation(Resolve);
+
+            services.AddDbContext<AppIdentityContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<AppIdentityContext>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +83,6 @@ namespace WEB
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                
                 app.UseHsts();
             }
 
@@ -81,6 +91,7 @@ namespace WEB
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -105,7 +116,13 @@ namespace WEB
 
             kernel.Bind<IMemberService>().To<MemberService>().InScope(RequestScope);
             kernel.Bind<IOfficeService>().To<OfficeService>().InScope(RequestScope);
-            kernel.Bind<IUserService>().To<UserService>().InScope(RequestScope);
+            kernel.Bind<AppIdentityContext>().ToSelf().InScope(RequestScope); //You can also do it this way
+            kernel.Bind<Microsoft.AspNetCore.Identity.IUserStore<AppUser>>().To<Microsoft.AspNetCore.Identity.EntityFrameworkCore.UserStore<AppUser>>()
+                .InScope(RequestScope)
+                .WithConstructorArgument("context", kernel.Get<Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext>());
+            kernel.Bind<Microsoft.AspNetCore.Identity.UserManager<AppUser>>().ToSelf()
+                .InScope(RequestScope);
+            //kernel.Bind<IUserService>().To<UserService>().InScope(RequestScope);
 
             kernel.BindToMethod(app.GetRequestService<IViewBufferScope>);
 
