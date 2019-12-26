@@ -5,10 +5,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Data;
-using DAL.Entities.Users;
-using DAL.Identity;
-using DAL.Repositories.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DAL.Repositories
 {

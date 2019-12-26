@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using Resources.Enums;
 using System.Text;
-using DAL.Entities.Users;
 
 namespace DAL.Data
 {

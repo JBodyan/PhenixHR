@@ -8,7 +8,6 @@ using BLL.Config.Automapper;
 using BLL.Interfaces;
 using BLL.Services;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

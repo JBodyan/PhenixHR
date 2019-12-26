@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources", "Resources\Resources.csproj", "{83F39487-8EBB-4F3F-AF30-E56E0F8BCFB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPhenix", "WebPhenix\WebPhenix.csproj", "{D2F6507C-C624-49A6-9829-87B80E5ED033}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPhenix", "WebPhenix\WebPhenix.csproj", "{E06BD6A5-6DDE-44DC-902B-FD11E055DB47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{83F39487-8EBB-4F3F-AF30-E56E0F8BCFB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83F39487-8EBB-4F3F-AF30-E56E0F8BCFB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83F39487-8EBB-4F3F-AF30-E56E0F8BCFB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2F6507C-C624-49A6-9829-87B80E5ED033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2F6507C-C624-49A6-9829-87B80E5ED033}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2F6507C-C624-49A6-9829-87B80E5ED033}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2F6507C-C624-49A6-9829-87B80E5ED033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E06BD6A5-6DDE-44DC-902B-FD11E055DB47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E06BD6A5-6DDE-44DC-902B-FD11E055DB47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E06BD6A5-6DDE-44DC-902B-FD11E055DB47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E06BD6A5-6DDE-44DC-902B-FD11E055DB47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

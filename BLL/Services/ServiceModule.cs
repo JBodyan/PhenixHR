@@ -4,7 +4,6 @@ using Ninject.Modules;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DAL.Repositories.Identity;
 
 namespace BLL.Services
 {
