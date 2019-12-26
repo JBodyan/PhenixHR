@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "AllManagers";
+}
+
+<h1>AllManagers</h1>
+@Html.ActionLink("Create new manager", "RegisterHRManager","Account")
+<div asp-validation-summary="All" class="text-danger"></div>
+@if (Model!=null)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <section>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            First name
+                        </th>
+                        <th>
+                            Last name
+                        </th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new {id = item.Id})
+                            </td>
+                            <td>
+                                @Html.Encode(item.Id)
+                            </td>
+                            <td>
+                                @Html.Encode(item.Email)
+                            </td>
+                            <td>
+                                @Html.Encode(item.FirstName)
+                            </td>
+                            <td>
+                                @Html.Encode(item.LastName)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </section>
+        </div>
+    </div>
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

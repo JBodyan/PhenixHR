@@ -32,7 +32,7 @@
                         @if ( User.Identity.IsAuthenticated ){
                             if ( User.IsInRole("Administrator") || User.IsInRole("SUAdministrator") ){
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="RegisterHRManager">Manager controller</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AllManagers">Managers</a>
                                 </li>        
                             }
                         }
