@@ -35,6 +35,11 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AllManagers">Managers</a>
                                 </li>        
                             }
+                            if ( User.IsInRole("SUAdministrator") ){
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AllAdministrators">Administrators</a>
+                                </li>        
+                            }
                         }
                     </ul>
                 </div>

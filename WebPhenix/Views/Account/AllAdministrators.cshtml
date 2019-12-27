@@ -1,10 +1,9 @@
-﻿
-@{
-    ViewData["Title"] = "AllManagers";
+﻿@{
+    ViewData["Title"] = "AllAdministrators";
 }
 
-<h1>All managers</h1>
-@Html.ActionLink("Create new manager", "RegisterHRManager","Account")
+<h1>All administrators</h1>
+@Html.ActionLink("Create new administrator", "RegisterAdministrator","Account")
 <div asp-validation-summary="All" class="text-danger"></div>
 @if (Model!=null)
 {
@@ -31,7 +30,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.ActionLink("Edit", "EditHRManager", new {id = item.Id})
+                                @Html.ActionLink("Edit", "EditAdministrator", new {id = item.Id})
                             </td>
                             <td>
                                 @Html.Encode(item.Id)

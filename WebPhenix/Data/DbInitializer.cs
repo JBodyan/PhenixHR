@@ -9,7 +9,7 @@ namespace WebPhenix.Data
     public static class DbInitializer
     {
         private const string SUADMIN = "SUAdministrator";
-        private const string ADMIN = "Administratir";
+        private const string ADMIN = "Administrator";
         private const string HRMANAGER = "HRManager";
 
         public static async Task SeedData(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
