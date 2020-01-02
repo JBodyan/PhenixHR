@@ -283,6 +283,19 @@ namespace WebPhenix.Controllers
 
             if (manager != null)
             {
+                if (manager.UserName != model.Username)
+                {
+                    if (await _userManager.FindByNameAsync(model.Username) == null)
+                    {
+                        manager.UserName = model.Username;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Username already exists");
+                        return View(model);
+                    }
+                }
+
                 if (manager.Email != model.Email)
                 {
                     manager.Email = model.Email;
@@ -351,6 +364,78 @@ namespace WebPhenix.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError(string.Empty, "Not found user.");
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SUAdministrator, Administrator")]
+        public async Task<IActionResult> LockAccount(string id)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (currentUser == null)
+            {
+                ModelState.AddModelError(string.Empty,"Current user not found.");
+                return RedirectToAction("Index","Home");
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "User not found");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "SUAdministrator") && !await _userManager.IsInRoleAsync(user,"SUAdministrator"))
+            {
+                user.LockoutEnd = DateTime.Now.AddYears(100);
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index","Home");
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "Administrator") 
+                && !await _userManager.IsInRoleAsync(user, "SUAdministrator") 
+                && !await _userManager.IsInRoleAsync(user,"Administrator"))
+            {
+                user.LockoutEnd = DateTime.Now.AddYears(100);
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+            ModelState.AddModelError(string.Empty, "Current user has no permission for lock account.");
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SUAdministrator, Administrator")]
+        public async Task<IActionResult> UnlockAccount(string id)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (currentUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Current user not found.");
+                return RedirectToAction("Index", "Home");
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "User not found");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "SUAdministrator") && !await _userManager.IsInRoleAsync(user, "SUAdministrator"))
+            {
+                user.LockoutEnd = DateTime.Now;
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "Administrator")
+                && !await _userManager.IsInRoleAsync(user, "SUAdministrator")
+                && !await _userManager.IsInRoleAsync(user, "Administrator"))
+            {
+                user.LockoutEnd = DateTime.Now;
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+            ModelState.AddModelError(string.Empty, "Current user has no permission for unlock account.");
             return RedirectToAction("Index", "Home");
         }
     }

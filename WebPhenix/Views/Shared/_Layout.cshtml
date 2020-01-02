@@ -33,7 +33,10 @@
                             if ( User.IsInRole("Administrator") || User.IsInRole("SUAdministrator") ){
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AllManagers">Managers</a>
-                                </li>        
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Office" asp-action="Index">Offices</a>
+                                </li> 
                             }
                             if ( User.IsInRole("SUAdministrator") ){
                                 <li class="nav-item">

@@ -19,15 +19,11 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Infrastructure.Disposal;
 using Ninject.Modules;
-using Owin;
 using WEB.Config.Automapper;
-using WEB.Data;
 
 namespace WEB
 {
@@ -63,11 +59,6 @@ namespace WEB
             services.AddCustomControllerActivation(Resolve);
             services.AddCustomViewComponentActivation(Resolve);
 
-            services.AddDbContext<AppIdentityContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<AppUser, AppRole>()
-                .AddEntityFrameworkStores<AppIdentityContext>();
 
 
         }
@@ -115,12 +106,7 @@ namespace WEB
 
             kernel.Bind<IMemberService>().To<MemberService>().InScope(RequestScope);
             kernel.Bind<IOfficeService>().To<OfficeService>().InScope(RequestScope);
-            kernel.Bind<AppIdentityContext>().ToSelf().InScope(RequestScope); //You can also do it this way
-            kernel.Bind<Microsoft.AspNetCore.Identity.IUserStore<AppUser>>().To<Microsoft.AspNetCore.Identity.EntityFrameworkCore.UserStore<AppUser>>()
-                .InScope(RequestScope)
-                .WithConstructorArgument("context", kernel.Get<Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext>());
-            kernel.Bind<Microsoft.AspNetCore.Identity.UserManager<AppUser>>().ToSelf()
-                .InScope(RequestScope);
+
             //kernel.Bind<IUserService>().To<UserService>().InScope(RequestScope);
 
             kernel.BindToMethod(app.GetRequestService<IViewBufferScope>);

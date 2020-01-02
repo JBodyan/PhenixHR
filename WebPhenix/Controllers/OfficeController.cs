@@ -7,10 +7,11 @@ using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WEB.Models;
+using WebPhenix.Models;
 
-namespace WEB.Controllers
+namespace WebPhenix.Controllers
 {
+    [Authorize]
     public class OfficeController : Controller
     {
         private readonly IOfficeService _officeService;
@@ -103,9 +104,9 @@ namespace WEB.Controllers
             catch (Exception ex)
             {
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
-                return RedirectToAction("OfficeDetails",new { id = model.OfficeIdentifier });
+                return RedirectToAction("OfficeDetails", new { id = model.OfficeIdentifier });
             }
-            return RedirectToAction("OfficeDetails",new { id = model.OfficeIdentifier });
+            return RedirectToAction("OfficeDetails", new { id = model.OfficeIdentifier });
         }
 
         [HttpPost]
@@ -123,6 +124,5 @@ namespace WEB.Controllers
             }
             return RedirectToAction("OfficeDetails", new { id = model.OfficeIdentifier });
         }
-
     }
 }

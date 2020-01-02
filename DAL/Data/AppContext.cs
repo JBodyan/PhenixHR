@@ -15,7 +15,7 @@ namespace DAL.Data
         public AppContext(string connectionString)
         {
             _connection = connectionString;
-            Database.EnsureCreated();
+           
         }
 
 

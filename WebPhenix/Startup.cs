@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL.Interfaces;
+using BLL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -13,6 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using WebPhenix.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Ninject;
+using Ninject.Modules;
+using System.Web.Mvc;
+using Ninject.Web.Mvc;
 
 namespace WebPhenix
 {
@@ -40,6 +46,16 @@ namespace WebPhenix
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+
+            NinjectModule serviceModule = new ServiceModule("DefaultConnection");
+            var kernel = new StandardKernel(serviceModule);
+            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+
+
+
+            services.AddScoped<IOfficeService, OfficeService>();
+
 
             //add identity
             services.AddIdentity<AppUser, AppRole>()
