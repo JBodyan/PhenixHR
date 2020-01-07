@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BLL.Interfaces;
-using BLL.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -12,15 +11,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebPhenix.Data;
+using PhenixProject.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Ninject;
-using Ninject.Modules;
-using System.Web.Mvc;
-using Ninject.Web.Mvc;
+using PhenixProject.Configuration;
+using PhenixProject.Interfaces;
+using PhenixProject.Services;
 
-namespace WebPhenix
+namespace PhenixProject
 {
     public class Startup
     {
@@ -40,6 +38,16 @@ namespace WebPhenix
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IOfficeService, OfficeService>();
+            services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<IPersonalInfoService, PersonalInfoService>();
+            services.AddScoped<IPayrollService, PayrollService>();
+            services.AddScoped<ILeaveService, LeaveService>();
+
+            services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(
@@ -71,7 +79,7 @@ namespace WebPhenix
                 options.User.RequireUniqueEmail = false;
             });
 
-            
+
 
             //configure cookiesss
             services.ConfigureApplicationCookie(options =>
@@ -122,7 +130,7 @@ namespace WebPhenix
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            
+
         }
     }
 }

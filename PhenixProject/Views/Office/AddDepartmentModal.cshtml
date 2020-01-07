@@ -1,0 +1,33 @@
+﻿@model PhenixProject.Models.DepartmentViewModel
+@{
+    ViewData["Title"] = "AddDepartment";
+}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>Add department</h4>
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <form asp-action="AddDepartment">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="OfficeIdentifier" value="@ViewBag.OfficeId" hidden class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

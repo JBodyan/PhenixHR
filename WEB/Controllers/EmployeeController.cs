@@ -33,5 +33,21 @@ namespace WEB.Controllers
             }
             return View(employees);
         }
+
+        public async Task<IActionResult> EmployeeDetails(Guid id)
+        {
+            EmployeeViewModel employee;
+            try
+            {
+                var model = await _memberService.GetMemberByIdAsync(id);
+                employee = _mapper.Map<EmployeeViewModel>(model);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
+                return View();
+            }
+            return View(employee);
+        }
     }
 }
