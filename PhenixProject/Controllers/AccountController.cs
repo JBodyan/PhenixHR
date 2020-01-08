@@ -438,5 +438,14 @@ namespace PhenixProject.Controllers
             ModelState.AddModelError(string.Empty, "Current user has no permission for unlock account.");
             return RedirectToAction("Index", "Home");
         }
+
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> PersonalProfile()
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            return View(currentUser);
+        }
     }
 }
