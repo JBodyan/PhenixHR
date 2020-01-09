@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "AllManagers";
 }
-
 <h1>All managers</h1>
 @Html.ActionLink("Create new manager", "RegisterHRManager","Account")
 <div asp-validation-summary="All" class="text-danger"></div>
@@ -57,6 +56,7 @@
         </div>
     </div>
 }
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

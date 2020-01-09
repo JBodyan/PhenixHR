@@ -14,53 +14,27 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.PersonalInfo.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PersonalInfo.MidName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PersonalInfo.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Department)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Position)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row">
+        <div class="col-md-4">
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PersonalInfo.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PersonalInfo.MidName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PersonalInfo.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Department.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Position.Name)
-                    </td>
-                    <td>
-                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
-                        @Html.ActionLink("Details", "EmployeeDetails", new { id = item.Id })
-                        @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                    </td>
-                </tr>
+                <div class="card" style="width: 18rem;">
+                    @if (item.PersonalInfo.Photo == null)
+                    {
+                        <img class="card-img-top" src="~/Photo/empty.png" alt="Photo">
+                    }
+                    else
+                    {
+                        <img class="card-img-top" src="@item.PersonalInfo.Photo" alt="Photo">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
+                        <p class="card-text">Department: @item.Department</p>
+                        <p class="card-text">Position: @item.Position</p>
+                        @Html.ActionLink("About", "EmployeeDetails", new {id = item.Id}, new {@class = "btn btn-primary"})
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+        </div>
+    </div>
 }

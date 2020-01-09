@@ -16,5 +16,8 @@ namespace PhenixProject.Data
         public string LastName { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
+
+        public string Photo { get; set; }
+
     }
 }

@@ -1,12 +1,17 @@
 ﻿@model PhenixProject.Data.AppUser
 
 @{
-    ViewData["Title"] = "EmployeeDetails";
+    ViewData["Title"] = "My profile";
 }
 
-<h1>Employee Details</h1>
+<h1>My profile</h1>
 
 <div>
+    <img class="card-img-top" src="~/Photo/@Model.Id" alt="Photo">
+    <form asp-action="UploadPhoto" asp-controller="Account" asp-route-userId="@Model.Id" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"/><br>
+        <input type="submit" value="Upload photo"/>
+    </form>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
@@ -33,11 +38,11 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
     </dl>
-@if (User.Identity.IsAuthenticated)
-{
-    if (User.IsInRole("Administrator") || User.IsInRole("SUAdministrator"))
+    @if (User.Identity.IsAuthenticated)
     {
-        @Html.ActionLink("Change password", "ChangePassword","Account",new{id=Model.Id})
+        if (User.IsInRole("Administrator") || User.IsInRole("SUAdministrator"))
+        {
+            @Html.ActionLink("Change password", "ChangePassword", "Account", new {id = Model.Id})
+        }
     }
-}
 </div>

@@ -7,35 +7,40 @@
 
 <div class="row">
     <div class="col-md-6">
+        <img class="card-img-top" src="~/Photo/@Model.Id" alt="Photo">
+        <form asp-action="UploadPhoto" asp-controller="Account" asp-route-userId="@Model.Id" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/><br>
+            <input type="submit" value="Upload photo"/>
+        </form>
         <form id="profile-form" method="post" asp-action="EditAdministrator" asp-controller="Account">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" />
+                <input asp-for="Username" class="form-control"/>
             </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Phone"></label>
-                <input asp-for="Phone" class="form-control" />
+                <input asp-for="Phone" class="form-control"/>
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <input asp-for="FirstName" class="form-control"/>
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input asp-for="LastName" class="form-control"/>
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>
-        @Html.ActionLink("Reset password", "ChangePassword","Account",new{id = Model.Id})
+        @Html.ActionLink("Reset password", "ChangePassword", "Account", new {id = Model.Id})
     </div>
 </div>
 

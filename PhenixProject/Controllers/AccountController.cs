@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,15 +20,17 @@ namespace PhenixProject.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IHostingEnvironment _webHost;
 
         [TempData]
         public string StatusMessage { get; set; }
 
-        public AccountController(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger, UserManager<AppUser> userManager)
+        public AccountController(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger, UserManager<AppUser> userManager, IHostingEnvironment webHost)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _webHost = webHost;
         }
 
         [HttpPost]
@@ -367,6 +372,7 @@ namespace PhenixProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //Todo
         [HttpPost]
         [Authorize(Roles = "SUAdministrator, Administrator")]
         public async Task<IActionResult> LockAccount(string id)
@@ -403,6 +409,7 @@ namespace PhenixProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //Todo
         [HttpPost]
         [Authorize(Roles = "SUAdministrator, Administrator")]
         public async Task<IActionResult> UnlockAccount(string id)
@@ -446,6 +453,37 @@ namespace PhenixProject.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             return View(currentUser);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("/Account/UploadPhoto/{userId}")]
+        public async Task<IActionResult> UploadPhoto([FromRoute]string userId, [FromBody]IFormFile file)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "User not found");
+                return RedirectToAction("Index","Home");
+            }
+            if (file != null)
+            {
+                
+                var path = "/Photo/" + user.Id + file.FileName;
+                
+                using (var fileStream = new FileStream(_webHost.WebRootPath + path, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                    user.Photo = path;
+                    await _userManager.UpdateAsync(user);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error uploading photo");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

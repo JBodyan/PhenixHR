@@ -6,71 +6,110 @@
 }
 
 <h1>Employee Edit</h1>
-
-<div class="col-md-6">
-    <form id="profile-form" method="post" asp-action="EmployeeEdit" asp-controller="Employee">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
-            <input hidden asp-for="Id" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.FirstName"></label>
-            <input asp-for="PersonalInfo.FirstName" class="form-control" />
-            <span asp-validation-for="PersonalInfo.FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.MidName"></label>
-            <input asp-for="PersonalInfo.MidName" class="form-control" />
-            <span asp-validation-for="PersonalInfo.MidName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.LastName"></label>
-            <input asp-for="PersonalInfo.LastName" class="form-control" />
-            <span asp-validation-for="PersonalInfo.LastName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.BirthDate"></label>
-            <input asp-for="PersonalInfo.BirthDate" class="form-control" />
-            <span asp-validation-for="PersonalInfo.BirthDate" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.Gender"></label>
-            <select asp-for="PersonalInfo.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"></select>
-            <span asp-validation-for="PersonalInfo.Gender" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.Contacts.Email"></label>
-            <input asp-for="PersonalInfo.Contacts.Email.Value" class="form-control" />
-            <span asp-validation-for="PersonalInfo.Contacts.Email" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.Contacts.Phone"></label>
-            <input asp-for="PersonalInfo.Contacts.Phone.Value" class="form-control" />
-            <span asp-validation-for="PersonalInfo.Contacts.Phone" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.Contacts.SecondPhone"></label>
-            <input asp-for="PersonalInfo.Contacts.SecondPhone.Value" class="form-control" />
-            <span asp-validation-for="PersonalInfo.Contacts.SecondPhone" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.Contacts.Address"></label>
-            <input asp-for="PersonalInfo.Contacts.Address.Value" class="form-control" />
-            <span asp-validation-for="PersonalInfo.Contacts.Address" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonalInfo.Contacts.Skype"></label>
-            <input asp-for="PersonalInfo.Contacts.Skype.Value" class="form-control" />
-            <span asp-validation-for="PersonalInfo.Contacts.Skype" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Payroll.Employment"></label>
-            <select asp-for="Payroll.Employment" asp-items="Html.GetEnumSelectList<Employment>()" class="form-control"></select>
-            <span asp-validation-for="Payroll.Employment" class="text-danger"></span>
-        </div>
-        <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-    </form>
+<div id="modalDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
 </div>
+@if (Model == null && ViewBag.Error!=null)
+{
+    <div asp-validation-summary="All" class="text-danger">@ViewBag.Error.Message</div>
+
+}
+else
+{
+    <div class="col-md-6">
+        @if (Model.PersonalInfo.Photo == null)
+        {
+            <img class="img-fluid" src="~/Photo/empty.png" alt="Photo">
+        }
+        else
+        {
+            <img class="img-fluid" src="@Model.PersonalInfo.Photo" alt="Photo">
+        }
+        @Html.ActionLink("Upload photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto"})
+
+        <form id="profile-form" method="post" asp-action="EmployeeEdit" asp-controller="Employee">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <input hidden asp-for="Id" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.FirstName"></label>
+                <input asp-for="PersonalInfo.FirstName" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.MidName"></label>
+                <input asp-for="PersonalInfo.MidName" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.MidName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.LastName"></label>
+                <input asp-for="PersonalInfo.LastName" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.BirthDate"></label>
+                <input asp-for="PersonalInfo.BirthDate" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.Gender"></label>
+                <select asp-for="PersonalInfo.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"></select>
+                <span asp-validation-for="PersonalInfo.Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.Contacts.Email"></label>
+                <input asp-for="PersonalInfo.Contacts.Email.Value" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.Contacts.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.Contacts.Phone"></label>
+                <input asp-for="PersonalInfo.Contacts.Phone.Value" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.Contacts.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.Contacts.SecondPhone"></label>
+                <input asp-for="PersonalInfo.Contacts.SecondPhone.Value" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.Contacts.SecondPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.Contacts.Address"></label>
+                <input asp-for="PersonalInfo.Contacts.Address.Value" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.Contacts.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalInfo.Contacts.Skype"></label>
+                <input asp-for="PersonalInfo.Contacts.Skype.Value" class="form-control"/>
+                <span asp-validation-for="PersonalInfo.Contacts.Skype" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payroll.Employment"></label>
+                <select asp-for="Payroll.Employment" asp-items="Html.GetEnumSelectList<Employment>()" class="form-control"></select>
+                <span asp-validation-for="Payroll.Employment" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+}
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".uploadPhoto").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+
+    </script>
+}

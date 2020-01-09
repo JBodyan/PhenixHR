@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
@@ -15,10 +18,12 @@ namespace PhenixProject.Controllers
     {
         private readonly IMemberService _memberService;
         private readonly IMapper _mapper;
-        public EmployeeController(IMemberService service, IMapper mapper)
+        private readonly IHostingEnvironment _webHost;
+        public EmployeeController(IMemberService service, IMapper mapper,IHostingEnvironment webHost)
         {
             _memberService = service;
             _mapper = mapper;
+            _webHost = webHost;
         }
         public async Task<IActionResult> Index()
         {
@@ -75,29 +80,53 @@ namespace PhenixProject.Controllers
         {
             try
             {
-                var member = await _memberService.GetMemberByIdAsync(model.Id);
+                await _memberService.UpdateEmployeeInfoAsync(model);
 
-                member.PersonalInfo.FirstName = !string.IsNullOrEmpty(model.PersonalInfo.FirstName) ? member.PersonalInfo.FirstName : string.Empty;
-                member.PersonalInfo.MidName = !string.IsNullOrEmpty(model.PersonalInfo.MidName) ? member.PersonalInfo.MidName : string.Empty;
-                member.PersonalInfo.LastName = !string.IsNullOrEmpty(model.PersonalInfo.LastName) ? member.PersonalInfo.LastName : string.Empty;
-                member.PersonalInfo.BirthDate = model.PersonalInfo.BirthDate;
-                member.PersonalInfo.Gender = model.PersonalInfo.Gender;
-                member.PersonalInfo.Contacts.Email.Value = !string.IsNullOrEmpty(model.PersonalInfo.Contacts.Email.Value) ? model.PersonalInfo.Contacts.Email.Value : string.Empty;
-                member.PersonalInfo.Contacts.Address.Value = !string.IsNullOrEmpty(model.PersonalInfo.Contacts.Address.Value) ? model.PersonalInfo.Contacts.Address.Value : string.Empty;
-                member.PersonalInfo.Contacts.Phone.Value = !string.IsNullOrEmpty(model.PersonalInfo.Contacts.Phone.Value) ? model.PersonalInfo.Contacts.Phone.Value : string.Empty;
-                member.PersonalInfo.Contacts.SecondPhone.Value = !string.IsNullOrEmpty(model.PersonalInfo.Contacts.SecondPhone.Value) ? model.PersonalInfo.Contacts.SecondPhone.Value : string.Empty;
-                member.PersonalInfo.Contacts.Skype.Value = !string.IsNullOrEmpty(model.PersonalInfo.Contacts.Skype.Value) ? model.PersonalInfo.Contacts.Skype.Value : string.Empty;
-                member.EmployeeInfo.Payroll.Employment = model.Payroll.Employment;
-                member.EmployeeInfo.Payroll.Salary = model.Payroll.Salary;
-                member.EmployeeInfo.Department = model.Department;
-                member.EmployeeInfo.Position = model.Position;
-                await _memberService.UpdateMemberAsync(member);
             }
             catch (Exception ex)
             {
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
                 return View();
             }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UploadPhoto([FromForm]UploadFileViewModel model)
+        {
+            var user = await _memberService.GetMemberByIdAsync(Guid.Parse(model.UserId));
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty,"User not found");
+                return View("Index");
+            }
+            if (model.File != null)
+            {
+                
+                var path = "/Photo/" + user.Id + model.File.FileName;
+                
+                using (var fileStream = new FileStream(_webHost.WebRootPath + path, FileMode.Create))
+                {
+                    await model.File.CopyToAsync(fileStream);
+                    await _memberService.UpdatePhotoAsync(user.Id,path);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error uploading photo");
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> UploadPhotoModal(Guid id)
+        {
+            ViewBag.UserId = id;
+            if (id != Guid.Empty)
+                return PartialView("UploadPhotoModal");
             return RedirectToAction("Index");
         }
     }

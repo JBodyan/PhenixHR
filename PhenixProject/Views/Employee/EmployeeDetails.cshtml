@@ -7,6 +7,14 @@
 <h1>Employee Details</h1>
 
 <div>
+    @if (Model.PersonalInfo.Photo == null)
+    {
+        <img class="img-fluid" src="~/Photo/empty.png" alt="Photo">
+    }
+    else
+    {
+        <img class="img-fluid" src="@Model.PersonalInfo.Photo" alt="Photo">
+    }
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
@@ -81,7 +89,7 @@
             @Html.DisplayFor(model => model.Position.Name)
         </dd>
     </dl>
-    @Html.ActionLink("Edit", "EmployeeEdit", new { id = Model.Id })
+    @Html.ActionLink("Edit", "EmployeeEdit", new {id = Model.Id})
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

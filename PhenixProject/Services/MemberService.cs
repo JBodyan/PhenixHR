@@ -76,10 +76,10 @@ namespace PhenixProject.Services
         {
             if (id == null) throw new Exception("Ιd not specified");
 
-            var candidate = await _db.Members.GetByIdAsync(id);
-            if (candidate == null) throw new Exception("Member not found");
+            var member = await _db.Members.GetByIdAsync(id);
+            if (member == null) throw new Exception("Member not found");
 
-            var data = _mapper.Map<MemberViewModel>(candidate);
+            var data = _mapper.Map<MemberViewModel>(member);
             return data;
         }
 
@@ -127,14 +127,52 @@ namespace PhenixProject.Services
         public async Task AttachEmployeeInfoAsync(MemberViewModel member)
         {
             var data = await _db.Members.GetByIdAsync(member.Id);
-            if(data==null) throw new Exception("Member not found");
+            if(data == null) throw new Exception("Member not found");
             var employeeProfile = _mapper.Map<EmployeeInfo>(member.EmployeeInfo);
+            employeeProfile.Payroll.Id = Guid.NewGuid();
             data.EmployeeInfo = employeeProfile;
             data.IsCandidate = false;
             data.IsEmployee = true;
             await _db.Members.UpdateAsync(data);
             _db.Save();
         }
+
+        public async Task UpdateEmployeeInfoAsync(EmployeeViewModel employee)
+        {
+            var data = await _db.Members.GetByIdAsync(employee.Id);
+            //Personal
+            data.PersonalInfo.FirstName = employee.PersonalInfo.FirstName;
+            data.PersonalInfo.MidName = employee.PersonalInfo.MidName;
+            data.PersonalInfo.LastName = employee.PersonalInfo.LastName;
+            data.PersonalInfo.BirthDate = employee.PersonalInfo.BirthDate;
+            data.PersonalInfo.Gender = employee.PersonalInfo.Gender;
+            //Contacts
+            data.PersonalInfo.Contacts.Email.Value = employee.PersonalInfo.Contacts.Email.Value;
+            data.PersonalInfo.Contacts.Phone.Value = employee.PersonalInfo.Contacts.Phone.Value;
+            data.PersonalInfo.Contacts.SecondPhone.Value = employee.PersonalInfo.Contacts.SecondPhone.Value;
+            data.PersonalInfo.Contacts.Skype.Value = employee.PersonalInfo.Contacts.Skype.Value;
+            data.PersonalInfo.Contacts.Address.Value = employee.PersonalInfo.Contacts.Address.Value;
+            //Employment
+            data.EmployeeInfo.Payroll.Employment = employee.Payroll.Employment;
+            data.EmployeeInfo.Payroll.Salary = employee.Payroll.Salary;
+            //Department/Position
+            var department = _mapper.Map<Department>(employee.Department);
+            var position = _mapper.Map<Position>(employee.Position);
+            data.EmployeeInfo.Department = department;
+            data.EmployeeInfo.Position = position;
+
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
+        }
+
+        public async Task UpdatePhotoAsync(Guid id, string path)
+        {
+            var data = await _db.Members.GetByIdAsync(id);
+            data.PersonalInfo.Photo = path;
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
+        }
+
         #endregion
 
         public void Dispose()

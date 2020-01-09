@@ -156,6 +156,7 @@ namespace PhenixProject.Repositories
             await _db.Entry(member).Reference(x => x.PersonalInfo).LoadAsync();
             await _db.Entry(member).Reference(x => x.CandidateInfo).LoadAsync();
             await _db.Entry(member).Reference(x => x.EmployeeInfo).LoadAsync();
+            await _db.Entry(member.EmployeeInfo).Reference(x => x.Payroll).LoadAsync();
             await _db.Entry(member.PersonalInfo).Reference(x => x.Contacts).LoadAsync();
             await _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Address).LoadAsync();
             await _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Email).LoadAsync();
