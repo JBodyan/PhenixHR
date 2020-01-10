@@ -15,10 +15,12 @@ namespace PhenixProject.Controllers
     public class CandidateController : Controller
     {
         private readonly IMemberService _memberService;
+        private readonly IOfficeService _officeService;
         private readonly IMapper _mapper;
-        public CandidateController(IMemberService service, IMapper mapper)
+        public CandidateController(IMemberService service,IOfficeService officeService, IMapper mapper)
         {
             _memberService = service;
+            _officeService = officeService;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index()
@@ -88,6 +90,7 @@ namespace PhenixProject.Controllers
         [HttpGet]
         public async Task<IActionResult> RegisterCandidate()
         {
+            ViewBag.Offices = await _officeService.GetOfficesAsync();
             return View();
         }
 

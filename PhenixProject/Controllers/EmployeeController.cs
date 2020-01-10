@@ -117,7 +117,7 @@ namespace PhenixProject.Controllers
                 ModelState.AddModelError(string.Empty, "Error uploading photo");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
