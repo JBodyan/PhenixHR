@@ -1,0 +1,33 @@
+﻿@model IEnumerable<LeaveViewModel>
+
+@{
+    ViewData["Title"] = "Leaves";
+    var error = ViewBag.Error;
+}
+
+<h1>Leaves</h1>
+@if (error != null)
+{
+    <p>
+        Error: @error.Message
+    </p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            @foreach (var item in Model)
+            {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Id</h5>
+                        <p class="card-text">Start date: @item.StartDate</p>
+                        <p class="card-text">End date: @item.EndDate</p>
+                        <p class="card-text">Total days: @item.TotalDays</p>
+                        <p class="card-text">Description: @item.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

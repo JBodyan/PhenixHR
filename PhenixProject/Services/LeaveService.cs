@@ -32,6 +32,11 @@ namespace PhenixProject.Services
             throw new NotImplementedException();
         }
 
+        public IEnumerable<LeaveViewModel> GetAllLeaves()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<LeaveViewModel>> GetLeavesByMemberIdAsync(Guid memberId)
         {
             throw new NotImplementedException();

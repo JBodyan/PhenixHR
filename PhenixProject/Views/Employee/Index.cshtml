@@ -5,7 +5,6 @@
     var error = ViewBag.Error;
 }
 
-<h1>Employees</h1>
 @if (error != null)
 {
     <p>
@@ -14,19 +13,14 @@
 }
 else
 {
-    <div class="row">
-        <div class="col-md-4">
+    <div class="custom-flex-container">
+        <h1>Employees</h1>
+        <hr/>
+        <div class="custom-flex-container">
             @foreach (var item in Model)
             {
-                <div class="card" style="width: 18rem;">
-                    @if (item.PersonalInfo.Photo == null)
-                    {
-                        <img class="card-img-top" src="~/Photo/empty.png" alt="Photo">
-                    }
-                    else
-                    {
-                        <img class="card-img-top" src="@item.PersonalInfo.Photo" alt="Photo">
-                    }
+                <div class="card custom-card">
+                    <img class="card-img-top custom-card-img" src="@item.PersonalInfo.Photo" alt="Photo">
                     <div class="card-body">
                         <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
                         <p class="card-text">Department: @item.Department</p>

@@ -3,94 +3,251 @@
 @{
     ViewData["Title"] = "EmployeeDetails";
 }
-
-<h1>Employee Details</h1>
-
-<div>
-    @if (Model.PersonalInfo.Photo == null)
-    {
-        <img class="img-fluid" src="~/Photo/empty.png" alt="Photo">
-    }
-    else
-    {
-        <img class="img-fluid" src="@Model.PersonalInfo.Photo" alt="Photo">
-    }
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.MidName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.MidName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.BirthDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.BirthDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Gender)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Gender)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Email.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Phone.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Skype)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Skype.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Address.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Department.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Position.Name)
-        </dd>
-    </dl>
-    @Html.ActionLink("Edit", "EmployeeEdit", new {id = Model.Id})
+<div id="modalDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="container emp-profile">
+<div class="row">
+    <div class="col-md-4">
+        <div class="profile-img">
+            <img src="@Model.PersonalInfo.Photo" alt="Photo"/>
+            <div class="file btn btn-lg btn-primary">
+                @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto"})
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="profile-head">
+            <h5>
+                @Model.PersonalInfo.FirstName @Model.PersonalInfo.LastName
+            </h5>
+            <h6>
+                Department: 
+            </h6>
+            <h6>
+                Position: 
+            </h6>
+            @Html.ActionLink("Edit department info", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Personal info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="payroll-tab" data-toggle="tab" href="#payroll" role="tab" aria-controls="payroll" aria-selected="false">Payroll</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="leaves-tab" data-toggle="tab" href="#leaves" role="tab" aria-controls="leave" aria-selected="false">Leaves</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+<div class="row">
+<div class="col-md-4">
+    <div class="profile-work">
+        <p>LINKS</p>
+        <a href="">Website Link</a><br/>
+        <a href="">LinkedIn Profile</a><br/>
+        <a href="">Facebook Profile</a>
+        <p>SKILLS</p>
+        <a href="">9k hours in Dota 2</a><br/>
+        <a href="">Web Developer</a><br/>
+        <a href="">Android Developer</a><br/>
+        <hr/>
+        @Html.ActionLink("Edit links", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"}) |
+        @Html.ActionLink("Edit skills", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+    </div>
+    
+</div>
+<div class="col-md-8">
+<div class="tab-content profile-tab" id="myTabContent">
+<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="row">
+        <div class="col-md-6">
+            <label>User Id</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.Id</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>First Name</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.FirstName</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Mid Name</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.MidName</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Last Name</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.LastName</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Birth Date</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Html.DisplayFor(m=>m.PersonalInfo.BirthDate)</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Gender</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.Gender</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Email</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.Contacts.Email.Value</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Phone</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.Contacts.Phone.Value</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Second phone</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.Contacts.SecondPhone.Value</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Skype</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.Contacts.Skype.Value</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Address</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.PersonalInfo.Contacts.Address.Value</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Edit personal info", "EditPersonalInfoModal", new {employeeId = Model.Id}, new {@class = "editPersonalInfo btn btn-outline-warning"})
+        </div>
+    </div>
+</div>
+<div class="tab-pane fade" id="payroll" role="tabpanel" aria-labelledby="payroll-tab">
+    <div class="row">
+        <div class="col-md-6">
+            <label>Employment</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.Payroll.Employment</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Salary</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.Payroll.Salary</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Currency</label>
+        </div>
+        <div class="col-md-6">
+            <p>@Model.Payroll.Currency</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Edit payroll info", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+        </div>
+    </div>
+</div>
+<div class="tab-pane fade" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
+    <div class="row">
+        <div class="col-md-6">
+            <label>empty</label>
+        </div>
+        <div class="col-md-6">
+            <p>empty</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Add leave", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+        </div>
+    </div>
+</div>
+<div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+    <div class="row">
+        <div class="col-md-6">
+            <label>empty</label>
+        </div>
+        <div class="col-md-6">
+            <p>empty</p>
+        </div>
+    </div>
+</div>
+                            
+
+</div>
+</div>
+</div>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".uploadPhoto").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".editPersonalInfo").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+    </script>
+}

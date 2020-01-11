@@ -6,11 +6,12 @@ using PhenixProject.Models;
 
 namespace PhenixProject.Interfaces
 {
-    interface ILeaveService
+    public interface ILeaveService
     {
         LeaveViewModel GetLeaveById(Guid leaveId);
         Task<LeaveViewModel> GetLeaveByIdAsync(Guid leaveId);
         IEnumerable<LeaveViewModel> GetLeavesByMemberId(Guid memberId);
+        IEnumerable<LeaveViewModel> GetAllLeaves();
         Task<IEnumerable<LeaveViewModel>> GetLeavesByMemberIdAsync(Guid memberId);
         void AddLeave(Guid memberId, LeaveViewModel leave);
         Task AddLeaveAsync(Guid memberId, LeaveViewModel leave);

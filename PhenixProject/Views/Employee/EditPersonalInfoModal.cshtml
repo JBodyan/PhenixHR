@@ -1,0 +1,83 @@
+﻿@using Resources.Enums
+@model PersonalInfoViewModel
+@{
+    ViewData["Title"] = "Edit personal info";
+}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>Edit personal info</h4>
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <form asp-controller="Employee" asp-action="EditPersonalInfo" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input hidden asp-for="EmployeeId" name="EmployeeId" value="@ViewBag.EmployeeId" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input hidden asp-for="Id" class="form-control"/>
+                </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control"/>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MidName"></label>
+                <input asp-for="MidName" class="form-control"/>
+                <span asp-validation-for="MidName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control"/>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate"></label>
+                <input asp-for="BirthDate" class="form-control"/>
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender"></label>
+                <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"></select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contacts.Email"></label>
+                <input asp-for="Contacts.Email.Value" class="form-control"/>
+                <span asp-validation-for="Contacts.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contacts.Phone"></label>
+                <input asp-for="Contacts.Phone.Value" class="form-control"/>
+                <span asp-validation-for="Contacts.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contacts.SecondPhone"></label>
+                <input asp-for="Contacts.SecondPhone.Value" class="form-control"/>
+                <span asp-validation-for="Contacts.SecondPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contacts.Address"></label>
+                <input asp-for="Contacts.Address.Value" class="form-control"/>
+                <span asp-validation-for="Contacts.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contacts.Skype"></label>
+                <input asp-for="Contacts.Skype.Value" class="form-control"/>
+                <span asp-validation-for="Contacts.Skype" class="text-danger"></span>
+            </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

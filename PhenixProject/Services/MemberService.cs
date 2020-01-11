@@ -130,6 +130,7 @@ namespace PhenixProject.Services
             if(data == null) throw new Exception("Member not found");
             var employeeProfile = _mapper.Map<EmployeeInfo>(member.EmployeeInfo);
             employeeProfile.Payroll.Id = Guid.NewGuid();
+            data.PersonalInfo.Photo = @"/Photo/empty.png";
             data.EmployeeInfo = employeeProfile;
             data.IsCandidate = false;
             data.IsEmployee = true;

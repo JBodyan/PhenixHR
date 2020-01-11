@@ -16,5 +16,6 @@ namespace PhenixProject.Entities
         public Guid Id { get; set; }
         public Employment Employment { get; set; }
         public decimal Salary { get; set; }
+        public Currency Currency { get; set; }
     }
 }

@@ -17,11 +17,13 @@ namespace PhenixProject.Controllers
     public class EmployeeController : Controller
     {
         private readonly IMemberService _memberService;
+        private readonly IPersonalInfoService _personalInfoService;
         private readonly IMapper _mapper;
         private readonly IHostingEnvironment _webHost;
-        public EmployeeController(IMemberService service, IMapper mapper,IHostingEnvironment webHost)
+        public EmployeeController(IMemberService service,IPersonalInfoService personalInfoService, IMapper mapper,IHostingEnvironment webHost)
         {
             _memberService = service;
+            _personalInfoService = personalInfoService;
             _mapper = mapper;
             _webHost = webHost;
         }
@@ -92,7 +94,6 @@ namespace PhenixProject.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> UploadPhoto([FromForm]UploadFileViewModel model)
         {
             var user = await _memberService.GetMemberByIdAsync(Guid.Parse(model.UserId));
@@ -121,13 +122,35 @@ namespace PhenixProject.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult> UploadPhotoModal(Guid id)
         {
             ViewBag.UserId = id;
             if (id != Guid.Empty)
                 return PartialView("UploadPhotoModal");
             return RedirectToAction("Index");
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> EditPersonalInfoModal(Guid employeeId)
+        {
+            var employee = await _memberService.GetMemberByIdAsync(employeeId);
+            if (employee == null)
+            {
+                ModelState.AddModelError(string.Empty,"Employee not found");
+                return View("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            if (employee.PersonalInfo.Id != Guid.Empty)
+                return PartialView("EditPersonalInfoModal",employee.PersonalInfo);
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<ActionResult> EditPersonalInfo(PersonalInfoViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _personalInfoService.UpdatePersonalInfoByMemberIdAsync(id, model);
+            return RedirectToAction("EmployeeDetails", new { id });
         }
     }
 }

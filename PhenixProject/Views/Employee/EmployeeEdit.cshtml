@@ -17,14 +17,8 @@
 else
 {
     <div class="col-md-6">
-        @if (Model.PersonalInfo.Photo == null)
-        {
-            <img class="img-fluid" src="~/Photo/empty.png" alt="Photo">
-        }
-        else
-        {
-            <img class="img-fluid" src="@Model.PersonalInfo.Photo" alt="Photo">
-        }
+        <img class="img-fluid custom-img" src="@Model.PersonalInfo.Photo" alt="Photo">
+        
         @Html.ActionLink("Upload photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto"})
 
         <form id="profile-form" method="post" asp-action="EmployeeEdit" asp-controller="Employee">
