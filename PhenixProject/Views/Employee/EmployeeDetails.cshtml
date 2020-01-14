@@ -49,16 +49,19 @@
 <div class="col-md-4">
     <div class="profile-work">
         <p>LINKS</p>
-        <a href="">Website Link</a><br/>
-        <a href="">LinkedIn Profile</a><br/>
-        <a href="">Facebook Profile</a>
+        @foreach (var link in Model.Links)
+        {
+            <a href="@link.Url">@link.Name</a>
+            @Html.ActionLink("Edit","EditLinkModal",new{linkId = link.Id,employeeId = Model.Id},new {@class = "editLink"})
+        }
         <p>SKILLS</p>
-        <a href="">9k hours in Dota 2</a><br/>
-        <a href="">Web Developer</a><br/>
-        <a href="">Android Developer</a><br/>
+        @foreach (var skill in Model.Skills)
+        {
+            <span>@skill.Name</span>
+        }
         <hr/>
-        @Html.ActionLink("Edit links", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"}) |
-        @Html.ActionLink("Edit skills", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+        @Html.ActionLink("Add link", "AddLinkModal", new {employeeId = Model.Id}, new {@class = "addLink btn btn-outline-warning"}) |
+        @Html.ActionLink("Add skill", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
     </div>
     
 </div>
@@ -240,6 +243,30 @@
         $(function() {
             $.ajaxSetup({ cache: false });
             $(".editPersonalInfo").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".editLink").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".addLink").click(function(e) {
 
                 e.preventDefault();
                 $.get(this.href,

@@ -14,6 +14,7 @@ namespace PhenixProject.Interfaces
         IRepository<Leave> Leaves { get; }
         IRepository<EmployeeHistory> Histories { get; }
         IRepository<Payroll> Payrolls { get; }
+        IRepository<Link> Links { get; }
 
         Task SaveAsync();
         void Save();

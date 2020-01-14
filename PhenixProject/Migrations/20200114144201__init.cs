@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PhenixProject.Migrations
 {
-    public partial class init : Migration
+    public partial class _init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,8 @@ namespace PhenixProject.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 20, nullable: false),
-                    LastName = table.Column<string>(maxLength: 20, nullable: false)
+                    LastName = table.Column<string>(maxLength: 20, nullable: false),
+                    Photo = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -121,7 +122,8 @@ namespace PhenixProject.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Employment = table.Column<int>(nullable: false),
-                    Salary = table.Column<decimal>(nullable: false)
+                    Salary = table.Column<decimal>(nullable: false),
+                    Currency = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,20 +140,6 @@ namespace PhenixProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Phones", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Skills",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Level = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Skills", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -494,6 +482,26 @@ namespace PhenixProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Links",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
+                    EmployeeInfoId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Links", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Links_EmployeeInfos_EmployeeInfoId",
+                        column: x => x.EmployeeInfoId,
+                        principalTable: "EmployeeInfos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Members",
                 columns: table => new
                 {
@@ -531,6 +539,27 @@ namespace PhenixProject.Migrations
                         name: "FK_Members_PersonalInfos_PersonalInfoId",
                         column: x => x.PersonalInfoId,
                         principalTable: "PersonalInfos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skills",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Level = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    EmployeeInfoId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Skills_EmployeeInfos_EmployeeInfoId",
+                        column: x => x.EmployeeInfoId,
+                        principalTable: "EmployeeInfos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -640,6 +669,11 @@ namespace PhenixProject.Migrations
                 column: "EmployeeInfoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Links_EmployeeInfoId",
+                table: "Links",
+                column: "EmployeeInfoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Members_CandidateInfoId",
                 table: "Members",
                 column: "CandidateInfoId");
@@ -668,6 +702,11 @@ namespace PhenixProject.Migrations
                 name: "IX_Positions_DepartmentId",
                 table: "Positions",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skills_EmployeeInfoId",
+                table: "Skills",
+                column: "EmployeeInfoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkInfos_CandidateInfoId",
@@ -699,6 +738,9 @@ namespace PhenixProject.Migrations
                 name: "Leaves");
 
             migrationBuilder.DropTable(
+                name: "Links");
+
+            migrationBuilder.DropTable(
                 name: "Members");
 
             migrationBuilder.DropTable(
@@ -714,13 +756,16 @@ namespace PhenixProject.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "EmployeeInfos");
-
-            migrationBuilder.DropTable(
                 name: "PersonalInfos");
 
             migrationBuilder.DropTable(
+                name: "EmployeeInfos");
+
+            migrationBuilder.DropTable(
                 name: "CandidateInfos");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
 
             migrationBuilder.DropTable(
                 name: "EmployeeHistories");
@@ -730,12 +775,6 @@ namespace PhenixProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "Positions");
-
-            migrationBuilder.DropTable(
-                name: "Contacts");
-
-            migrationBuilder.DropTable(
-                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
@@ -748,6 +787,9 @@ namespace PhenixProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "Skypes");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Offices");

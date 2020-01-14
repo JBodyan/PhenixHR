@@ -20,10 +20,15 @@ namespace PhenixProject.Controllers
         private readonly IPersonalInfoService _personalInfoService;
         private readonly IMapper _mapper;
         private readonly IHostingEnvironment _webHost;
-        public EmployeeController(IMemberService service,IPersonalInfoService personalInfoService, IMapper mapper,IHostingEnvironment webHost)
+        private readonly ILinkService _linkService;
+        public EmployeeController(IMemberService service,
+            ILinkService linkService,
+            IPersonalInfoService personalInfoService, 
+            IMapper mapper,IHostingEnvironment webHost)
         {
             _memberService = service;
             _personalInfoService = personalInfoService;
+            _linkService = linkService;
             _mapper = mapper;
             _webHost = webHost;
         }
@@ -58,39 +63,6 @@ namespace PhenixProject.Controllers
                 return View();
             }
             return View(employee);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EmployeeEdit(Guid id)
-        {
-            EmployeeViewModel employee;
-            try
-            {
-                var model = await _memberService.GetMemberByIdAsync(id);
-                employee = _mapper.Map<EmployeeViewModel>(model);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
-                return View();
-            }
-            return View(employee);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EmployeeEdit(EmployeeViewModel model)
-        {
-            try
-            {
-                await _memberService.UpdateEmployeeInfoAsync(model);
-
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
-                return View();
-            }
-            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -150,6 +122,48 @@ namespace PhenixProject.Controllers
         {
             var id = model.EmployeeId;
             await _personalInfoService.UpdatePersonalInfoByMemberIdAsync(id, model);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditLinkModal(Guid linkId,Guid employeeId)
+        {
+            var link = await _linkService.GetLinkByIdAsync(linkId);
+            if (link == null)
+            {
+                ModelState.AddModelError(string.Empty, "Link not found");
+                return View("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            if (link.Id != Guid.Empty)
+                return PartialView("EditLinkModal", link);
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<ActionResult> EditLink(LinkViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _linkService.UpdateLinkAsync(model);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AddLinkModal(Guid employeeId)
+        {
+            var member = await _memberService.GetMemberByIdAsync(employeeId);
+            if (member == null)
+            {
+                ModelState.AddModelError(string.Empty, "Employee not found");
+                return RedirectToAction("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            return PartialView("AddLinkModal");
+        }
+        [HttpPost]
+        public async Task<ActionResult> AddLink(LinkViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _linkService.AddLinkAsync(id, model);
             return RedirectToAction("EmployeeDetails", new { id });
         }
     }

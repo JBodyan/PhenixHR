@@ -46,6 +46,7 @@ namespace PhenixProject
             services.AddScoped<IPersonalInfoService, PersonalInfoService>();
             services.AddScoped<IPayrollService, PayrollService>();
             services.AddScoped<ILeaveService, LeaveService>();
+            services.AddScoped<ILinkService, LinkService>();
 
             services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 

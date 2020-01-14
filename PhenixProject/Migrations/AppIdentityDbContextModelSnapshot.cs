@@ -431,7 +431,7 @@ namespace PhenixProject.Migrations
 
                     b.HasIndex("EmployeeInfoId");
 
-                    b.ToTable("Link");
+                    b.ToTable("Links");
                 });
 
             modelBuilder.Entity("PhenixProject.Entities.Member", b =>

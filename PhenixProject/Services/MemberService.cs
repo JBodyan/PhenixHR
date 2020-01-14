@@ -69,6 +69,48 @@ namespace PhenixProject.Services
             throw new NotImplementedException();
         }
 
+        public async Task AddLinkAsync(Guid id, LinkViewModel model)
+        {
+            var data = await _db.Members.GetByIdAsync(id);
+            var link = _mapper.Map<Link>(model);
+            link.Id = Guid.NewGuid();
+            if (data.EmployeeInfo.Links != null) data.EmployeeInfo.Links.Add(link);
+            else
+            {
+                data.EmployeeInfo.Links = new List<Link>
+                {
+                    link
+                };
+            }
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
+        }
+
+        public async Task RemoveLinkAsync(Guid id, LinkViewModel model)
+        {
+            var data = await _db.Members.GetByIdAsync(id);
+            var link = _mapper.Map<Link>(model);
+            if (data.EmployeeInfo.Links != null)
+            {
+                data.EmployeeInfo.Links.Remove(link);
+                await _db.Members.UpdateAsync(data);
+                _db.Save();
+            }
+        }
+
+        public async Task UpdateLinkAsync(Guid id, LinkViewModel model)
+        {
+            var data = await _db.Members.GetByIdAsync(id);
+            var link = data.EmployeeInfo.Links?.FirstOrDefault(x=>x.Id == model.Id);
+            if (link != null)
+            {
+                link.Name = model.Name;
+                link.Url = model.Url;
+                await _db.Members.UpdateAsync(data);
+                _db.Save();
+            }
+        }
+
         #endregion
 
         #region AsyncMethods
@@ -95,7 +137,7 @@ namespace PhenixProject.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Error mapping");
+                return null;
             }
             return data;
 
@@ -106,6 +148,10 @@ namespace PhenixProject.Services
             try
             {
                 var data = _mapper.Map<Member>(member);
+                data.EmployeeInfo = new EmployeeInfo
+                {
+                    Id = Guid.NewGuid()
+                };
                 await _db.Members.CreateAsync(data);
                 _db.Save();
             }
@@ -130,6 +176,8 @@ namespace PhenixProject.Services
             if(data == null) throw new Exception("Member not found");
             var employeeProfile = _mapper.Map<EmployeeInfo>(member.EmployeeInfo);
             employeeProfile.Payroll.Id = Guid.NewGuid();
+            data.EmployeeInfo.Links = new List<Link>();
+            data.EmployeeInfo.Skills = new List<Skill>();
             data.PersonalInfo.Photo = @"/Photo/empty.png";
             data.EmployeeInfo = employeeProfile;
             data.IsCandidate = false;

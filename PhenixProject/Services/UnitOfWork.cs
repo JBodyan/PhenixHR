@@ -18,7 +18,7 @@ namespace PhenixProject.Services
         private LeaveRepository _leaveRepository;
         private HistoryRepository _historyRepository;
         private PayrollRepository _payrollRepository;
-
+        private LinkRepository _linkRepository;
         public UnitOfWork(AppIdentityDbContext context)
         {
             _db = context;
@@ -31,6 +31,15 @@ namespace PhenixProject.Services
                 if (_payrollRepository == null)
                     _payrollRepository = new PayrollRepository(_db);
                 return _payrollRepository;
+            }
+        }
+        public IRepository<Link> Links
+        {
+            get
+            {
+                if (_linkRepository == null)
+                    _linkRepository = new LinkRepository(_db);
+                return _linkRepository;
             }
         }
 

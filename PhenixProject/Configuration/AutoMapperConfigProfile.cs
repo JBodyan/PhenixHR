@@ -148,6 +148,12 @@ namespace PhenixProject.Configuration
                 ).ForMember(
                     dest => dest.Payroll,
                     opt => opt.MapFrom(src => src.EmployeeInfo.Payroll)
+                ).ForMember(
+                    dest => dest.Links,
+                    opt => opt.MapFrom(src => src.EmployeeInfo.Links)
+                ).ForMember(
+                    dest => dest.Skills,
+                    opt => opt.MapFrom(src => src.EmployeeInfo.Skills)
                 );
 
             #endregion
@@ -215,6 +221,12 @@ namespace PhenixProject.Configuration
                 ).ForMember(
                     dest => dest.Payroll,
                     opt => opt.MapFrom(src => src.EmployeeInfo.Payroll)
+                ).ForMember(
+                    dest => dest.Links,
+                    opt => opt.MapFrom(src => src.EmployeeInfo.Links)
+                ).ForMember(
+                    dest => dest.Skills,
+                    opt => opt.MapFrom(src => src.EmployeeInfo.Skills)
                 );
 
             #endregion

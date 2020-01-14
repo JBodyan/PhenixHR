@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using PhenixProject.Entities;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
 
@@ -18,34 +19,59 @@ namespace PhenixProject.Services
             _mapper = mapper;
         }
 
-        public Task AddLinkAsync(Guid memberId, LinkViewModel model)
+        public async Task AddLinkAsync(Guid memberId, LinkViewModel model)
         {
-            throw new NotImplementedException();
+            var member = await _db.Members.GetByIdAsync(memberId);
+            var link = _mapper.Map<Link>(model);
+            link.Id = Guid.NewGuid();
+            if (member.EmployeeInfo.Links == null)
+            {
+                member.EmployeeInfo.Links = new List<Link>
+                {
+                    link
+                };
+            }
+            else
+            {
+                member.EmployeeInfo.Links.Add(link);
+                _db.Save();
+            }
         }
 
         public LinkViewModel GetLinkById(Guid id)
         {
-            throw new NotImplementedException();
+            var link = _db.Links.GetById(id);
+            return _mapper.Map<LinkViewModel>(link);
         }
 
-        public Task<LinkViewModel> GetLinkByIdAsync(Guid id)
+        public async Task<LinkViewModel> GetLinkByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var link = await _db.Links.GetByIdAsync(id);
+            return _mapper.Map<LinkViewModel>(link);
         }
 
-        public Task<IEnumerable<LinkViewModel>> GetLinksByMemberIdAsync(Guid id)
+        public async Task<IEnumerable<LinkViewModel>> GetLinksByMemberIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var member = await _db.Members.GetByIdAsync(id);
+            return _mapper.Map<IEnumerable<LinkViewModel>>(member.EmployeeInfo.Links);
         }
 
-        public void UpdateLinkById(Guid id, LinkViewModel link)
+        public void UpdateLink(LinkViewModel link)
         {
-            throw new NotImplementedException();
+            var model = _db.Links.GetById(link.Id);
+            model.Name = link.Name;
+            model.Url = link.Url;
+            _db.Links.Update(model);
+            _db.Save();
         }
 
-        public Task UpdateLinkByIdAsync(Guid id, LinkViewModel link)
+        public async Task UpdateLinkAsync(LinkViewModel link)
         {
-            throw new NotImplementedException();
+            var model = await _db.Links.GetByIdAsync(link.Id);
+            model.Name = link.Name;
+            model.Url = link.Url;
+            await _db.Links.UpdateAsync(model);
+            _db.Save();
         }
 
         public void Dispose()

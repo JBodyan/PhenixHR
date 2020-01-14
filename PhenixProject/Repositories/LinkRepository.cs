@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using PhenixProject.Data;
 using PhenixProject.Entities;
 using PhenixProject.Interfaces;
 
@@ -9,54 +11,61 @@ namespace PhenixProject.Repositories
 {
     public class LinkRepository : IRepository<Link>
     {
+        private readonly AppIdentityDbContext _db;
+
+        public LinkRepository(AppIdentityDbContext appContext)
+        {
+            _db = appContext;
+        }
+
         public IEnumerable<Link> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Link>> GetAllAsync()
+        public async Task<IEnumerable<Link>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return _db.Links;
         }
 
         public Link GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _db.Links.FirstOrDefault(x=>x.Id == id);
         }
 
-        public Task<Link> GetByIdAsync(Guid id)
+        public async Task<Link> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.Links.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public IEnumerable<Link> Find(Func<Link, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _db.Links.Where(predicate);
         }
 
-        public Task<IEnumerable<Link>> FindAsync(Func<Link, bool> predicate)
+        public async Task<IEnumerable<Link>> FindAsync(Func<Link, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _db.Links.Where(predicate);
         }
 
         public void Create(Link item)
         {
-            throw new NotImplementedException();
+            _db.Links.Add(item);
         }
 
-        public Task CreateAsync(Link item)
+        public async Task CreateAsync(Link item)
         {
-            throw new NotImplementedException();
+            await _db.Links.AddAsync(item);
         }
 
         public void Update(Link item)
         {
-            throw new NotImplementedException();
+            _db.Entry(item).State = EntityState.Modified;
         }
 
-        public Task UpdateAsync(Link item)
+        public async Task UpdateAsync(Link item)
         {
-            throw new NotImplementedException();
+            _db.Entry(item).State = EntityState.Modified;
         }
 
         public void Delete(Guid id)

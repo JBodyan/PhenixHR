@@ -10,5 +10,7 @@ namespace PhenixProject.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
+        public Guid EmployeeId { get; set; }
+
     }
 }

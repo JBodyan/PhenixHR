@@ -10,8 +10,8 @@ using PhenixProject.Data;
 namespace PhenixProject.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20200114103140__links_and_skills")]
-    partial class _links_and_skills
+    [Migration("20200114144201__init")]
+    partial class _init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -433,7 +433,7 @@ namespace PhenixProject.Migrations
 
                     b.HasIndex("EmployeeInfoId");
 
-                    b.ToTable("Link");
+                    b.ToTable("Links");
                 });
 
             modelBuilder.Entity("PhenixProject.Entities.Member", b =>

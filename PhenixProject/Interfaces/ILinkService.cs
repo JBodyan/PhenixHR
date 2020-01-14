@@ -6,14 +6,14 @@ using PhenixProject.Models;
 
 namespace PhenixProject.Interfaces
 {
-    interface ILinkService
+    public interface ILinkService
     {
         Task AddLinkAsync(Guid memberId, LinkViewModel model);
         LinkViewModel GetLinkById(Guid id);
         Task<LinkViewModel> GetLinkByIdAsync(Guid id);
         Task<IEnumerable<LinkViewModel>> GetLinksByMemberIdAsync(Guid id);
-        void UpdateLinkById(Guid id, LinkViewModel link);
-        Task UpdateLinkByIdAsync(Guid id, LinkViewModel link);
+        void UpdateLink(LinkViewModel link);
+        Task UpdateLinkAsync(LinkViewModel link);
         void Dispose();
     }
 }
