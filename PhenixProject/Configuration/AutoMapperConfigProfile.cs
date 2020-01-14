@@ -49,6 +49,12 @@ namespace PhenixProject.Configuration
             CreateMap<LeaveViewModel, Leave>();
             CreateMap<Leave, LeaveViewModel>();
 
+            CreateMap<Link, LinkViewModel>();
+            CreateMap<LinkViewModel, Link>();
+
+            CreateMap<Skill, SkillViewModel>();
+            CreateMap<SkillViewModel, Skill>();
+
             CreateMap<CandidateInfo, CandidateViewModel>();
             CreateMap<CandidateViewModel, CandidateInfo>();
 

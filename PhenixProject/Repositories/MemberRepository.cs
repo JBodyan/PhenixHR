@@ -85,6 +85,8 @@ namespace PhenixProject.Repositories
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).LoadAsync();
                 await _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).LoadAsync();
                 await _db.Entry(entity.CandidateInfo).Collection(x => x.Works).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Collection(x => x.Skills).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Collection(x => x.Links).LoadAsync();
             }
             return members;
         }
@@ -106,6 +108,8 @@ namespace PhenixProject.Repositories
                 _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
                 _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
+                _db.Entry(entity.EmployeeInfo).Collection(x => x.Skills).Load();
+                _db.Entry(entity.EmployeeInfo).Collection(x => x.Links).Load();
             }
             return members;
         }
@@ -127,6 +131,8 @@ namespace PhenixProject.Repositories
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).LoadAsync();
                 await _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).LoadAsync();
                 await _db.Entry(entity.CandidateInfo).Collection(x => x.Works).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Collection(x => x.Skills).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Collection(x => x.Links).LoadAsync();
             }
             return members;
         }
@@ -146,6 +152,9 @@ namespace PhenixProject.Repositories
             _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
             _db.Entry(member.CandidateInfo).Collection(x => x.Educations).Load();
             _db.Entry(member.CandidateInfo).Collection(x => x.Works).Load();
+            _db.Entry(member.EmployeeInfo).Collection(x => x.Skills).Load();
+            _db.Entry(member.EmployeeInfo).Collection(x => x.Links).Load();
+
             return member;
         }
 
@@ -165,6 +174,8 @@ namespace PhenixProject.Repositories
             await _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Skype).LoadAsync();
             await _db.Entry(member.CandidateInfo).Collection(x => x.Educations).LoadAsync();
             await _db.Entry(member.CandidateInfo).Collection(x => x.Works).LoadAsync();
+            await _db.Entry(member.EmployeeInfo).Collection(x => x.Skills).LoadAsync();
+            await _db.Entry(member.EmployeeInfo).Collection(x => x.Links).LoadAsync();
 
             return member;
         }

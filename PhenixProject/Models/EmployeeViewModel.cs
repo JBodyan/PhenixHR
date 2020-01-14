@@ -14,5 +14,8 @@ namespace PhenixProject.Models
         public HistoryViewModel History { get; set; }
         public PersonalInfoViewModel PersonalInfo { get; set; }
         public ICollection<LeaveViewModel> Leaves { get; set; }
+        public ICollection<LinkViewModel> Links { get; set; }
+        public ICollection<SkillViewModel> Skills { get; set; }
+
     }
 }

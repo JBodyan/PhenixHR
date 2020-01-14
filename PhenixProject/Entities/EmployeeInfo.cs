@@ -19,6 +19,8 @@ namespace PhenixProject.Entities
         public Payroll Payroll { get; set; }
         public EmployeeHistory History { get; set; }
         public ICollection<Leave> Leaves { get; set; }
+        public ICollection<Link> Links { get; set; }
+        public ICollection<Skill> Skills { get; set; }
 
     }
 }
