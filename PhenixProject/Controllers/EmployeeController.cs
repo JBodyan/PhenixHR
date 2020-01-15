@@ -18,16 +18,19 @@ namespace PhenixProject.Controllers
     {
         private readonly IMemberService _memberService;
         private readonly IPersonalInfoService _personalInfoService;
+        private readonly ISkillService _skillService;
         private readonly IMapper _mapper;
         private readonly IHostingEnvironment _webHost;
         private readonly ILinkService _linkService;
         public EmployeeController(IMemberService service,
             ILinkService linkService,
+            ISkillService skillService,
             IPersonalInfoService personalInfoService, 
             IMapper mapper,IHostingEnvironment webHost)
         {
             _memberService = service;
             _personalInfoService = personalInfoService;
+            _skillService = skillService;
             _linkService = linkService;
             _mapper = mapper;
             _webHost = webHost;
@@ -125,6 +128,10 @@ namespace PhenixProject.Controllers
             return RedirectToAction("EmployeeDetails", new { id });
         }
 
+        //Links
+
+        #region Links
+
         [HttpGet]
         public async Task<ActionResult> EditLinkModal(Guid linkId,Guid employeeId)
         {
@@ -166,5 +173,69 @@ namespace PhenixProject.Controllers
             await _linkService.AddLinkAsync(id, model);
             return RedirectToAction("EmployeeDetails", new { id });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveLink(LinkViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _linkService.RemoveLinkAsync(model.Id);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+        #endregion
+
+        //Skills
+
+        #region Skills
+
+        [HttpGet]
+        public async Task<ActionResult> EditSkillModal(Guid skillId, Guid employeeId)
+        {
+            var skill = await _skillService.GetSkillByIdAsync(skillId);
+            if (skill == null)
+            {
+                ModelState.AddModelError(string.Empty, "Skill not found");
+                return View("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            if (skill.Id != Guid.Empty)
+                return PartialView("EditSkillModal", skill);
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<ActionResult> EditSkill(SkillViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _skillService.UpdateSkillAsync(model);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AddSkillModal(Guid employeeId)
+        {
+            var member = await _memberService.GetMemberByIdAsync(employeeId);
+            if (member == null)
+            {
+                ModelState.AddModelError(string.Empty, "Employee not found");
+                return RedirectToAction("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            return PartialView("AddSkillModal");
+        }
+        [HttpPost]
+        public async Task<ActionResult> AddSkill(SkillViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _skillService.AddSkillAsync(id, model);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveSkill(SkillViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _skillService.RemoveSkillAsync(model.Id);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+        #endregion
     }
 }

@@ -14,6 +14,7 @@ namespace PhenixProject.Interfaces
         Task<IEnumerable<LinkViewModel>> GetLinksByMemberIdAsync(Guid id);
         void UpdateLink(LinkViewModel link);
         Task UpdateLinkAsync(LinkViewModel link);
+        Task RemoveLinkAsync(Guid id);
         void Dispose();
     }
 }

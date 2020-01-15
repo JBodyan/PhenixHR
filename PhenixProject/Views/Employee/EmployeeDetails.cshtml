@@ -58,10 +58,11 @@
         @foreach (var skill in Model.Skills)
         {
             <span>@skill.Name</span>
+            @Html.ActionLink("Edit","EditSkillModal",new{skillId = skill.Id,employeeId = Model.Id},new {@class = "editSkill"})
         }
         <hr/>
         @Html.ActionLink("Add link", "AddLinkModal", new {employeeId = Model.Id}, new {@class = "addLink btn btn-outline-warning"}) |
-        @Html.ActionLink("Add skill", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+        @Html.ActionLink("Add skill", "AddSkillModal", new {employeeId = Model.Id}, new {@class = "addSkill btn btn-outline-warning"})
     </div>
     
 </div>
@@ -267,6 +268,30 @@
         $(function() {
             $.ajaxSetup({ cache: false });
             $(".addLink").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".editSkill").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".addSkill").click(function(e) {
 
                 e.preventDefault();
                 $.get(this.href,

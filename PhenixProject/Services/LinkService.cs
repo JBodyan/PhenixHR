@@ -78,5 +78,11 @@ namespace PhenixProject.Services
         {
             _db.Dispose();
         }
+
+        public async Task RemoveLinkAsync(Guid id)
+        {
+            await _db.Links.DeleteAsync(id);
+            _db.Save();
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace PhenixProject.Services
         private HistoryRepository _historyRepository;
         private PayrollRepository _payrollRepository;
         private LinkRepository _linkRepository;
+        private SkillRepository _skillRepository;
         public UnitOfWork(AppIdentityDbContext context)
         {
             _db = context;
@@ -42,7 +43,15 @@ namespace PhenixProject.Services
                 return _linkRepository;
             }
         }
-
+        public IRepository<Skill> Skills
+        {
+            get
+            {
+                if (_skillRepository == null)
+                    _skillRepository = new SkillRepository(_db);
+                return _skillRepository;
+            }
+        }
         public IRepository<EmployeeHistory> Histories
         {
             get
