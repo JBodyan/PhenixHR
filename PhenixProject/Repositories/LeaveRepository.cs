@@ -74,9 +74,12 @@ namespace PhenixProject.Repositories
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _db.Leaves.FirstOrDefaultAsync(x => x.Id == id);
+            if (entity != null)
+                _db.Leaves.Remove(entity);
+            
         }
     }
 }

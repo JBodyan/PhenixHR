@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using PhenixProject.Entities;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
 
@@ -19,52 +20,109 @@ namespace PhenixProject.Services
         }
         public LeaveViewModel GetLeaveById(Guid leaveId)
         {
-            throw new NotImplementedException();
+            var leave = _db.Leaves.GetById(leaveId);
+            return _mapper.Map<LeaveViewModel>(leave);
         }
 
-        public Task<LeaveViewModel> GetLeaveByIdAsync(Guid leaveId)
+        public async Task<LeaveViewModel> GetLeaveByIdAsync(Guid leaveId)
         {
-            throw new NotImplementedException();
+            var leave = await _db.Leaves.GetByIdAsync(leaveId);
+            return _mapper.Map<LeaveViewModel>(leave);
         }
 
         public IEnumerable<LeaveViewModel> GetLeavesByMemberId(Guid memberId)
         {
-            throw new NotImplementedException();
+            var member = _db.Members.GetById(memberId);
+            return _mapper.Map<IEnumerable<LeaveViewModel>>(member.EmployeeInfo.Leaves);
         }
 
         public IEnumerable<LeaveViewModel> GetAllLeaves()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<LeaveViewModel>>(_db.Leaves);
         }
 
-        public Task<IEnumerable<LeaveViewModel>> GetLeavesByMemberIdAsync(Guid memberId)
+        public async Task<IEnumerable<LeaveViewModel>> GetLeavesByMemberIdAsync(Guid memberId)
         {
-            throw new NotImplementedException();
+            var member = await _db.Members.GetByIdAsync(memberId);
+            return _mapper.Map<IEnumerable<LeaveViewModel>>(member.EmployeeInfo.Leaves);
         }
 
-        public void AddLeave(Guid memberId, LeaveViewModel leave)
+        public void AddLeave(LeaveViewModel model)
         {
-            throw new NotImplementedException();
+            var member = _db.Members.GetById(model.EmployeeId);
+            var leave = _mapper.Map<Leave>(model);
+            leave.Id = Guid.NewGuid();
+            if (member.EmployeeInfo.Leaves == null)
+            {
+                member.EmployeeInfo.Leaves = new List<Leave>
+                {
+                    leave
+                };
+                _db.Members.Update(member);
+                _db.Save();
+            }
+            else
+            {
+                member.EmployeeInfo.Leaves.Add(leave);
+                _db.Members.Update(member);
+                _db.Save();
+            }
         }
 
-        public Task AddLeaveAsync(Guid memberId, LeaveViewModel leave)
+        public async Task AddLeaveAsync(LeaveViewModel model)
         {
-            throw new NotImplementedException();
+            var member = await _db.Members.GetByIdAsync(model.EmployeeId);
+            var leave = _mapper.Map<Leave>(model);
+            leave.Id = Guid.NewGuid();
+            if (member.EmployeeInfo.Leaves == null)
+            {
+                member.EmployeeInfo.Leaves = new List<Leave>
+                {
+                    leave
+                };
+                await _db.Members.UpdateAsync(member);
+                _db.Save();
+            }
+            else
+            {
+                member.EmployeeInfo.Leaves.Add(leave);
+                await _db.Members.UpdateAsync(member);
+                _db.Save();
+            }
+            
         }
 
-        public void UpdateLeave(LeaveViewModel leave)
+        public void UpdateLeave(LeaveViewModel model)
         {
-            throw new NotImplementedException();
+            var leave = _db.Leaves.GetById(model.Id);
+            leave.Description = model.Description;
+            leave.StartDate = model.StartDate;
+            leave.EndDate = model.EndDate;
+            leave.TotalDays = model.TotalDays;
+            _db.Leaves.Update(leave);
+            _db.Save();
         }
 
-        public Task UpdateLeaveAsync(LeaveViewModel leave)
+        public async Task UpdateLeaveAsync(LeaveViewModel model)
         {
-            throw new NotImplementedException();
+            var leave = await _db.Leaves.GetByIdAsync(model.Id);
+            leave.Description = model.Description;
+            leave.StartDate = model.StartDate;
+            leave.EndDate = model.EndDate;
+            leave.TotalDays = model.TotalDays;
+            await _db.Leaves.UpdateAsync(leave);
+            _db.Save();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _db.Dispose();
+        }
+
+        public async Task RemoveLeaveAsync(Guid id)
+        {
+            await _db.Leaves.DeleteAsync(id);
+            _db.Save();
         }
     }
 }

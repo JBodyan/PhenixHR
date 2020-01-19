@@ -13,10 +13,11 @@ namespace PhenixProject.Interfaces
         IEnumerable<LeaveViewModel> GetLeavesByMemberId(Guid memberId);
         IEnumerable<LeaveViewModel> GetAllLeaves();
         Task<IEnumerable<LeaveViewModel>> GetLeavesByMemberIdAsync(Guid memberId);
-        void AddLeave(Guid memberId, LeaveViewModel leave);
-        Task AddLeaveAsync(Guid memberId, LeaveViewModel leave);
-        void UpdateLeave(LeaveViewModel leave);
-        Task UpdateLeaveAsync(LeaveViewModel leave);
+        void AddLeave(LeaveViewModel model);
+        Task AddLeaveAsync(LeaveViewModel model);
+        void UpdateLeave(LeaveViewModel model);
+        Task UpdateLeaveAsync(LeaveViewModel model);
+        Task RemoveLeaveAsync(Guid id);
         void Dispose();
     }
 }

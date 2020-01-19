@@ -106,8 +106,6 @@ namespace PhenixProject.Repositories
                 _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Phone).Load();
                 _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.SecondPhone).Load();
                 _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).Load();
-                _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).Load();
-                _db.Entry(entity.CandidateInfo).Collection(x => x.Works).Load();
                 _db.Entry(entity.EmployeeInfo).Collection(x => x.Skills).Load();
                 _db.Entry(entity.EmployeeInfo).Collection(x => x.Links).Load();
             }
@@ -129,8 +127,6 @@ namespace PhenixProject.Repositories
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Phone).LoadAsync();
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.SecondPhone).LoadAsync();
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Skype).LoadAsync();
-                await _db.Entry(entity.CandidateInfo).Collection(x => x.Educations).LoadAsync();
-                await _db.Entry(entity.CandidateInfo).Collection(x => x.Works).LoadAsync();
                 await _db.Entry(entity.EmployeeInfo).Collection(x => x.Skills).LoadAsync();
                 await _db.Entry(entity.EmployeeInfo).Collection(x => x.Links).LoadAsync();
             }
@@ -154,6 +150,7 @@ namespace PhenixProject.Repositories
             _db.Entry(member.CandidateInfo).Collection(x => x.Works).Load();
             _db.Entry(member.EmployeeInfo).Collection(x => x.Skills).Load();
             _db.Entry(member.EmployeeInfo).Collection(x => x.Links).Load();
+            _db.Entry(member.EmployeeInfo).Collection(x => x.Leaves).Load();
 
             return member;
         }
@@ -176,7 +173,7 @@ namespace PhenixProject.Repositories
             await _db.Entry(member.CandidateInfo).Collection(x => x.Works).LoadAsync();
             await _db.Entry(member.EmployeeInfo).Collection(x => x.Skills).LoadAsync();
             await _db.Entry(member.EmployeeInfo).Collection(x => x.Links).LoadAsync();
-
+            await _db.Entry(member.EmployeeInfo).Collection(x => x.Leaves).LoadAsync();
             return member;
         }
 

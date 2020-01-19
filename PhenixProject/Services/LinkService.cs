@@ -30,6 +30,7 @@ namespace PhenixProject.Services
                 {
                     link
                 };
+                _db.Save();
             }
             else
             {

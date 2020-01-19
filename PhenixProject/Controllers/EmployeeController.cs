@@ -19,19 +19,25 @@ namespace PhenixProject.Controllers
         private readonly IMemberService _memberService;
         private readonly IPersonalInfoService _personalInfoService;
         private readonly ISkillService _skillService;
+        private readonly IPayrollService _payrollService;
+        private readonly ILeaveService _leaveService;
         private readonly IMapper _mapper;
         private readonly IHostingEnvironment _webHost;
         private readonly ILinkService _linkService;
         public EmployeeController(IMemberService service,
             ILinkService linkService,
             ISkillService skillService,
+            IPayrollService payrollService,
+            ILeaveService leaveService,
             IPersonalInfoService personalInfoService, 
             IMapper mapper,IHostingEnvironment webHost)
         {
             _memberService = service;
             _personalInfoService = personalInfoService;
+            _payrollService = payrollService;
             _skillService = skillService;
             _linkService = linkService;
+            _leaveService = leaveService;
             _mapper = mapper;
             _webHost = webHost;
         }
@@ -236,6 +242,92 @@ namespace PhenixProject.Controllers
             await _skillService.RemoveSkillAsync(model.Id);
             return RedirectToAction("EmployeeDetails", new { id });
         }
+        #endregion
+
+        //Payroll
+
+        #region Payroll
+
+        [HttpGet]
+        public async Task<ActionResult> EditPayrollModal(Guid payrollId, Guid employeeId)
+        {
+            var payroll = await _payrollService.GetPayrollByIdAsync(payrollId);
+            if (payroll == null)
+            {
+                ModelState.AddModelError(string.Empty, "Payroll not found");
+                return View("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            if (payroll.Id != Guid.Empty)
+                return PartialView("EditPayrollModal", payroll);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditPayroll(PayrollViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _payrollService.UpdatePayrollAsync(model);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
+        #endregion
+
+        //Leaves
+
+        #region Leaves
+
+        [HttpGet]
+        public async Task<ActionResult> EditLeaveModal(Guid leaveId, Guid employeeId)
+        {
+            var payroll = await _leaveService.GetLeaveByIdAsync(leaveId);
+            if (payroll == null)
+            {
+                ModelState.AddModelError(string.Empty, "Leave not found");
+                return View("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            if (payroll.Id != Guid.Empty)
+                return PartialView("EditLeaveModal", payroll);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditLeave(LeaveViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _leaveService.UpdateLeaveAsync(model);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AddLeaveModal(Guid employeeId)
+        {
+            var member = await _memberService.GetMemberByIdAsync(employeeId);
+            if (member == null)
+            {
+                ModelState.AddModelError(string.Empty, "Employee not found");
+                return RedirectToAction("Index");
+            }
+            ViewBag.EmployeeId = employeeId;
+            return PartialView("AddLeaveModal");
+        }
+        [HttpPost]
+        public async Task<ActionResult> AddLeave(LeaveViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _leaveService.AddLeaveAsync(model);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveLeave(LeaveViewModel model)
+        {
+            var id = model.EmployeeId;
+            await _leaveService.RemoveLeaveAsync(model.Id);
+            return RedirectToAction("EmployeeDetails", new { id });
+        }
+
         #endregion
     }
 }

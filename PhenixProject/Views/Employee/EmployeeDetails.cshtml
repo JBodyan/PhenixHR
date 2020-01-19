@@ -12,7 +12,7 @@
         <div class="profile-img">
             <img src="@Model.PersonalInfo.Photo" alt="Photo"/>
             <div class="file btn btn-lg btn-primary">
-                @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto"})
+                @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "openModal"})
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
             <h6>
                 Position: 
             </h6>
-            @Html.ActionLink("Edit department info", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+            @Html.ActionLink("Edit department info", "EditDepartmentModal", new {id = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Personal info</a>
@@ -52,17 +52,17 @@
         @foreach (var link in Model.Links)
         {
             <a href="@link.Url">@link.Name</a>
-            @Html.ActionLink("Edit","EditLinkModal",new{linkId = link.Id,employeeId = Model.Id},new {@class = "editLink"})
+            @Html.ActionLink("Edit","EditLinkModal",new{linkId = link.Id,employeeId = Model.Id},new {@class = "openModal"})
         }
         <p>SKILLS</p>
         @foreach (var skill in Model.Skills)
         {
             <span>@skill.Name</span>
-            @Html.ActionLink("Edit","EditSkillModal",new{skillId = skill.Id,employeeId = Model.Id},new {@class = "editSkill"})
+            @Html.ActionLink("Edit","EditSkillModal",new{skillId = skill.Id,employeeId = Model.Id},new {@class = "openModal"})
         }
         <hr/>
-        @Html.ActionLink("Add link", "AddLinkModal", new {employeeId = Model.Id}, new {@class = "addLink btn btn-outline-warning"}) |
-        @Html.ActionLink("Add skill", "AddSkillModal", new {employeeId = Model.Id}, new {@class = "addSkill btn btn-outline-warning"})
+        @Html.ActionLink("Add link", "AddLinkModal", new {employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"}) |
+        @Html.ActionLink("Add skill", "AddSkillModal", new {employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
     </div>
     
 </div>
@@ -159,7 +159,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            @Html.ActionLink("Edit personal info", "EditPersonalInfoModal", new {employeeId = Model.Id}, new {@class = "editPersonalInfo btn btn-outline-warning"})
+            @Html.ActionLink("Edit personal info", "EditPersonalInfoModal", new {employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
         </div>
     </div>
 </div>
@@ -190,25 +190,34 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            @Html.ActionLink("Edit payroll info", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
+            @Html.ActionLink("Edit payroll info", "EditPayrollModal", new {payrollId = Model.Payroll.Id,employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
         </div>
     </div>
 </div>
-<div class="tab-pane fade" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
-    <div class="row">
-        <div class="col-md-6">
-            <label>empty</label>
-        </div>
-        <div class="col-md-6">
-            <p>empty</p>
+    <div class="tab-pane fade" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
+        @foreach (var leave in Model.Leaves)
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <p>@leave.StartDate</p>
+                </div>
+                <div class="col-md-3">
+                    <p>@leave.EndDate</p>
+                </div>
+                <div class="col-md-3">
+                    <p>@leave.Description</p>
+                </div>
+                <div class="col-md-3">
+                    @Html.ActionLink("Edit", "EditLeaveModal", new {leaveId = leave.Id, employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ActionLink("Add leave", "AddLeaveModal", new {employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            @Html.ActionLink("Add leave", "UploadPhotoModal", new {id = Model.Id}, new {@class = "uploadPhoto btn btn-outline-warning"})
-        </div>
-    </div>
-</div>
 <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
     <div class="row">
         <div class="col-md-6">
@@ -231,67 +240,7 @@
 
         $(function() {
             $.ajaxSetup({ cache: false });
-            $(".uploadPhoto").click(function(e) {
-
-                e.preventDefault();
-                $.get(this.href,
-                    function(data) {
-                        $('#dialogContent').html(data);
-                        $('#modalDialog').modal('show');
-                    });
-            });
-        });
-        $(function() {
-            $.ajaxSetup({ cache: false });
-            $(".editPersonalInfo").click(function(e) {
-
-                e.preventDefault();
-                $.get(this.href,
-                    function(data) {
-                        $('#dialogContent').html(data);
-                        $('#modalDialog').modal('show');
-                    });
-            });
-        });
-        $(function() {
-            $.ajaxSetup({ cache: false });
-            $(".editLink").click(function(e) {
-
-                e.preventDefault();
-                $.get(this.href,
-                    function(data) {
-                        $('#dialogContent').html(data);
-                        $('#modalDialog').modal('show');
-                    });
-            });
-        });
-        $(function() {
-            $.ajaxSetup({ cache: false });
-            $(".addLink").click(function(e) {
-
-                e.preventDefault();
-                $.get(this.href,
-                    function(data) {
-                        $('#dialogContent').html(data);
-                        $('#modalDialog').modal('show');
-                    });
-            });
-        });
-        $(function() {
-            $.ajaxSetup({ cache: false });
-            $(".editSkill").click(function(e) {
-
-                e.preventDefault();
-                $.get(this.href,
-                    function(data) {
-                        $('#dialogContent').html(data);
-                        $('#modalDialog').modal('show');
-                    });
-            });
-        });
-        $(function() {
-            $.ajaxSetup({ cache: false });
-            $(".addSkill").click(function(e) {
+            $(".openModal").click(function(e) {
 
                 e.preventDefault();
                 $.get(this.href,

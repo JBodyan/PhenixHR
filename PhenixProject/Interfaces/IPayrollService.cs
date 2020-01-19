@@ -6,12 +6,13 @@ using PhenixProject.Models;
 
 namespace PhenixProject.Interfaces
 {
-    interface IPayrollService
+    public interface IPayrollService
     {
+        Task<PayrollViewModel> GetPayrollByIdAsync(Guid id);
         PayrollViewModel GetPayrollByMemberId(Guid id);
         Task<PayrollViewModel> GetPayrollByMemberIdAsync(Guid id);
-        void UpdatePayroll(Guid id, PayrollViewModel payroll);
-        Task UpdatePayrollAsync(Guid id, PayrollViewModel payroll);
+        void UpdatePayroll(PayrollViewModel model);
+        Task UpdatePayrollAsync(PayrollViewModel model);
         void Dispose();
     }
 }

@@ -20,6 +20,12 @@ namespace PhenixProject.Services
             _mapper = mapper;
         }
 
+        public async Task<PayrollViewModel> GetPayrollByIdAsync(Guid id)
+        {
+            var payrolls = await _db.Payrolls.GetByIdAsync(id);
+            return _mapper.Map<PayrollViewModel>(payrolls);
+        }
+
         public PayrollViewModel GetPayrollByMemberId(Guid id)
         {
             throw new NotImplementedException();
@@ -36,22 +42,21 @@ namespace PhenixProject.Services
             return data;
         }
 
-        public void UpdatePayroll(Guid id, PayrollViewModel payroll)
+        public void UpdatePayroll(PayrollViewModel model)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdatePayrollAsync(Guid id, PayrollViewModel payroll)
+        public async Task UpdatePayrollAsync(PayrollViewModel model)
         {
-            if (id == null) throw new Exception("Ιd not specified");
-
-            var member = await _db.Members.GetByIdAsync(id);
-            if (member == null) throw new Exception("Member not found");
-            if (!member.IsEmployee) throw new Exception("Member not employee");
+            
+            var payroll = await _db.Payrolls.GetByIdAsync(model.Id);
+            if (payroll == null) throw new Exception("Payroll not found");
             var data = _mapper.Map<Payroll>(payroll);
-            member.EmployeeInfo.Payroll.Employment = payroll.Employment;
-            member.EmployeeInfo.Payroll.Salary = payroll.Salary;
-            await _db.Members.UpdateAsync(member);
+            payroll.Employment = model.Employment;
+            payroll.Salary = model.Salary;
+            payroll.Currency = model.Currency;
+            await _db.Payrolls.UpdateAsync(payroll);
             _db.Save();
         }
 

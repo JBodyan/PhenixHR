@@ -30,6 +30,7 @@ namespace PhenixProject.Services
                 {
                     skill
                 };
+                _db.Save();
             }
             else
             {

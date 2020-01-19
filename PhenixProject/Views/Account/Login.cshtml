@@ -1,5 +1,4 @@
 ﻿@model PhenixProject.Models.Identity.LoginModel
-
 @{
     ViewData["Title"] = "Log in";
 }
@@ -8,6 +7,7 @@
     <div class="col-md-4">
         <h1>@ViewData["Title"]</h1>
         <section>
+            
             <form id="account" method="post" asp-controller="Account" asp-action="LoginOnPostAsync">
                 <hr/>
                 <div asp-validation-summary="All" class="text-danger"></div>

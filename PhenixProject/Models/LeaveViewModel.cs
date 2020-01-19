@@ -11,5 +11,7 @@ namespace PhenixProject.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal TotalDays { get; set; }
+        public Guid EmployeeId { get; set; }
+
     }
 }

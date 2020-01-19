@@ -1,0 +1,52 @@
+﻿@model LeaveViewModel
+@{
+    ViewData["Title"] = "Add leave";
+}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>Add leave</h4>
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <form asp-controller="Employee" asp-action="AddLeave" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input hidden asp-for="EmployeeId" name="EmployeeId" value="@ViewBag.EmployeeId" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input hidden asp-for="Id" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartDate"></label>
+                    <input asp-for="StartDate" class="form-control"/>
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate"></label>
+                    <input asp-for="EndDate" class="form-control"/>
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalDays"></label>
+                    <input asp-for="TotalDays" class="form-control"/>
+                    <span asp-validation-for="TotalDays" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description" class="form-control"/>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

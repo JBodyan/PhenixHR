@@ -60,16 +60,16 @@ body {
 }
 
 body {
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background: -webkit-linear-gradient(left, orangered, #00c6ff);
     color: #e5e5e5;
 }
 .navbar {
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background: -webkit-linear-gradient(left, orangered, #00c6ff);
     color: #e5e5e5;
     
 }
 a {
-    color: orange;
+    color: greenyellow;
 }
 .nav-link {
     color: white;
