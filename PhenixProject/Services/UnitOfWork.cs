@@ -20,6 +20,7 @@ namespace PhenixProject.Services
         private PayrollRepository _payrollRepository;
         private LinkRepository _linkRepository;
         private SkillRepository _skillRepository;
+        private DocumentRepository _documentRepository;
         public UnitOfWork(AppIdentityDbContext context)
         {
             _db = context;
@@ -32,6 +33,15 @@ namespace PhenixProject.Services
                 if (_payrollRepository == null)
                     _payrollRepository = new PayrollRepository(_db);
                 return _payrollRepository;
+            }
+        }
+        public IRepository<Document> Documents
+        {
+            get
+            {
+                if (_documentRepository == null)
+                    _documentRepository = new DocumentRepository(_db);
+                return _documentRepository;
             }
         }
         public IRepository<Link> Links
@@ -61,7 +71,6 @@ namespace PhenixProject.Services
                 return _historyRepository;
             }
         }
-
         public IRepository<Leave> Leaves
         {
             get
@@ -71,7 +80,6 @@ namespace PhenixProject.Services
                 return _leaveRepository;
             }
         }
-
         public IRepository<Member> Members
         {
             get
@@ -81,7 +89,6 @@ namespace PhenixProject.Services
                 return _memberRepository;
             }
         }
-
         public IRepository<Office> Offices
         {
             get
@@ -91,7 +98,6 @@ namespace PhenixProject.Services
                 return _officeRepository;
             }
         }
-
         public IRepository<Department> Departments
         {
             get

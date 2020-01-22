@@ -32,25 +32,28 @@
                         @if ( User.Identity.IsAuthenticated ){
                             if ( User.IsInRole("Administrator") || User.IsInRole("SUAdministrator") ){
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AllManagers">Managers</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="AllManagers">Managers</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Office" asp-action="Index">Offices</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Office" asp-action="Index">Offices</a>
                                 </li> 
                             }
                             if ( User.IsInRole("SUAdministrator") ){
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AllAdministrators">Administrators</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="AllAdministrators">Administrators</a>
                                 </li>        
                             }
                             if ( User.IsInRole("HRManager") ){
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Candidate" asp-action="Index">Candidates</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Candidate" asp-action="Index">Candidates</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
                                 </li> 
                             }
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Document" asp-action="Index">Documents</a>
+                            </li>
                         }
                     </ul>
                 </div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using PhenixProject.Data;
 using PhenixProject.Entities;
 using PhenixProject.Entities.Contacts;
 using PhenixProject.Models;
@@ -233,7 +234,11 @@ namespace PhenixProject.Configuration
 
             CreateMap<EmployeeViewModel, EmployeeInfo>();
 
+            CreateMap<DocumentTagViewModel, DocumentTag>();
+            CreateMap<DocumentTag, DocumentTagViewModel>();
 
+            CreateMap<DocumentViewModel, Document>();
+            CreateMap<Document, DocumentViewModel>();
         }
     }
 }

@@ -190,6 +190,44 @@ namespace PhenixProject.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PhenixProject.Data.Document", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OriginalName");
+
+                    b.Property<string>("Path");
+
+                    b.Property<DateTime>("UploadTime");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("PhenixProject.Data.DocumentTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("DocumentId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("DocumentTag");
+                });
+
             modelBuilder.Entity("PhenixProject.Entities.CandidateInfo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -601,6 +639,13 @@ namespace PhenixProject.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PhenixProject.Data.DocumentTag", b =>
+                {
+                    b.HasOne("PhenixProject.Data.Document")
+                        .WithMany("Tags")
+                        .HasForeignKey("DocumentId");
                 });
 
             modelBuilder.Entity("PhenixProject.Entities.Contacts.MemberContacts", b =>

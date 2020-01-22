@@ -1,0 +1,52 @@
+﻿@model IEnumerable<DocumentViewModel>
+
+@{
+    ViewData["Title"] = "Documents";
+    var error = ViewBag.Error;
+}
+<div id="modalDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h1>Documents</h1>
+@Html.ActionLink("Upload document", "UploadDocumentModal", new {}, new {@class = "openModal btn btn-outline-primary"})
+@if (error != null)
+{
+    <p>
+        Error: @error.Message
+    </p>
+}
+else
+{
+    <div class="custom-flex-container">
+        <div class="col-md-4">
+            @foreach (var item in Model)
+            {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">Description: @item.Description</p>
+                        @Html.ActionLink("Download", "DownloadDocument", new { id = item.Id },new{@class="btn btn-primary"})
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".openModal").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+    </script>
+}

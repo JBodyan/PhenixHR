@@ -14,8 +14,7 @@ namespace PhenixProject.Data
 
         public static async Task SeedData(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
-            var exist = false;
-            exist = await roleManager.RoleExistsAsync(SUADMIN);
+            var exist = await roleManager.RoleExistsAsync(SUADMIN);
             if (!exist) await roleManager.CreateAsync(new AppRole(SUADMIN));
             exist = await roleManager.RoleExistsAsync(ADMIN);
             if (!exist) await roleManager.CreateAsync(new AppRole(ADMIN));

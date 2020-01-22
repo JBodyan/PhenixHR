@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using PhenixProject.Data;
 
 namespace PhenixProject.Interfaces
 {
@@ -16,6 +17,8 @@ namespace PhenixProject.Interfaces
         IRepository<Payroll> Payrolls { get; }
         IRepository<Link> Links { get; }
         IRepository<Skill> Skills { get; }
+        IRepository<Document> Documents { get; }
+
         Task SaveAsync();
         void Save();
     }

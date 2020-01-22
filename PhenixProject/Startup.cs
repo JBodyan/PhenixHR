@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using PhenixProject.Data;
 using Microsoft.Extensions.Configuration;
@@ -39,6 +40,9 @@ namespace PhenixProject
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var contentTypeProvider = new FileExtensionContentTypeProvider();
+            services.AddSingleton<IMimeMappingService>(new MimeMappingService(contentTypeProvider));
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IOfficeService, OfficeService>();
@@ -48,6 +52,7 @@ namespace PhenixProject
             services.AddScoped<ILeaveService, LeaveService>();
             services.AddScoped<ILinkService, LinkService>();
             services.AddScoped<ISkillService, SkillService>();
+            services.AddScoped<IDocumentService, DocumentService>();
 
             services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 

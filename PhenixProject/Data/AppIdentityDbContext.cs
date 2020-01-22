@@ -34,6 +34,7 @@ namespace PhenixProject.Data
         public DbSet<Payroll> Payrolls { get; set; }
         public DbSet<Leave> Leaves { get; set; }
         public DbSet<Link> Links { get; set; }
+        public DbSet<Document> Documents { get; set; }
         public DbSet<PersonalInfo> PersonalInfos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
