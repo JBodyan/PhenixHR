@@ -25,7 +25,9 @@ else
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text">Description: @item.Description</p>
+                        <p class="card-text">Tags: @item.Tags.ToString()</p>
                         @Html.ActionLink("Download", "DownloadDocument", new { id = item.Id },new{@class="btn btn-primary"})
+                        @Html.ActionLink("Add tag", "AddTagModal", new { id = item.Id },new{@class="openModal btn btn-primary"})
                     </div>
                 </div>
             }

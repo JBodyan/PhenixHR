@@ -18,7 +18,7 @@ namespace PhenixProject.Interfaces
         IRepository<Link> Links { get; }
         IRepository<Skill> Skills { get; }
         IRepository<Document> Documents { get; }
-
+        IRepository<DocumentTag> Tags { get; }
         Task SaveAsync();
         void Save();
     }

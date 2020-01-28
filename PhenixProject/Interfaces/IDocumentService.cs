@@ -16,6 +16,8 @@ namespace PhenixProject.Interfaces
         void UpdateDocument(DocumentViewModel model);
         Task UpdateDocumentAsync(DocumentViewModel model);
         Task AddTagAsync(Guid documentId, DocumentTagViewModel model);
+        Task<DocumentTagViewModel> GetTagByIdAsync(Guid id);
+        Task UpdateTagAsync(DocumentTagViewModel model);
         Task RemoveTagAsync(Guid documentId, DocumentTagViewModel model);
         Task RemoveDocumentAsync(Guid id);
         void Dispose();

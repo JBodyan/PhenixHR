@@ -19,22 +19,39 @@ namespace PhenixProject.Repositories
 
         public IEnumerable<Document> GetAll()
         {
-            return _db.Documents;
+            var documents = _db.Documents;
+            foreach (var document in documents)
+            {
+                _db.Entry(document).Collection(x => x.Tags).Load();
+            }
+            return documents;
         }
 
         public async Task<IEnumerable<Document>> GetAllAsync()
         {
-            return _db.Documents;
+            var documents = _db.Documents;
+            foreach (var document in documents)
+            {
+                await _db.Entry(document).Collection(x => x.Tags).LoadAsync();
+            }
+            return documents;
         }
 
         public Document GetById(Guid id)
         {
-            return _db.Documents.FirstOrDefault(x => x.Id == id);
+            var document = _db.Documents.FirstOrDefault(x => x.Id == id);
+            if (document == null) return null;
+            _db.Entry(document).Collection(x => x.Tags).Load();
+            return document;
+
         }
 
         public async Task<Document> GetByIdAsync(Guid id)
         {
-            return await _db.Documents.FirstOrDefaultAsync(x => x.Id == id);
+            var document = await _db.Documents.FirstOrDefaultAsync(x => x.Id == id);
+            if (document == null) return null;
+            await _db.Entry(document).Collection(x => x.Tags).LoadAsync();
+            return document;
         }
 
         public IEnumerable<Document> Find(Func<Document, bool> predicate)
@@ -44,7 +61,12 @@ namespace PhenixProject.Repositories
 
         public async Task<IEnumerable<Document>> FindAsync(Func<Document, bool> predicate)
         {
-            return _db.Documents.Where(predicate);
+            var documents = _db.Documents.Where(predicate);
+            foreach (var document in documents)
+            {
+                await _db.Entry(document).Collection(x => x.Tags).LoadAsync();
+            }
+            return documents;
         }
 
         public void Create(Document item)

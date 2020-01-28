@@ -104,5 +104,55 @@ namespace PhenixProject.Controllers
                 return View("Index");
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> AddTagModal(Guid id)
+        {
+            ViewBag.DocumentId = id;
+            if (id != Guid.Empty)
+                return PartialView("AddTagModal");
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddTag(DocumentTagViewModel model)
+        {
+            try
+            {
+                await _documentService.AddTagAsync(model.DocumentId, model);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty,exception.Message);
+                return View("Index");
+            }
+            
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditTagModal(Guid id)
+        {
+            
+            if (id != Guid.Empty)
+                return PartialView("AddTagModal");
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddTag(DocumentTagViewModel model)
+        {
+            try
+            {
+                await _documentService.AddTagAsync(model.DocumentId, model);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+                return View("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

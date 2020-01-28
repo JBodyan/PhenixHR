@@ -46,6 +46,11 @@ namespace PhenixProject.Services
             return documents != null ? _mapper.Map<IEnumerable<DocumentViewModel>>(documents) : null;
         }
 
+        public Task UpdateTagAsync(DocumentTagViewModel model)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task RemoveTagAsync(Guid documentId, DocumentTagViewModel model)
         {
             var document = await _db.Documents.GetByIdAsync(documentId);
@@ -85,9 +90,16 @@ namespace PhenixProject.Services
         {
             var document = await _db.Documents.GetByIdAsync(documentId);
             var tag = _mapper.Map<DocumentTag>(model);
+            tag.Id = Guid.NewGuid();
             document.Tags?.Add(tag);
             await _db.Documents.UpdateAsync(document);
             _db.Save();
+        }
+
+        public async Task<DocumentTagViewModel> GetTagByIdAsync(Guid id)
+        {
+            var tag = await _db.Tags.GetByIdAsync(id);
+            return _mapper.Map<DocumentTagViewModel>(tag);
         }
 
         public void Dispose()

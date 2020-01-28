@@ -1,0 +1,59 @@
+﻿@model DocumentViewModel
+@{
+    ViewData["Title"] = "Update document";
+}
+
+<h4>Document</h4>
+<div id="modalDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div>
+    <div class="container">
+        <form asp-controller="Document" asp-action="EditDocument" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input hidden asp-for="Id" name="Id" value="@Model.Id" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+        @foreach (var tag in @Model.Tags)
+        {
+            <div class="document-tag">
+                <span>@tag.Name</span>
+                @Html.ActionLink("Edit","EditTagModal","Document",new{id = tag.Id},new{@class="openModal"})
+                @Html.ActionLink("Remove","RemoveTag","Document",new{id = tag.Id})
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".openModal").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+    </script>
+}
