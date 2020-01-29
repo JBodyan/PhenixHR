@@ -15,6 +15,7 @@ namespace PhenixProject.Data
         public DateTime UploadTime { get; set; }
         public string UserId { get; set; }
         public ICollection<DocumentTag> Tags { get; set; }
+        public bool IsArchived { get; set; }
 
     }
 }

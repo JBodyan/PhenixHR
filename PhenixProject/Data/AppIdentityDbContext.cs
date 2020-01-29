@@ -36,6 +36,7 @@ namespace PhenixProject.Data
         public DbSet<Link> Links { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<PersonalInfo> PersonalInfos { get; set; }
+        public DbSet<DocumentTag> DocumentTag { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

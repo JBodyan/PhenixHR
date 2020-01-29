@@ -22,9 +22,20 @@ namespace PhenixProject.Services
         private SkillRepository _skillRepository;
         private DocumentRepository _documentRepository;
         private TagRepository _tagRepository;
+
         public UnitOfWork(AppIdentityDbContext context)
         {
             _db = context;
+        }
+
+        public IRepository<DocumentTag> Tags
+        {
+            get
+            {
+                if (_tagRepository == null)
+                    _tagRepository = new TagRepository(_db);
+                return _tagRepository;
+            }
         }
 
         public IRepository<Payroll> Payrolls
@@ -36,15 +47,7 @@ namespace PhenixProject.Services
                 return _payrollRepository;
             }
         }
-        public IRepository<Payroll> Tags
-        {
-            get
-            {
-                if (_tagRepository == null)
-                    _tagRepository = new TagRepository(_db);
-                return _tagRepository;
-            }
-        }
+        
         public IRepository<Document> Documents
         {
             get

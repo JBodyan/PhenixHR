@@ -15,5 +15,7 @@ namespace PhenixProject.Models
         public DateTime UploadTime { get; set; }
         public string UserId { get; set; }
         public IEnumerable<DocumentTagViewModel> Tags { get; set; }
+        public bool IsArchived { get; set; }
+
     }
 }

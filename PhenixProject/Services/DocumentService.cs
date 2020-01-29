@@ -6,7 +6,9 @@ using AutoMapper;
 using PhenixProject.Data;
 using PhenixProject.Entities;
 using PhenixProject.Interfaces;
+using PhenixProject.Migrations;
 using PhenixProject.Models;
+using Remotion.Linq.Clauses;
 
 namespace PhenixProject.Services
 {
@@ -46,22 +48,26 @@ namespace PhenixProject.Services
             return documents != null ? _mapper.Map<IEnumerable<DocumentViewModel>>(documents) : null;
         }
 
-        public Task UpdateTagAsync(DocumentTagViewModel model)
+        public async Task UpdateTagAsync(DocumentTagViewModel model)
         {
-            throw new NotImplementedException();
+            var tag = await _db.Tags.GetByIdAsync(model.Id);
+            if(tag != null)
+            {
+                tag.Name = model.Name;
+                _db.Save();
+            }
         }
 
-        public async Task RemoveTagAsync(Guid documentId, DocumentTagViewModel model)
+        public async Task RemoveTagAsync(Guid id)
         {
-            var document = await _db.Documents.GetByIdAsync(documentId);
-            var tag = _mapper.Map<DocumentTag>(model);
-            (document.Tags as List<DocumentTag>)?.Remove(tag);
+            await _db.Tags.DeleteAsync(id);
             _db.Save();
         }
 
         public async Task RemoveDocumentAsync(Guid id)
         {
             await _db.Documents.DeleteAsync(id);
+            _db.Save();
         }
 
         public void UpdateDocument(DocumentViewModel model)
@@ -69,8 +75,6 @@ namespace PhenixProject.Services
             var document = _db.Documents.GetById(model.Id);
             document.Description = model.Description;
             document.Name = model.Name;
-            document.Path = model.Path;
-            document.OriginalName = model.OriginalName;
             _db.Documents.Update(document);
             _db.Save();
         }
@@ -80,8 +84,6 @@ namespace PhenixProject.Services
             var document = _db.Documents.GetById(model.Id);
             document.Description = model.Description;
             document.Name = model.Name;
-            document.OriginalName = model.OriginalName;
-            document.Path = model.Path;
             await _db.Documents.UpdateAsync(document);
             _db.Save();
         }

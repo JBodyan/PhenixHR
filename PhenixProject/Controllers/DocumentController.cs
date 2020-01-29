@@ -35,7 +35,8 @@ namespace PhenixProject.Controllers
             IEnumerable<DocumentViewModel> models;
             try
             {
-                models = (await _documentService.GetDocumentsAsync());
+                models = (await _documentService.GetDocumentsAsync()).Where(x=>!x.IsArchived);
+                ViewBag.CurrentUserId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
             }
             catch (Exception ex)
             {
@@ -127,24 +128,85 @@ namespace PhenixProject.Controllers
                 return View("Index");
             }
             
+            return RedirectToAction("EditDocument",new{id = model.DocumentId});
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditTagModal(Guid documentId, Guid tagId)
+        {
+            var tag = await _documentService.GetTagByIdAsync(tagId);
+            ViewBag.DocumentId = documentId;
+            if (tag != null)
+                return PartialView("EditTagModal",tag);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public async Task<ActionResult> EditTagModal(Guid id)
+        public async Task<ActionResult> EditDocument(Guid id)
         {
-            
-            if (id != Guid.Empty)
-                return PartialView("AddTagModal");
-            return RedirectToAction("Index");
+            var document = await _documentService.GetDocumentByIdAsync(id);
+            if (document != null)
+                return View(document);
+
+            ModelState.AddModelError(string.Empty,"Document not found");
+            return View("Index");
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddTag(DocumentTagViewModel model)
+        public async Task<ActionResult> EditDocument(DocumentViewModel model)
         {
             try
             {
-                await _documentService.AddTagAsync(model.DocumentId, model);
+                await _documentService.UpdateDocumentAsync(model);
+                return RedirectToAction("EditDocument",new{id = model.Id});
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+            return View("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditTag(DocumentTagViewModel model)
+        {
+            var documentId = model.DocumentId;
+            try
+            {
+                await _documentService.UpdateTagAsync(model);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+                return View("Index");
+            }
+
+            return RedirectToAction("EditDocument",new{id = documentId});
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveTag(DocumentTagViewModel model)
+        {
+            var documentId = model.DocumentId;
+            try
+            {
+                await _documentService.RemoveTagAsync(model.Id);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+                return View("Index");
+            }
+
+            return RedirectToAction("EditDocument", new { id = documentId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveDocument(DocumentViewModel model)
+        {
+            try
+            {
+                await _documentService.RemoveDocumentAsync(model.Id);
             }
             catch (Exception exception)
             {

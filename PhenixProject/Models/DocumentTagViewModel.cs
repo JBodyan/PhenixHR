@@ -11,5 +11,9 @@ namespace PhenixProject.Models
         public string Name { get; set; }
         public Guid DocumentId { get; set; }
 
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
