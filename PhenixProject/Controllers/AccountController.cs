@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PhenixProject.Data;
+using PhenixProject.Models;
 using PhenixProject.Models.Identity;
 
 namespace PhenixProject.Controllers
@@ -101,7 +102,8 @@ namespace PhenixProject.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
-                    LastName = model.LastName
+                    LastName = model.LastName,
+                    Photo = @"/Photo/empty.png"
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -139,7 +141,8 @@ namespace PhenixProject.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
-                    LastName = model.LastName
+                    LastName = model.LastName,
+                    Photo = @"/Photo/empty.png"
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -455,25 +458,33 @@ namespace PhenixProject.Controllers
             return View(currentUser);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> UploadPhotoModal(Guid id)
+        {
+            ViewBag.UserId = id;
+            if (id != Guid.Empty)
+                return PartialView("UploadPhotoModal");
+            return RedirectToAction("PersonalProfile");
+        }
+
         [HttpPost]
         [Authorize]
-        [Route("/Account/UploadPhoto/{userId}")]
-        public async Task<IActionResult> UploadPhoto([FromRoute]string userId, [FromBody]IFormFile file)
+        public async Task<IActionResult> UploadPhoto([FromForm]UploadFileViewModel model)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(model.UserId);
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "User not found");
                 return RedirectToAction("Index","Home");
             }
-            if (file != null)
+            if (model.File != null)
             {
                 
-                var path = "/Photo/" + user.Id + file.FileName;
+                var path = "/Photo/" + user.Id + model.File.FileName;
                 
                 using (var fileStream = new FileStream(_webHost.WebRootPath + path, FileMode.Create))
                 {
-                    await file.CopyToAsync(fileStream);
+                    await model.File.CopyToAsync(fileStream);
                     user.Photo = path;
                     await _userManager.UpdateAsync(user);
                 }
@@ -483,7 +494,7 @@ namespace PhenixProject.Controllers
                 ModelState.AddModelError(string.Empty, "Error uploading photo");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("PersonalProfile");
         }
     }
 }

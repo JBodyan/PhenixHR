@@ -5,13 +5,12 @@
 }
 
 <h1>My profile</h1>
-
+<div id="modalDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <div>
-    <img class="card-img-top" src="~/Photo/@Model.Id" alt="Photo">
-    <form asp-action="UploadPhoto" asp-controller="Account" asp-route-userId="@Model.Id" method="post" enctype="multipart/form-data">
-        <input type="file" name="file"/><br>
-        <input type="submit" value="Upload photo"/>
-    </form>
+    <img width="100px" height="200px" src="@Model.Photo" alt="Photo"/>
+    @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "openModal"})
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
@@ -46,3 +45,21 @@
         }
     }
 </div>
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".openModal").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+    </script>
+}
