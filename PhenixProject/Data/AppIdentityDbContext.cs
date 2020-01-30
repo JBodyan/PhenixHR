@@ -37,6 +37,7 @@ namespace PhenixProject.Data
         public DbSet<Document> Documents { get; set; }
         public DbSet<PersonalInfo> PersonalInfos { get; set; }
         public DbSet<DocumentTag> DocumentTag { get; set; }
+        public DbSet<CalendarEvent> CalendarEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -22,10 +22,20 @@ namespace PhenixProject.Services
         private SkillRepository _skillRepository;
         private DocumentRepository _documentRepository;
         private TagRepository _tagRepository;
-
+        private CalendarRepository _calendarRepository;
         public UnitOfWork(AppIdentityDbContext context)
         {
             _db = context;
+        }
+
+        public IRepository<CalendarEvent> CalendarEvent
+        {
+            get
+            {
+                if (_calendarRepository == null)
+                    _calendarRepository = new CalendarRepository(_db);
+                return _calendarRepository;
+            }
         }
 
         public IRepository<DocumentTag> Tags
@@ -120,6 +130,7 @@ namespace PhenixProject.Services
                 return _departmentRepository;
             }
         }
+
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();

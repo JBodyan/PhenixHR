@@ -19,6 +19,7 @@ namespace PhenixProject.Interfaces
         IRepository<Skill> Skills { get; }
         IRepository<Document> Documents { get; }
         IRepository<DocumentTag> Tags { get; }
+        IRepository<CalendarEvent> CalendarEvent { get; }
         Task SaveAsync();
         void Save();
     }
