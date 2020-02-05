@@ -23,12 +23,22 @@ namespace PhenixProject.Services
         private DocumentRepository _documentRepository;
         private TagRepository _tagRepository;
         private CalendarRepository _calendarRepository;
+        private NewsRepository _newsRepository;
         public UnitOfWork(AppIdentityDbContext context)
         {
             _db = context;
         }
 
-        public IRepository<CalendarEvent> CalendarEvent
+        public IRepository<NewsPost> NewsPosts
+        {
+            get
+            {
+                if (_newsRepository == null)
+                    _newsRepository = new NewsRepository(_db);
+                return _newsRepository;
+            }
+        }
+        public IRepository<CalendarEvent> CalendarEvents
         {
             get
             {
