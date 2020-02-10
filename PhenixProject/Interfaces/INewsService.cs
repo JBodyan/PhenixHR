@@ -6,7 +6,7 @@ using PhenixProject.Models;
 
 namespace PhenixProject.Interfaces
 {
-    interface INewsService
+    public interface INewsService
     {
         Task<NewsPostViewModel> GetNewsByIdAsync(Guid newsId);
         Task<IEnumerable<NewsPostViewModel>> GetAllNewsAsync();

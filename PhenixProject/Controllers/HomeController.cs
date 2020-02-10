@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PhenixProject.Interfaces;
 using PhenixProject.Models;
 
 namespace PhenixProject.Controllers
@@ -12,10 +13,24 @@ namespace PhenixProject.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-
-        public IActionResult Index()
+        private readonly INewsService _newsService;
+        public HomeController(INewsService newsService)
         {
-            return View();
+            _newsService = newsService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            IEnumerable<NewsPostViewModel> news = null;
+            try
+            {
+                news = await _newsService.GetAllNewsAsync();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty,ex.Message);
+            }
+            return View(news);
         }
 
         public IActionResult Privacy()

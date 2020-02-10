@@ -53,6 +53,9 @@ namespace PhenixProject
             services.AddScoped<ILinkService, LinkService>();
             services.AddScoped<ISkillService, SkillService>();
             services.AddScoped<IDocumentService, DocumentService>();
+            services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<ICalendarService, CalendarService>();
+
 
             services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 

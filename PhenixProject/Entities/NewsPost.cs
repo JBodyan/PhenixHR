@@ -10,6 +10,7 @@ namespace PhenixProject.Entities
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string ImgPost { get; set; }
         public DateTime PostedTime { get; set; }
         public DateTime EditedTime { get; set; }
 
