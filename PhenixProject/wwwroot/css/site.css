@@ -39,18 +39,15 @@ button.accept-policy {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
 
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+
 }
 .footer {
-    position: absolute;
-    bottom: 0;
+    position:absolute;
+    bottom: 1px;
     width: 100%;
     white-space: nowrap;
     /* Set the fixed height of the footer here */
@@ -60,11 +57,9 @@ body {
 }
 
 body {
-    background: -webkit-linear-gradient(left, orangered, #00c6ff);
     color: #e5e5e5;
 }
 .navbar {
-    background: -webkit-linear-gradient(left, orangered, #00c6ff);
     color: #e5e5e5;
     
 }
@@ -82,9 +77,8 @@ a {
     display: flex;
     width: 100%;
     height: 100%;
-    justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
+
 }
 
 .custom-card {
@@ -193,4 +187,29 @@ a {
 .profile-tab p{
     font-weight: 600;
     color: #00c6ff;
+}
+
+.managers-page {
+    display: flex;
+    justify-content: center;
+}
+
+.title-text {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.block-align-center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.black {
+    color: black;
+}
+h1 {
+    text-align: center;
+    color: black;
 }
