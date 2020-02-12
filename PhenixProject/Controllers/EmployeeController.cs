@@ -24,7 +24,9 @@ namespace PhenixProject.Controllers
         private readonly IMapper _mapper;
         private readonly IHostingEnvironment _webHost;
         private readonly ILinkService _linkService;
+        private readonly IOfficeService _officeService;
         public EmployeeController(IMemberService service,
+            IOfficeService officeService,
             ILinkService linkService,
             ISkillService skillService,
             IPayrollService payrollService,
@@ -33,6 +35,7 @@ namespace PhenixProject.Controllers
             IMapper mapper,IHostingEnvironment webHost)
         {
             _memberService = service;
+            _officeService = officeService;
             _personalInfoService = personalInfoService;
             _payrollService = payrollService;
             _skillService = skillService;
@@ -126,6 +129,18 @@ namespace PhenixProject.Controllers
                 return PartialView("EditPersonalInfoModal",employee.PersonalInfo);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<ActionResult> EditDepartmentModal()
+        {
+            var offices = await _officeService.GetOfficesAsync();
+            var model = new EmployeeDepartmentViewModel
+            {
+                Offices = offices
+            };
+            return PartialView("EditDepartmentModal", model);
+        }
+
         [HttpPost]
         public async Task<ActionResult> EditPersonalInfo(PersonalInfoViewModel model)
         {

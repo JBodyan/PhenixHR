@@ -43,17 +43,21 @@ button.accept-policy {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    min-height: 100%;
+    background-image: url(./static/bg-1.jpg);
 
 }
 .footer {
-    position:absolute;
+    position:fixed;
     bottom: 1px;
+    left: 0;
     width: 100%;
     white-space: nowrap;
     /* Set the fixed height of the footer here */
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
     color: white;
+    background-color: #333;
 }
 
 body {
@@ -61,7 +65,7 @@ body {
 }
 .navbar {
     color: #e5e5e5;
-    
+    background-color: #333;
 }
 a {
     color: greenyellow;
@@ -78,7 +82,7 @@ a {
     width: 100%;
     height: 100%;
     flex-wrap: wrap;
-
+    justify-content: center;
 }
 
 .custom-card {
@@ -99,7 +103,7 @@ a {
     margin-top: 3%;
     margin-bottom: 3%;
     border-radius: 0.5rem;
-    background: #fff;
+    background: #333;
 }
 .profile-img{
     text-align: center;
@@ -182,11 +186,11 @@ a {
 }
 .profile-tab label{
     font-weight: 600;
-    color: black;
+    color: #818182;
 }
 .profile-tab p{
     font-weight: 600;
-    color: #00c6ff;
+    color: greenyellow;
 }
 
 .managers-page {
@@ -204,12 +208,38 @@ a {
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    color: black;
 }
 
 .black {
     color: black;
 }
-h1 {
+h1, h4 {
     text-align: center;
     color: black;
+}
+
+.card {
+    margin: 10px 10px 0px 0px;
+    color: black;
+}
+
+.form-group {
+    color: black;
+}
+
+.space-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.card-container {
+    display: flex;
+}
+
+.custom-container {
+    flex-grow: 3;
+    padding: 0 20px 0 0 ;
 }

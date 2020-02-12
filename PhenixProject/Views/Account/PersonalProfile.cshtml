@@ -8,35 +8,39 @@
 <div id="modalDialog" class="modal fade" >
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<div>
-    <img width="100px" height="200px" src="@Model.Photo" alt="Photo"/>
-    @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "openModal"})
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
+<div class="container block-align-center black">
+    <img style="border:1px solid black" width="200px" height="200px" src="@Model.Photo" alt="Photo"/>
+    <div class="title-text">
+        @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "openModal"})
+    </div>
+    <div class="block-align-center">
+        <dl>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </dl>
+        </div>
     @if (User.Identity.IsAuthenticated)
     {
         if (User.IsInRole("Administrator") || User.IsInRole("SUAdministrator"))

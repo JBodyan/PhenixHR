@@ -11,9 +11,7 @@
     <div class="col-md-4">
         <div class="profile-img">
             <img src="@Model.PersonalInfo.Photo" alt="Photo"/>
-            <div class="file btn btn-lg btn-primary">
-                @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "openModal"})
-            </div>
+            @Html.ActionLink("Change photo", "UploadPhotoModal", new {id = Model.Id}, new {@class = "openModal file btn btn-lg btn-primary"})
         </div>
     </div>
     <div class="col-md-6">

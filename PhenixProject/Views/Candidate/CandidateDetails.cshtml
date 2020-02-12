@@ -10,99 +10,98 @@
     <h4>Candidate</h4>
     <hr />
     @Html.ActionLink("Transfer To Employee", "TransferToEmployee", new {  id = Model.Id })
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.MidName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.MidName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.BirthDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.BirthDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Gender)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Gender)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Email.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Phone.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Skype)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Skype.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Contacts.Address.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employment)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Employment)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DesiredSalary)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DesiredSalary)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CareerObjective)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CareerObjective)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.About)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.About)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="block-align-center">
+        <dl class="space-container">
+            <div class="custom-container">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.FirstName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.FirstName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.MidName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.MidName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.LastName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.LastName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.BirthDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.BirthDate)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.Gender)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.Gender)
+                </dd>
+            </div>
+            <div class="custom-container">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.Contacts.Email.Value)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Phone)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.Contacts.Phone.Value)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Skype)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.Contacts.Skype.Value)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonalInfo.Contacts.Address)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PersonalInfo.Contacts.Address.Value)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Employment)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Employment)
+                </dd>
+            </div>
+            <div class="custom-container">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.City)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.City)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.DesiredSalary)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DesiredSalary)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CareerObjective)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CareerObjective)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.About)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.About)
+                </dd>
+            </div>
+        </dl>
+        </div>
 </div>

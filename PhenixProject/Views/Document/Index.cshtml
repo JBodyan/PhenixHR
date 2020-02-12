@@ -8,7 +8,9 @@
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 <h1>Documents</h1>
+<div class="block-align-center">
 @Html.ActionLink("Upload document", "UploadDocumentModal", new {}, new {@class = "openModal btn btn-outline-primary"})
+</div>
 @if (error != null)
 {
     <p>
@@ -18,7 +20,6 @@
 else
 {
     <div class="custom-flex-container">
-        <div class="col-md-4">
             @foreach (var item in Model)
             {
                 <div class="card" style="width: 18rem;">
@@ -38,7 +39,6 @@ else
                 </div>
             }
         </div>
-    </div>
 }
 @section scripts
 {

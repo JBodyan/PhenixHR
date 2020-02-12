@@ -5,7 +5,7 @@
 
 <h4>@ViewData["Title"]</h4>
 
-<div class="row">
+<div class="row block-align-center">
     <div class="col-md-6">
         <img class="card-img-top" src="~/Photo/@Model.Id" alt="Photo">
         <form asp-action="UploadPhoto" asp-controller="Account" asp-route-userId="@Model.Id" method="post" enctype="multipart/form-data">
