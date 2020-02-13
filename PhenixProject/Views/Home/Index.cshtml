@@ -3,8 +3,55 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@if (User.IsInRole("Administrator") || User.IsInRole("SUAdministrator"))
+{
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Add new post", "AddNewsModal", "Home",new{} ,new {@class = "openModal btn btn-outline-warning"})
+        </div>
+    </div>
+}
 
 <div class="text-center black">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<div id="modalDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+@if (Model != null)
+{
+    <div class="news-container">
+    @foreach (var news in Model)
+    {
+        <div class="news-card">
+            <img class="news-cardImg" alt="img" src="@news.ImgPath"/>
+            <div class="news-cardTitle">@news.Title</div>
+            <div class="news-cardDescription">@news.Description</div>
+            @if (User.IsInRole("Administrator") || User.IsInRole("SUAdministrator"))
+            {
+                <div class="news-cardBtn">
+                        @Html.ActionLink("Add new post", "AddNewsModal", "Home",new{} ,new {@class = "openModal btn btn-primary"})
+                    </div>
+            }
+        </div>
+    }
+    </div>
+}
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function() {
+            $.ajaxSetup({ cache: false });
+            $(".openModal").click(function(e) {
+
+                e.preventDefault();
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modalDialog').modal('show');
+                    });
+            });
+        });
+    </script>
+}

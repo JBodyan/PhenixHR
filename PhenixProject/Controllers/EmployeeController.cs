@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
 
@@ -131,14 +132,23 @@ namespace PhenixProject.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> EditDepartmentModal()
+        public async Task<ActionResult> EditDepartmentModal(Guid employeeId)
         {
             var offices = await _officeService.GetOfficesAsync();
             var model = new EmployeeDepartmentViewModel
             {
-                Offices = offices
+                EmployeeId = employeeId
             };
+            ViewBag.Offices = new SelectList(offices, "Id", "Address");
             return PartialView("EditDepartmentModal", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditDepartment(EmployeeDepartmentViewModel model)
+        {
+            var id = model.EmployeeId;
+
+            return RedirectToAction("EmployeeDetails", new { id });
         }
 
         [HttpPost]

@@ -1,8 +1,9 @@
-﻿@using Resources.Enums
+﻿@using Newtonsoft.Json
+@using Resources.Enums
 @model EmployeeDepartmentViewModel
 
 @{
-    ViewData["Title"] = "Edit skill";
+    ViewData["Title"] = "Edit department";
 }
 
 <div class="modal-content">
@@ -12,34 +13,60 @@
     </div>
     <div class="modal-body">
         <div class="container">
-            <form asp-controller="Employee" asp-action="EditPayroll" method="post">
+            <form asp-controller="Employee" asp-action="EditDepartment" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input hidden asp-for="EmployeeId" name="EmployeeId" value="@ViewBag.EmployeeId" class="form-control" />
+                    <input hidden asp-for="EmployeeId" name="EmployeeId" value="@Model.EmployeeId" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Office</label>
-                    @*<select asp-for="OfficeId" asp-items="Model.Offices" class="form-control"></select>*@
+                    <select id="OfficeSelect" asp-for="OfficeId" onchange="changedOffice()" asp-items="ViewBag.Offices" class="form-control"></select>
                     <span asp-validation-for="OfficeId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>Department</label>
-                    @*<select asp-for="DepartmentId" asp-items="" class="form-control"></select>*@
+                    <select id="DepartmentSelect" asp-for="DepartmentId" class="form-control"></select>
                     <span asp-validation-for="DepartmentId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>Position</label>
-                    @*<select asp-for="PositionId" asp-items=""  class="form-control"></select>*@
+                    @*<select id="PositionSelect" asp-for="PositionId" asp-items=""  class="form-control"></select>*@
                     <span asp-validation-for="PositionId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Update" class="btn btn-primary" />
                 </div>
             </form>
+            
         </div>
     </div>
 </div>
+<script>
+
+    async function changedOffice() {
+        let select = document.getElementById('OfficeSelect');
+        const url = `/api/Department/GetDepartments/${select.value}`;
+        const response = await fetch(url);
+        const json = await response.json();
+        const dep = document.getElementById("DepartmentSelect");
+        const off = document.getElementById("OfficeSelect");
+        const depArray = json.map(item => item.Name);
+        json.forEach((item) => {
+            const op = document.createElement('option');
+            op.appendChild(document.createTextNode(item.Name));
+            op.setAttribute('value', item.Id);
+            dep.appendChild(op);
+        })
+        console.log(depArray);
+        console.dir(off);
+        console.dir(dep.value);
+        console.log(json);
+    }
+</script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }

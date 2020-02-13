@@ -239,6 +239,10 @@ namespace PhenixProject.Configuration
 
             CreateMap<DocumentViewModel, Document>();
             CreateMap<Document, DocumentViewModel>();
+
+            CreateMap<NewsPost, NewsPostViewModel>();
+            CreateMap<NewsPostViewModel, NewsPost>();
+
         }
     }
 }

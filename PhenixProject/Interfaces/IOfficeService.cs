@@ -10,6 +10,8 @@ namespace PhenixProject.Interfaces
     {
         OfficeViewModel GetOfficeById(Guid id);
         Task<OfficeViewModel> GetOfficeByIdAsync(Guid id);
+        Task<IEnumerable<DepartmentViewModel>> GetDepartmentsByOfficeIdAsync(Guid officeId);
+        Task<IEnumerable<PositionViewModel>> GetPositionsByDepartmentIdAsync(Guid departmentId);
         IEnumerable<OfficeViewModel> GetOffices();
         Task<IEnumerable<OfficeViewModel>> GetOfficesAsync();
         bool AddOffice(OfficeViewModel office);

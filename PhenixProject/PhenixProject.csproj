@@ -34,6 +34,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Views\Calendar\" />
+    <Folder Include="wwwroot\NewsImages\" />
   </ItemGroup>
 
 </Project>

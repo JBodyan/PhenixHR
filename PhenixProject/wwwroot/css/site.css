@@ -49,7 +49,7 @@ body {
 }
 .footer {
     position:fixed;
-    bottom: 1px;
+    bottom: 0px;
     left: 0;
     width: 100%;
     white-space: nowrap;
@@ -242,4 +242,47 @@ h1, h4 {
 .custom-container {
     flex-grow: 3;
     padding: 0 20px 0 0 ;
+}
+
+.news-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.news-card {
+    background-color: white;
+    width: 60%;
+    height: 100%;
+    border-radius: 5px;
+    padding: 2.5% 0 ;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.news-cardImg {
+    width: 100%;
+    padding: 0 2.5%;
+    height: 200px;
+}
+
+.news-cardTitle {
+    font-size: 24px;
+    text-align: center;
+    padding: 5px;
+}
+
+.news-cardDescription {
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    padding: 1% 2.5%;
+    border-top: 1px solid gray;
+}
+
+.news-cardBtn {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2.5%;
 }

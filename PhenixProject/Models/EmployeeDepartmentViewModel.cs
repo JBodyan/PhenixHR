@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PhenixProject.Models
 {
@@ -11,6 +12,5 @@ namespace PhenixProject.Models
         public Guid OfficeId { get; set; }
         public Guid DepartmentId { get; set; }
         public Guid PositionId { get; set; }
-        public IEnumerable<OfficeViewModel> Offices { get; set; }
     }
 }

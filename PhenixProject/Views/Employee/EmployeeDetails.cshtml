@@ -25,7 +25,8 @@
             <h6>
                 Position: 
             </h6>
-            @Html.ActionLink("Edit department info", "EditDepartmentModal", new {id = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
+            @Html.ActionLink("Edit department info", "EditDepartmentModal", new {employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
+            <hr/>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Personal info</a>

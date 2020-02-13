@@ -38,6 +38,18 @@ namespace PhenixProject.Services
             return data;
         }
 
+        public async Task<IEnumerable<DepartmentViewModel>> GetDepartmentsByOfficeIdAsync(Guid officeId)
+        {
+            var departments = (await _db.Offices.GetByIdAsync(officeId)).Departments;
+            return _mapper.Map<IEnumerable<DepartmentViewModel>>(departments);
+        }
+
+        public async Task<IEnumerable<PositionViewModel>> GetPositionsByDepartmentIdAsync(Guid departmentId)
+        {
+            var positions = (await _db.Departments.GetByIdAsync(departmentId)).Positions;
+            return _mapper.Map<IEnumerable<PositionViewModel>>(positions);
+        }
+
         public IEnumerable<OfficeViewModel> GetOffices()
         {
             throw new NotImplementedException();
