@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
+using X.PagedList;
 
 namespace PhenixProject.Controllers
 {
@@ -23,7 +24,7 @@ namespace PhenixProject.Controllers
             _webHost = webHost;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             IEnumerable<NewsPostViewModel> news = null;
             try
@@ -34,7 +35,9 @@ namespace PhenixProject.Controllers
             {
                 ModelState.AddModelError(string.Empty,ex.Message);
             }
-            return View(news);
+            const int pageSize = 3;
+            var pageNumber = (page ?? 1);
+            return View(news.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpPost]
@@ -79,9 +82,67 @@ namespace PhenixProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,SUAdministrator")]
-        public async Task<ActionResult> EditNewsModal()
+        public async Task<ActionResult> EditNewsModal(Guid postId)
         {
-            return PartialView("AddNewsModal");
+            if(postId != Guid.Empty){
+                var news = await _newsService.GetNewsByIdAsync(postId);
+                
+                return PartialView("EditNewsModal", news);
+            }
+            ModelState.AddModelError(string.Empty,"Post not found");
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator,SUAdministrator")]
+        public async Task<IActionResult> RemovePost(NewsPostViewModel model)
+        {
+            try
+            {
+                if (model.Id != Guid.Empty)
+                {
+                    await _newsService.RemoveNewsAsync(model.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
+                return View("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator,SUAdministrator")]
+        public async Task<IActionResult> EditNews(NewsPostViewModel model)
+        {
+            try
+            {
+                var newsPost = new NewsPostViewModel
+                {
+                    Id = model.Id,
+                    Title = model.Title,
+                    Description = model.Description,
+                    EditedTime = DateTime.Now
+                };
+                if (model.File != null)
+                {
+                    var path = "/NewsImages/" + model.File.FileName;
+
+                    using (var fileStream = new FileStream(_webHost.WebRootPath + path, FileMode.Create))
+                    {
+                        await model.File.CopyToAsync(fileStream);
+                        newsPost.ImgPath = path;
+                    }
+                }
+                await _newsService.UpdateNewsAsync(newsPost);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = new ErrorViewModel { Message = ex.Message };
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

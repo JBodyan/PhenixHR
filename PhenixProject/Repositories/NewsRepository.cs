@@ -73,7 +73,9 @@ namespace PhenixProject.Repositories
         }
         public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var post = await _db.NewsPosts.FirstOrDefaultAsync(x => x.Id == id);
+            if (post != null)
+                _db.NewsPosts.Remove(post);
         }
     }
 }

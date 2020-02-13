@@ -13,11 +13,13 @@ using Microsoft.Extensions.Logging;
 using PhenixProject.Data;
 using PhenixProject.Models;
 using PhenixProject.Models.Identity;
+using X.PagedList;
 
 namespace PhenixProject.Controllers
 {
     public class AccountController : Controller
     {
+        private const int PageSize = 3;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
@@ -164,10 +166,15 @@ namespace PhenixProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SUAdministrator, Administrator")]
-        public async Task<IActionResult> AllManagers()
+        public async Task<IActionResult> AllManagers(int? page)
         {
             var managers = await _userManager.GetUsersInRoleAsync("HRManager");
-            if (managers.Count > 0) return View(managers);
+            if (managers.Count > 0)
+            {
+                
+                var pageNumber = (page ?? 1);
+                return View(await managers.ToPagedListAsync(pageNumber, PageSize));
+            }
 
             ModelState.AddModelError(string.Empty, "Not found managers.");
             return View();
@@ -175,10 +182,14 @@ namespace PhenixProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SUAdministrator")]
-        public async Task<IActionResult> AllAdministrators()
+        public async Task<IActionResult> AllAdministrators(int? page)
         {
             var admins = await _userManager.GetUsersInRoleAsync("Administrator");
-            if (admins.Count > 0) return View(admins);
+            if (admins.Count > 0)
+            {
+                var pageNumber = (page ?? 1);
+                return View(await admins.ToPagedListAsync(pageNumber, PageSize));
+            }
 
             ModelState.AddModelError(string.Empty, "Not found administrators.");
             return View();

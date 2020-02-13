@@ -51,9 +51,14 @@ namespace PhenixProject.Services
                 news.Description = model.Description;
                 news.Title = model.Title;
                 news.EditedTime = DateTime.Now;
+                if (model.ImgPath != null && model.ImgPath != news.ImgPath)
+                {
+                    news.ImgPath = model.ImgPath;
+                }
+                await _db.NewsPosts.UpdateAsync(news);
+                _db.Save();
             }
-            await _db.NewsPosts.UpdateAsync(news);
-            _db.Save();
+            
         }
 
         public async Task RemoveNewsAsync(Guid id)
