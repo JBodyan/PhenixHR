@@ -24,7 +24,7 @@
         @foreach (var news in Model)
         {
             <div class="news-card">
-                <div>Posted time: @news.PostedTime</div>
+                <div class="news-cardPostTime">Posted time: @news.PostedTime</div>
                 <img class="news-cardImg" alt="img" src="@news.ImgPath"/>
                 <div class="news-cardTitle">@news.Title</div>
                 <div class="news-cardDescription">@news.Description</div>
@@ -40,9 +40,12 @@
     
     </div>
     <div>
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        <div class="pagination-custom">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            <div class="pagination-custom-action">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
+            </div>
+        </div>
     </div>
     }
 @section scripts

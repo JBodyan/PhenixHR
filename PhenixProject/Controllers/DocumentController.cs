@@ -11,12 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using PhenixProject.Data;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
+using X.PagedList;
 
 namespace PhenixProject.Controllers
 {
     [Authorize]
     public class DocumentController : Controller
     {
+        private const int PageSize = 3;
         private readonly IDocumentService _documentService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
@@ -30,7 +32,7 @@ namespace PhenixProject.Controllers
             _userManager = userManager;
             _mimeMappingService = mimeMappingService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             IEnumerable<DocumentViewModel> models;
             try
@@ -43,7 +45,8 @@ namespace PhenixProject.Controllers
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
                 return View();
             }
-            return View(models);
+            var pageNumber = (page ?? 1);
+            return View(await models.ToPagedListAsync(pageNumber, PageSize));
         }
 
         [HttpPost]

@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using PhenixProject.Entities;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
+using X.PagedList;
 
 namespace PhenixProject.Controllers
 {
     [Authorize(Roles = "HRManager")]
     public class CandidateController : Controller
     {
+        private const int PageSize = 3;
         private readonly IMemberService _memberService;
         private readonly IOfficeService _officeService;
         private readonly IMapper _mapper;
@@ -23,12 +25,16 @@ namespace PhenixProject.Controllers
             _officeService = officeService;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? page)
         {
             IEnumerable<CandidateViewModel> candidates;
             try
             {
                 var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate && !x.IsArchived);
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    models = models.Where(x=> x.PersonalInfo.FirstName.Contains(searchString));
+                }
                 candidates = _mapper.Map<IEnumerable<CandidateViewModel>>(models);
             }
             catch (Exception ex)
@@ -36,7 +42,8 @@ namespace PhenixProject.Controllers
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
                 return View();
             }
-            return View(candidates);
+            var pageNumber = (page ?? 1);
+            return View(await candidates.ToPagedListAsync(pageNumber, PageSize));
         }
 
         public async Task<IActionResult> CandidateDetails(Guid id)

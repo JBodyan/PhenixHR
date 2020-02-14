@@ -30,6 +30,7 @@ namespace PhenixProject.Controllers
             try
             {
                 news = await _newsService.GetAllNewsAsync();
+                news = news.OrderByDescending(x => x.PostedTime).ToList();
             }
             catch (Exception ex)
             {

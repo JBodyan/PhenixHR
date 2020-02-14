@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CandidateViewModel>
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<CandidateViewModel>
 
 @{
     ViewData["Title"] = "Candidates";
@@ -6,7 +7,9 @@
 }
 
 <h1>Candidates</h1>
-@Html.ActionLink("Add new candidate", "RegisterCandidate")
+<div class="block-align-center">
+    @Html.ActionLink("Add new candidate", "RegisterCandidate")
+</div>
 @if (error != null)
 {
     <p>
@@ -15,19 +18,34 @@
 }
 else
 {
+    
+    <form class="search-container">
+        <input class="search" type="text" name="searchString">
+        <input class="btn btn-primary" type="submit" value="Search">
+
+    </form>
+
     <div class="card-container block-align-center">
-            @foreach (var item in Model)
-            {
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
-                        <p class="card-text">Career objective: @item.CareerObjective</p>
-                        <p class="card-text">Employment: @item.Employment</p>
-                        <p class="card-text">Desired salary: @item.DesiredSalary</p>
-                        <p class="card-text">City: @item.City</p>
-                        @Html.ActionLink("About", "CandidateDetails", new { id = item.Id },new{@class="btn btn-primary"})
-                    </div>
+        @foreach (var item in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
+                    <p class="card-text">Career objective: @item.CareerObjective</p>
+                    <p class="card-text">Employment: @item.Employment</p>
+                    <p class="card-text">Desired salary: @item.DesiredSalary</p>
+                    <p class="card-text">City: @item.City</p>
+                    @Html.ActionLink("About", "CandidateDetails", new { id = item.Id },new{@class="btn btn-primary"})
                 </div>
-            }
+            </div>
+        }
+    </div>
+    <div>
+        <div class="pagination-custom">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            <div class="pagination-custom-action">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
+            </div>
+        </div>
     </div>
 }

@@ -50,14 +50,19 @@
         <p>LINKS</p>
         @foreach (var link in Model.Links)
         {
-            <a href="@link.Url">@link.Name</a>
-            @Html.ActionLink("Edit","EditLinkModal",new{linkId = link.Id,employeeId = Model.Id},new {@class = "openModal"})
+            <div>
+                <a href="@link.Url">@link.Name</a>
+                @Html.ActionLink("Edit","EditLinkModal",new{linkId = link.Id,employeeId = Model.Id},new {@class = "openModal"})
+                <i class="fas fa-edit"></i>
+            </div>
         }
         <p>SKILLS</p>
         @foreach (var skill in Model.Skills)
         {
-            <span>@skill.Name</span>
-            @Html.ActionLink("Edit","EditSkillModal",new{skillId = skill.Id,employeeId = Model.Id},new {@class = "openModal"})
+            <div>
+                <span>@skill.Name</span>
+                @Html.ActionLink("Edit","EditSkillModal",new{skillId = skill.Id,employeeId = Model.Id},new {@class = "openModal"})
+            </div>
         }
         <hr/>
         @Html.ActionLink("Add link", "AddLinkModal", new {employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"}) |

@@ -11,12 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
+using X.PagedList;
 
 namespace PhenixProject.Controllers
 {
     [Authorize(Roles = "HRManager")]
     public class EmployeeController : Controller
     {
+        const int PageSize = 3;
         private readonly IMemberService _memberService;
         private readonly IPersonalInfoService _personalInfoService;
         private readonly ISkillService _skillService;
@@ -45,7 +47,7 @@ namespace PhenixProject.Controllers
             _mapper = mapper;
             _webHost = webHost;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             IEnumerable<EmployeeViewModel> employees;
             try
@@ -58,7 +60,8 @@ namespace PhenixProject.Controllers
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
                 return View();
             }
-            return View(employees);
+            var pageNumber = (page ?? 1);
+            return View(await employees.ToPagedListAsync(pageNumber, PageSize));
         }
 
         [HttpGet]
