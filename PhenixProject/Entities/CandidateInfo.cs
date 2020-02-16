@@ -18,6 +18,7 @@ namespace PhenixProject.Entities
         public Employment Employment { get; set; }
         public string City { get; set; }
         public string DesiredSalary { get; set; }
+        public Currency Currency { get; set; }
         public ICollection<WorkInfo> Works { get; set; }
         public ICollection<EducationInfo> Educations { get; set; }
         public string CareerObjective { get; set; }

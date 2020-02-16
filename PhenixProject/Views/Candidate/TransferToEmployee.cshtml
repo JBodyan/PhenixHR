@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "TransferToEmployee";
-    IEnumerable<OfficeViewModel> offices = ViewBag.Offices;
 }
 
 <h1>TransferToEmployee</h1>
@@ -27,18 +26,24 @@
                     <input type="number" asp-for="Payroll.Salary" class="form-control"/>
                     <span asp-validation-for="Payroll.Salary" class="text-danger"></span>
                 </div>
-                @*<div class="form-group">
-                    <label asp-for="Office.Id" class="control-label"></label>
-                    <select asp-for="Office.Id" asp-items="offices" class="form-control"></select>
+                <div class="form-group">
+                    <label>Office</label>
+                    <select id="OfficeSelect" asp-for="OfficeId" value="" onchange="changedSelect(this.value, 'DepartmentSelect', '/api/Department/GetDepartments')" asp-items="ViewBag.Offices" class="form-control">
+                        <option>-- select office --</option>
+                    </select>
+                    <span asp-validation-for="OfficeId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Department.Name" class="control-label"></label>
-                    <select asp-for="Department.Name" asp-items="offices.GetEnumerator()" class="form-control"></select>
+                    <label>Department</label>
+                    <select id="DepartmentSelect" onchange="changedSelect(this.value, 'PositionSelect', '/api/Department/GetPositions')" asp-for="DepartmentId" class="form-control">
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Position.Name" class="control-label"></label>
-                    <select asp-for="Position.Name" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"></select>
-                </div>*@
+                    <label>Position</label>
+                    <select id="PositionSelect" asp-for="PositionId" class="form-control"></select>
+                    <span asp-validation-for="PositionId" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -47,6 +52,25 @@
     </div>
 </div>
 
+<script>
+    async function changedSelect(value, change, uri) {
+        const response = await fetch(`${uri}/${value}`);
+        const json = await response.json();
+        const chg = document.getElementById(change);
+        if (chg.childNodes.length > 0) {
+            chg.innerHTML = "";
+            if (change == "DepartmentSelect") {
+                document.getElementById("PositionSelect").innerHTML = "";
+            }
+        }
+        json.forEach((item) => {
+            const op = document.createElement('option');
+            op.appendChild(document.createTextNode(item.Name));
+            op.setAttribute('value', item.Id);
+            chg.appendChild(op);
+        });
+    }
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

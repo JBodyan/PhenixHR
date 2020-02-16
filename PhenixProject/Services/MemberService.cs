@@ -224,9 +224,24 @@ namespace PhenixProject.Services
 
         #endregion
 
+        public async Task UpdateDepartmentAsync(EmployeeDepartmentViewModel model)
+        {
+            var data = await _db.Members.GetByIdAsync(model.EmployeeId);
+            var office = await _db.Offices.GetByIdAsync(model.OfficeId);
+            var department = await _db.Departments.GetByIdAsync(model.DepartmentId);
+            var position = await _db.Positions.GetByIdAsync(model.PositionId);
+            data.EmployeeInfo.Office = office;
+            data.EmployeeInfo.Department = department;
+            data.EmployeeInfo.Position = position;
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
+        }
+
         public void Dispose()
         {
             _db.Dispose();
         }
+
+        
     }
 }

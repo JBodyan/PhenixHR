@@ -12,6 +12,7 @@ namespace PhenixProject.Interfaces
         IRepository<Member> Members { get; }
         IRepository<Office> Offices { get; }
         IRepository<Department> Departments { get; }
+        IRepository<Position> Positions { get; }
         IRepository<Leave> Leaves { get; }
         IRepository<EmployeeHistory> Histories { get; }
         IRepository<Payroll> Payrolls { get; }

@@ -150,7 +150,12 @@ namespace PhenixProject.Controllers
         public async Task<ActionResult> EditDepartment(EmployeeDepartmentViewModel model)
         {
             var id = model.EmployeeId;
-
+            if (Guid.Empty == model.OfficeId || Guid.Empty == model.DepartmentId || Guid.Empty == model.PositionId)
+            {
+                ModelState.AddModelError(string.Empty,"Please select data");
+                return RedirectToAction("EditDepartmentModal", id);
+            }
+            await _memberService.UpdateDepartmentAsync(model);
             return RedirectToAction("EmployeeDetails", new { id });
         }
 

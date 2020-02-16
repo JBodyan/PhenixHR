@@ -24,6 +24,7 @@ namespace PhenixProject.Services
         private TagRepository _tagRepository;
         private CalendarRepository _calendarRepository;
         private NewsRepository _newsRepository;
+        private PositionRepository _positionRepository;
         public UnitOfWork(AppIdentityDbContext context)
         {
             _db = context;
@@ -104,6 +105,17 @@ namespace PhenixProject.Services
                 return _historyRepository;
             }
         }
+
+        public IRepository<Position> Positions
+        {
+            get
+            {
+                if (_positionRepository == null)
+                    _positionRepository = new PositionRepository(_db);
+                return _positionRepository;
+            }
+        }
+        
         public IRepository<Leave> Leaves
         {
             get

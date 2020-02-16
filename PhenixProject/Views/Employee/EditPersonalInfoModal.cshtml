@@ -20,52 +20,52 @@
                     <input hidden asp-for="Id" class="form-control"/>
                 </div>
             <div class="form-group">
-                <label asp-for="FirstName"></label>
+                <label asp-for="FirstName" class="modal-label"></label>
                 <input asp-for="FirstName" class="form-control"/>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MidName"></label>
+                <label asp-for="MidName" class="modal-label"></label>
                 <input asp-for="MidName" class="form-control"/>
                 <span asp-validation-for="MidName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName"></label>
+                <label asp-for="LastName" class="modal-label"></label>
                 <input asp-for="LastName" class="form-control"/>
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BirthDate"></label>
-                <input asp-for="BirthDate" class="form-control"/>
+                <label asp-for="BirthDate" class="modal-label"></label>
+                <input asp-for="BirthDate" type="date" class="form-control"/>
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Gender"></label>
+                <label asp-for="Gender" class="modal-label"></label>
                 <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"></select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contacts.Email"></label>
+                <label asp-for="Contacts.Email" class="modal-label"></label>
                 <input asp-for="Contacts.Email.Value" class="form-control"/>
                 <span asp-validation-for="Contacts.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contacts.Phone"></label>
+                <label asp-for="Contacts.Phone" class="modal-label"></label>
                 <input asp-for="Contacts.Phone.Value" class="form-control"/>
                 <span asp-validation-for="Contacts.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contacts.SecondPhone"></label>
+                <label asp-for="Contacts.SecondPhone" class="modal-label"></label>
                 <input asp-for="Contacts.SecondPhone.Value" class="form-control"/>
                 <span asp-validation-for="Contacts.SecondPhone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contacts.Address"></label>
+                <label asp-for="Contacts.Address" class="modal-label"></label>
                 <input asp-for="Contacts.Address.Value" class="form-control"/>
                 <span asp-validation-for="Contacts.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contacts.Skype"></label>
+                <label asp-for="Contacts.Skype" class="modal-label"></label>
                 <input asp-for="Contacts.Skype.Value" class="form-control"/>
                 <span asp-validation-for="Contacts.Skype" class="text-danger"></span>
             </div>

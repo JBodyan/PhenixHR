@@ -20,10 +20,13 @@
                 @Model.PersonalInfo.FirstName @Model.PersonalInfo.LastName
             </h5>
             <h6>
-                Department: 
+                Office: @Model.Office.City, @Model.Office.Address
             </h6>
             <h6>
-                Position: 
+                Department: @Model.Department.Name
+            </h6>
+            <h6>
+                Position: @Model.Position.Name
             </h6>
             @Html.ActionLink("Edit department info", "EditDepartmentModal", new {employeeId = Model.Id}, new {@class = "openModal btn btn-outline-warning"})
             <hr/>

@@ -20,6 +20,9 @@ html {
         color: #e5e5e5;
     }
 }
+.table {
+    color: white;
+}
 
 .border-top {
     border-top: 1px solid #e5e5e5;
@@ -129,10 +132,10 @@ a {
     top: 0;
 }
 .profile-head h5{
-    color: #000000;
+    color: white;
 }
 .profile-head h6{
-    color: #000000;
+    color: #818182;
 }
 .profile-edit-btn{
     border: none;
@@ -209,14 +212,18 @@ a {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    color: black;
+    color: white;
 }
 
 .black {
     color: black;
 }
-h1, h4 {
+h1{
     text-align: center;
+    color: white;
+}
+
+.modal-content {
     color: black;
 }
 
@@ -226,7 +233,7 @@ h1, h4 {
 }
 
 .form-group {
-    color: black;
+    color: white;
 }
 
 .space-container {
@@ -321,6 +328,10 @@ h1, h4 {
     width: 80%;
     height: 100%;
     margin: 0 1%;
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 5px;
+}
+
+.modal-label {
+    color: black;
 }

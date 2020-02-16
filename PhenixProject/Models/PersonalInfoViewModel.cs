@@ -16,7 +16,7 @@ namespace PhenixProject.Models
         public string MidName { get; set; }
         [Required]
         public string LastName { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         public Gender Gender { get; set; }
         public virtual ContactsViewModel Contacts { get; set; }

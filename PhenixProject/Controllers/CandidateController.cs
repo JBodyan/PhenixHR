@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PhenixProject.Entities;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
@@ -61,20 +63,24 @@ namespace PhenixProject.Controllers
             }
             return View(candidate);
         }
-
+        [HttpGet]
         public async Task<IActionResult> TransferToEmployee(Guid id)
         {
+            
             EmployeeViewModel employee;
             try
             {
                 var model = await _memberService.GetMemberByIdAsync(id);
                 employee = _mapper.Map<EmployeeViewModel>(model);
+                var offices = await _officeService.GetOfficesAsync();
+                ViewBag.Offices = new SelectList(offices, "Id", "Address");
             }
             catch (Exception ex)
             {
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
                 return View();
             }
+            
             return View(employee);
         }
 
@@ -85,6 +91,14 @@ namespace PhenixProject.Controllers
             {
                 var member = _mapper.Map<MemberViewModel>(model);
                 await _memberService.AttachEmployeeInfoAsync(member);
+                var departmentModel = new EmployeeDepartmentViewModel
+                {
+                    EmployeeId = model.Id,
+                    OfficeId = model.OfficeId,
+                    DepartmentId = model.DepartmentId,
+                    PositionId = model.PositionId
+                };
+                await _memberService.UpdateDepartmentAsync(departmentModel);
             }
             catch (Exception ex)
             {

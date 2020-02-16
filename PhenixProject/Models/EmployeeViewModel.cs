@@ -16,6 +16,9 @@ namespace PhenixProject.Models
         public ICollection<LeaveViewModel> Leaves { get; set; }
         public ICollection<LinkViewModel> Links { get; set; }
         public ICollection<SkillViewModel> Skills { get; set; }
+        public Guid OfficeId { get; set; }
+        public Guid DepartmentId { get; set; }
+        public Guid PositionId { get; set; }
 
     }
 }

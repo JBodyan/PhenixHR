@@ -27,8 +27,8 @@ else
                 <img class="card-img-top custom-card-img" src="@item.PersonalInfo.Photo" alt="Photo">
                 <div class="card-body">
                     <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
-                    <p class="card-text">Department: @item.Department</p>
-                    <p class="card-text">Position: @item.Position</p>
+                    <p class="card-text">Department: @item.Department.Name</p>
+                    <p class="card-text">Position: @item.Position.Name</p>
                     @Html.ActionLink("About", "EmployeeDetails", new {id = item.Id}, new {@class = "btn btn-primary"})
                 </div>
             </div>

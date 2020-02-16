@@ -12,6 +12,7 @@ namespace PhenixProject.Models
         public Employment Employment { get; set; }
         public string City { get; set; }
         public string DesiredSalary { get; set; }
+        public Currency Currency { get; set; }
         public PersonalInfoViewModel PersonalInfo { get; set; }
         public ICollection<WorkViewModel> Works { get; set; }
         public ICollection<EducationViewModel> Educations { get; set; }

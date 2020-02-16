@@ -33,7 +33,7 @@ else
                     <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
                     <p class="card-text">Career objective: @item.CareerObjective</p>
                     <p class="card-text">Employment: @item.Employment</p>
-                    <p class="card-text">Desired salary: @item.DesiredSalary</p>
+                    <p class="card-text">Desired salary: @item.DesiredSalary @item.Currency</p>
                     <p class="card-text">City: @item.City</p>
                     @Html.ActionLink("About", "CandidateDetails", new { id = item.Id },new{@class="btn btn-primary"})
                 </div>

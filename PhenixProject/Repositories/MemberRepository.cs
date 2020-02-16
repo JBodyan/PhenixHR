@@ -77,6 +77,9 @@ namespace PhenixProject.Repositories
                 await _db.Entry(entity).Reference(x => x.PersonalInfo).LoadAsync();
                 await _db.Entry(entity).Reference(x => x.CandidateInfo).LoadAsync();
                 await _db.Entry(entity).Reference(x => x.EmployeeInfo).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Reference(x => x.Office).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Reference(x => x.Department).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Reference(x => x.Position).LoadAsync();
                 await _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).LoadAsync();
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Address).LoadAsync();
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Email).LoadAsync();
@@ -100,6 +103,9 @@ namespace PhenixProject.Repositories
                 _db.Entry(entity).Reference(x => x.PersonalInfo).Load();
                 _db.Entry(entity).Reference(x => x.CandidateInfo).Load();
                 _db.Entry(entity).Reference(x => x.EmployeeInfo).Load();
+                _db.Entry(entity.EmployeeInfo).Reference(x => x.Office).Load();
+                _db.Entry(entity.EmployeeInfo).Reference(x => x.Department).Load();
+                _db.Entry(entity.EmployeeInfo).Reference(x => x.Position).Load();
                 _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).Load();
                 _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Address).Load();
                 _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Email).Load();
@@ -121,6 +127,9 @@ namespace PhenixProject.Repositories
                 await _db.Entry(entity).Reference(x => x.PersonalInfo).LoadAsync();
                 await _db.Entry(entity).Reference(x => x.CandidateInfo).LoadAsync();
                 await _db.Entry(entity).Reference(x => x.EmployeeInfo).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Reference(x => x.Office).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Reference(x => x.Department).LoadAsync();
+                await _db.Entry(entity.EmployeeInfo).Reference(x => x.Position).LoadAsync();
                 await _db.Entry(entity.PersonalInfo).Reference(x => x.Contacts).LoadAsync();
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Address).LoadAsync();
                 await _db.Entry(entity.PersonalInfo.Contacts).Reference(x => x.Email).LoadAsync();
@@ -162,6 +171,9 @@ namespace PhenixProject.Repositories
             await _db.Entry(member).Reference(x => x.PersonalInfo).LoadAsync();
             await _db.Entry(member).Reference(x => x.CandidateInfo).LoadAsync();
             await _db.Entry(member).Reference(x => x.EmployeeInfo).LoadAsync();
+            await _db.Entry(member.EmployeeInfo).Reference(x => x.Office).LoadAsync();
+            await _db.Entry(member.EmployeeInfo).Reference(x => x.Department).LoadAsync();
+            await _db.Entry(member.EmployeeInfo).Reference(x => x.Position).LoadAsync();
             await _db.Entry(member.EmployeeInfo).Reference(x => x.Payroll).LoadAsync();
             await _db.Entry(member.PersonalInfo).Reference(x => x.Contacts).LoadAsync();
             await _db.Entry(member.PersonalInfo.Contacts).Reference(x => x.Address).LoadAsync();
