@@ -17,5 +17,9 @@ namespace PhenixProject.Models
         public IEnumerable<DocumentTagViewModel> Tags { get; set; }
         public bool IsArchived { get; set; }
 
+        public override string ToString()
+        {
+            return string.Join(",", Tags);
+        }
     }
 }

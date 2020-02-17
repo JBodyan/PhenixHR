@@ -17,7 +17,7 @@ namespace PhenixProject.Entities
         public Department Department { get; set; }
         public Position Position { get; set; }
         public Payroll Payroll { get; set; }
-        public EmployeeHistory History { get; set; }
+        public ICollection<EmployeeHistory> Histories { get; set; }
         public ICollection<Leave> Leaves { get; set; }
         public ICollection<Link> Links { get; set; }
         public ICollection<Skill> Skills { get; set; }

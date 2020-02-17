@@ -20,11 +20,13 @@ namespace PhenixProject.Controllers
         private const int PageSize = 3;
         private readonly IMemberService _memberService;
         private readonly IOfficeService _officeService;
+        private readonly IHistoryService _historyService;
         private readonly IMapper _mapper;
-        public CandidateController(IMemberService service,IOfficeService officeService, IMapper mapper)
+        public CandidateController(IMemberService service,IHistoryService historyService,IOfficeService officeService, IMapper mapper)
         {
             _memberService = service;
             _officeService = officeService;
+            _historyService = historyService;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index(string searchString, int? page)
@@ -35,7 +37,13 @@ namespace PhenixProject.Controllers
                 var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate && !x.IsArchived);
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    models = models.Where(x=> x.PersonalInfo.FirstName.Contains(searchString));
+                    searchString = searchString.ToUpper();
+                    models = models.Where(
+                        x=> x.PersonalInfo.FirstName.ToUpper().Contains(searchString)
+                        || x.PersonalInfo.LastName.ToUpper().Contains(searchString)
+                        || x.PersonalInfo.MidName.ToUpper().Contains(searchString)
+                        || x.CandidateInfo.CareerObjective.ToUpper().Contains(searchString)
+                    );
                 }
                 candidates = _mapper.Map<IEnumerable<CandidateViewModel>>(models);
             }
@@ -99,6 +107,11 @@ namespace PhenixProject.Controllers
                     PositionId = model.PositionId
                 };
                 await _memberService.UpdateDepartmentAsync(departmentModel);
+                await _memberService.AddHistoryAsync(model.Id,new HistoryViewModel
+                {
+                    Date = DateTime.Now,
+                    Event = "Transfered to employee"
+                });
             }
             catch (Exception ex)
             {

@@ -32,13 +32,24 @@ namespace PhenixProject.Controllers
             _userManager = userManager;
             _mimeMappingService = mimeMappingService;
         }
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(string searchString,int? page)
         {
             IEnumerable<DocumentViewModel> models;
             try
             {
                 models = (await _documentService.GetDocumentsAsync()).Where(x=>!x.IsArchived);
                 ViewBag.CurrentUserId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    
+                    searchString = searchString.ToUpper();
+                    models = models.Where(
+                        x => x.Name.ToUpper().Contains(searchString)
+                             || x.Description.ToUpper().Contains(searchString)
+                             || x.ToString().ToUpper().Contains(searchString)
+                    );
+                    
+                }
             }
             catch (Exception ex)
             {

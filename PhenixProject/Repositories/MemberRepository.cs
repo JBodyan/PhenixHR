@@ -160,6 +160,7 @@ namespace PhenixProject.Repositories
             _db.Entry(member.EmployeeInfo).Collection(x => x.Skills).Load();
             _db.Entry(member.EmployeeInfo).Collection(x => x.Links).Load();
             _db.Entry(member.EmployeeInfo).Collection(x => x.Leaves).Load();
+            _db.Entry(member.EmployeeInfo).Collection(x => x.Histories).Load();
 
             return member;
         }
@@ -186,6 +187,7 @@ namespace PhenixProject.Repositories
             await _db.Entry(member.EmployeeInfo).Collection(x => x.Skills).LoadAsync();
             await _db.Entry(member.EmployeeInfo).Collection(x => x.Links).LoadAsync();
             await _db.Entry(member.EmployeeInfo).Collection(x => x.Leaves).LoadAsync();
+            await _db.Entry(member.EmployeeInfo).Collection(x => x.Histories).LoadAsync();
             return member;
         }
 

@@ -47,12 +47,23 @@ namespace PhenixProject.Controllers
             _mapper = mapper;
             _webHost = webHost;
         }
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(string searchString,int? page)
         {
             IEnumerable<EmployeeViewModel> employees;
             try
             {
                 var models = (await _memberService.GetMembersAsync()).Where(x => x.IsEmployee && !x.IsArchived);
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searchString = searchString.ToUpper();
+                    models = models.Where(
+                        x => x.PersonalInfo.FirstName.ToUpper().Contains(searchString)
+                             || x.PersonalInfo.LastName.ToUpper().Contains(searchString)
+                             || x.PersonalInfo.MidName.ToUpper().Contains(searchString)
+                             || x.EmployeeInfo.Department.Name.ToUpper().Contains(searchString)
+                             || x.EmployeeInfo.Position.Name.ToUpper().Contains(searchString)
+                    );
+                }
                 employees = _mapper.Map<IEnumerable<EmployeeViewModel>>(models);
             }
             catch (Exception ex)

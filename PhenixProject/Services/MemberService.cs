@@ -69,6 +69,22 @@ namespace PhenixProject.Services
             throw new NotImplementedException();
         }
 
+        public async Task AddHistoryAsync(Guid id, HistoryViewModel model)
+        {
+            var data = await _db.Members.GetByIdAsync(id);
+            var history = _mapper.Map<EmployeeHistory>(model);
+            history.Id = Guid.NewGuid();
+            if (data.EmployeeInfo.Histories != null) data.EmployeeInfo.Histories.Add(history);
+            else
+            {
+                data.EmployeeInfo.Histories = new List<EmployeeHistory>
+                {
+                    history
+                };
+            }
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
+        }
         public async Task AddLinkAsync(Guid id, LinkViewModel model)
         {
             var data = await _db.Members.GetByIdAsync(id);
@@ -178,6 +194,7 @@ namespace PhenixProject.Services
             employeeProfile.Payroll.Id = Guid.NewGuid();
             data.EmployeeInfo.Links = new List<Link>();
             data.EmployeeInfo.Skills = new List<Skill>();
+            data.EmployeeInfo.Histories = new List<EmployeeHistory>();
             data.PersonalInfo.Photo = @"/Photo/empty.png";
             data.EmployeeInfo = employeeProfile;
             data.IsCandidate = false;
@@ -204,6 +221,7 @@ namespace PhenixProject.Services
             //Employment
             data.EmployeeInfo.Payroll.Employment = employee.Payroll.Employment;
             data.EmployeeInfo.Payroll.Salary = employee.Payroll.Salary;
+            data.EmployeeInfo.Payroll.Currency = employee.Payroll.Currency;
             //Department/Position
             var department = _mapper.Map<Department>(employee.Department);
             var position = _mapper.Map<Position>(employee.Position);

@@ -135,8 +135,8 @@ namespace PhenixProject.Configuration
                     dest => dest.Department,
                     opt => opt.MapFrom(src => src.EmployeeInfo.Department)
                 ).ForMember(
-                    dest => dest.History,
-                    opt => opt.MapFrom(src => src.EmployeeInfo.History)
+                    dest => dest.Histories,
+                    opt => opt.MapFrom(src => src.EmployeeInfo.Histories)
                 ).ForMember(
                     dest => dest.Leaves,
                     opt => opt.MapFrom(src => src.EmployeeInfo.Leaves)
@@ -208,8 +208,8 @@ namespace PhenixProject.Configuration
                     dest => dest.Department,
                     opt => opt.MapFrom(src => src.EmployeeInfo.Department)
                 ).ForMember(
-                    dest => dest.History,
-                    opt => opt.MapFrom(src => src.EmployeeInfo.History)
+                    dest => dest.Histories,
+                    opt => opt.MapFrom(src => src.EmployeeInfo.Histories)
                 ).ForMember(
                     dest => dest.Leaves,
                     opt => opt.MapFrom(src => src.EmployeeInfo.Leaves)
@@ -242,6 +242,9 @@ namespace PhenixProject.Configuration
 
             CreateMap<NewsPost, NewsPostViewModel>();
             CreateMap<NewsPostViewModel, NewsPost>();
+
+            CreateMap<HistoryViewModel, EmployeeHistory>();
+            CreateMap<EmployeeHistory, HistoryViewModel>();
 
         }
     }

@@ -373,9 +373,13 @@ namespace PhenixProject.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<Guid?>("EmployeeInfoId");
+
                     b.Property<string>("Event");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeInfoId");
 
                     b.ToTable("EmployeeHistories");
                 });
@@ -387,8 +391,6 @@ namespace PhenixProject.Migrations
 
                     b.Property<Guid?>("DepartmentId");
 
-                    b.Property<Guid?>("HistoryId");
-
                     b.Property<Guid?>("OfficeId");
 
                     b.Property<Guid?>("PayrollId");
@@ -398,8 +400,6 @@ namespace PhenixProject.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
-
-                    b.HasIndex("HistoryId");
 
                     b.HasIndex("OfficeId");
 
@@ -722,15 +722,18 @@ namespace PhenixProject.Migrations
                         .HasForeignKey("OfficeId");
                 });
 
+            modelBuilder.Entity("PhenixProject.Entities.EmployeeHistory", b =>
+                {
+                    b.HasOne("PhenixProject.Entities.EmployeeInfo")
+                        .WithMany("Histories")
+                        .HasForeignKey("EmployeeInfoId");
+                });
+
             modelBuilder.Entity("PhenixProject.Entities.EmployeeInfo", b =>
                 {
                     b.HasOne("PhenixProject.Entities.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId");
-
-                    b.HasOne("PhenixProject.Entities.EmployeeHistory", "History")
-                        .WithMany()
-                        .HasForeignKey("HistoryId");
 
                     b.HasOne("PhenixProject.Entities.Office", "Office")
                         .WithMany()
