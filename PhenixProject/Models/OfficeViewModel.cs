@@ -10,6 +10,8 @@ namespace PhenixProject.Models
         public Guid Id { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
+        public string FullAddress => string.Join(",", City, Address);
+
         public ICollection<MemberViewModel> Members { get; set; }
         public ICollection<DepartmentViewModel> Departments { get; set; }
     }

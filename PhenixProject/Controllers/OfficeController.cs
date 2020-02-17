@@ -21,12 +21,19 @@ namespace PhenixProject.Controllers
             _officeService = service;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             IEnumerable<OfficeViewModel> offices;
             try
             {
                 var models = await _officeService.GetOfficesAsync();
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searchString = searchString.ToUpper();
+                    models = models.Where(
+                        x => x.FullAddress.ToUpper().Contains(searchString)
+                    );
+                }
                 offices = _mapper.Map<IEnumerable<OfficeViewModel>>(models);
             }
             catch (Exception ex)

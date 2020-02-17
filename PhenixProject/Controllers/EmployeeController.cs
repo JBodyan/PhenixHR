@@ -153,7 +153,7 @@ namespace PhenixProject.Controllers
             {
                 EmployeeId = employeeId
             };
-            ViewBag.Offices = new SelectList(offices, "Id", "Address");
+            ViewBag.Offices = new SelectList(offices, "Id", "FullAddress");
             return PartialView("EditDepartmentModal", model);
         }
 

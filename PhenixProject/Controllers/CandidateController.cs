@@ -81,7 +81,7 @@ namespace PhenixProject.Controllers
                 var model = await _memberService.GetMemberByIdAsync(id);
                 employee = _mapper.Map<EmployeeViewModel>(model);
                 var offices = await _officeService.GetOfficesAsync();
-                ViewBag.Offices = new SelectList(offices, "Id", "Address");
+                ViewBag.Offices = new SelectList(offices, "Id", "FullAddress");
             }
             catch (Exception ex)
             {

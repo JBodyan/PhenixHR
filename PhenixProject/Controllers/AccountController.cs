@@ -166,12 +166,19 @@ namespace PhenixProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SUAdministrator, Administrator")]
-        public async Task<IActionResult> AllManagers(int? page)
+        public async Task<IActionResult> AllManagers(string searchString, int? page)
         {
             var managers = await _userManager.GetUsersInRoleAsync("HRManager");
             if (managers.Count > 0)
             {
-                
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searchString = searchString.ToUpper();
+                    managers = managers.Where(
+                        x => x.FirstName.ToUpper().Contains(searchString)
+                             || x.LastName.ToUpper().Contains(searchString)
+                    ).ToList();
+                }
                 var pageNumber = (page ?? 1);
                 return View(await managers.ToPagedListAsync(pageNumber, PageSize));
             }
@@ -182,11 +189,19 @@ namespace PhenixProject.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SUAdministrator")]
-        public async Task<IActionResult> AllAdministrators(int? page)
+        public async Task<IActionResult> AllAdministrators(string searchString, int? page)
         {
             var admins = await _userManager.GetUsersInRoleAsync("Administrator");
             if (admins.Count > 0)
             {
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searchString = searchString.ToUpper();
+                    admins = admins.Where(
+                        x => x.FirstName.ToUpper().Contains(searchString)
+                             || x.LastName.ToUpper().Contains(searchString)
+                    ).ToList();
+                }
                 var pageNumber = (page ?? 1);
                 return View(await admins.ToPagedListAsync(pageNumber, PageSize));
             }
