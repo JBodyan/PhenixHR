@@ -1,0 +1,43 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+@model X.PagedList.IPagedList<PhenixProject.Models.OfficeViewModel>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            City
+        </th>
+        <th>
+            Address
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "OfficeDetails", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div>
+    <div class="pagination-custom">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @if (Model.PageCount > 1)
+        {
+            <div class="pagination-custom-action">
+                @Html.PagedListPager(Model, page => Url.Action("OfficesSearch", new{ page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing( new AjaxOptions(){  HttpMethod = "POST", UpdateTargetId = "result"}))
+            </div>
+        }
+    </div>
+</div>

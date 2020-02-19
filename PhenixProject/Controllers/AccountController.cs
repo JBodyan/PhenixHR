@@ -210,6 +210,44 @@ namespace PhenixProject.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> AdministratorsSearch(string searchString, int? page)
+        {
+            var admins = await _userManager.GetUsersInRoleAsync("Administrator");
+            if (admins.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searchString = searchString.ToUpper();
+                    admins = admins.Where(
+                        x => x.FirstName.ToUpper().Contains(searchString)
+                             || x.LastName.ToUpper().Contains(searchString)
+                    ).ToList();
+                }
+            }
+            var pageNumber = (page ?? 1);
+            return PartialView("_AdministratorsSearchPartial", await admins.ToPagedListAsync(pageNumber, PageSize));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ManagersSearch(string searchString, int? page)
+        {
+            var managers = await _userManager.GetUsersInRoleAsync("HRManager");
+            if (managers.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searchString = searchString.ToUpper();
+                    managers = managers.Where(
+                        x => x.FirstName.ToUpper().Contains(searchString)
+                             || x.LastName.ToUpper().Contains(searchString)
+                    ).ToList();
+                }
+            }
+            var pageNumber = (page ?? 1);
+            return PartialView("_ManagersSearchPartial", await managers.ToPagedListAsync(pageNumber, PageSize));
+        }
+
         [HttpGet]
         [Authorize(Roles = "SUAdministrator, Administrator")]
         public async Task<IActionResult> EditHRManager(string id)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PhenixProject.Models.OfficeViewModel>
+﻿@model X.PagedList.IPagedList<PhenixProject.Models.OfficeViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,38 +18,16 @@
 }
 else
 {
-    
-    <form class="search-container">
+    <form data-ajax="true"
+          data-ajax-mode="replace"
+          data-ajax-update="#result"
+          asp-action="OfficesSearch"
+          method="post"
+          class="search-container">
         <input class="search" type="text" name="searchString">
         <input class="btn btn-primary" type="submit" value="Search">
     </form>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.City)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "OfficeDetails", new { id = item.Id })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div id="result">
+        @Html.Partial("_OfficesSearchPartial",Model)
+    </div>
 }

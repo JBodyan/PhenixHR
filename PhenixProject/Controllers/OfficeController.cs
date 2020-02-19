@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using PhenixProject.Entities;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
+using X.PagedList;
 
 namespace PhenixProject.Controllers
 {
     [Authorize(Roles = "SUAdministrator, Administrator")]
     public class OfficeController : Controller
     {
+        private const int PageSize = 3;
         private readonly IOfficeService _officeService;
         private readonly IMapper _mapper;
         public OfficeController(IOfficeService service, IMapper mapper)
@@ -21,7 +23,7 @@ namespace PhenixProject.Controllers
             _officeService = service;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString,int? page)
         {
             IEnumerable<OfficeViewModel> offices;
             try
@@ -41,7 +43,24 @@ namespace PhenixProject.Controllers
                 ViewBag.Error = new ErrorViewModel { Message = ex.Message };
                 return View();
             }
-            return View(offices);
+            var pageNumber = (page ?? 1);
+            return View(await offices.ToPagedListAsync(pageNumber, PageSize));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OfficesSearch(string searchString, int? page)
+        {
+            var models = await _officeService.GetOfficesAsync();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToUpper();
+                models = models.Where(
+                    x => x.FullAddress.ToUpper().Contains(searchString)
+                );
+            }
+            var offices = _mapper.Map<IEnumerable<OfficeViewModel>>(models);
+            var pageNumber = (page ?? 1);
+            return PartialView("_OfficesSearchPartial", await offices.ToPagedListAsync(pageNumber, PageSize));
         }
 
         [HttpGet]
