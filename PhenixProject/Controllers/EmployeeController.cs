@@ -75,6 +75,27 @@ namespace PhenixProject.Controllers
             return View(await employees.ToPagedListAsync(pageNumber, PageSize));
         }
 
+        [HttpPost]
+        public async Task<ActionResult> EmployeeSearch(string searchString, int? page)
+        {
+            var models = (await _memberService.GetMembersAsync()).Where(x => x.IsEmployee && !x.IsArchived);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToUpper();
+                models = models.Where(
+                    x => x.PersonalInfo.FirstName.ToUpper().Contains(searchString)
+                         || x.PersonalInfo.LastName.ToUpper().Contains(searchString)
+                         || x.PersonalInfo.MidName.ToUpper().Contains(searchString)
+                         || x.EmployeeInfo.Department.Name.ToUpper().Contains(searchString)
+                         || x.EmployeeInfo.Position.Name.ToUpper().Contains(searchString)
+                );
+            }
+
+            var employees = _mapper.Map<IEnumerable<EmployeeViewModel>>(models);
+            var pageNumber = (page ?? 1);
+            return PartialView("_EmployeeSearchPartial", await employees.ToPagedListAsync(pageNumber, PageSize));
+        }
+
         [HttpGet]
         public async Task<IActionResult> EmployeeDetails(Guid id)
         {

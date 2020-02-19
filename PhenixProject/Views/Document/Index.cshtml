@@ -1,5 +1,4 @@
-﻿@using X.PagedList.Mvc.Core
-@model X.PagedList.IPagedList<DocumentViewModel>
+﻿@model X.PagedList.IPagedList<DocumentViewModel>
 
 @{
     ViewData["Title"] = "Documents";
@@ -20,38 +19,17 @@
 }
 else
 {
-    
-    <form class="search-container">
+    <form data-ajax="true"
+          data-ajax-mode="replace"
+          data-ajax-update="#result"
+          asp-action="DocumentSearch"
+          method="post"
+          class="search-container">
         <input class="search" type="text" name="searchString">
         <input class="btn btn-primary" type="submit" value="Search">
     </form>
-    <div class="custom-flex-container">
-        @foreach (var item in Model)
-        {
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">Description: @item.Description</p>
-                    <p class="card-text">Tags: @string.Join(",", item.Tags)</p>
-                    @Html.ActionLink("Download", "DownloadDocument", new { id = item.Id },new{@class="btn btn-primary"})
-                    @if (User.Identity.IsAuthenticated
-                         && item.UserId == ViewBag.CurrentUserId
-                         || User.IsInRole("Administrator")
-                         || User.IsInRole("SUAdministrator"))
-                    {
-                        @Html.ActionLink("Edit", "EditDocument", new { id = item.Id },new{@class="btn btn-warning"})
-                    }
-                </div>
-            </div>
-        }
-    </div>
-    <div>
-        <div class="pagination-custom">
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            <div class="pagination-custom-action">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
-            </div>
-        </div>
+    <div id="result">
+        @Html.Partial("_DocumentSearchPartial",Model)
     </div>
 }
 @section scripts

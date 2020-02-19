@@ -1,0 +1,30 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+@model X.PagedList.IPagedList<CandidateViewModel>
+ 
+<div class="search-result card-container block-align-center">
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
+                <p class="card-text">Career objective: @item.CareerObjective</p>
+                <p class="card-text">Employment: @item.Employment</p>
+                <p class="card-text">Desired salary: @item.DesiredSalary @item.Currency</p>
+                <p class="card-text">City: @item.City</p>
+                @Html.ActionLink("About", "CandidateDetails", new { id = item.Id },new{@class="btn btn-primary"})
+            </div>
+        </div>
+    }
+</div>
+<div>
+    <div class="pagination-custom">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @if (Model.PageCount > 1)
+        {
+            <div class="pagination-custom-action">
+                @Html.PagedListPager(Model, page => Url.Action("CandidateSearch", new{ page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing( new AjaxOptions(){  HttpMethod = "POST", UpdateTargetId = "result"}))
+            </div>
+        }
+    </div>
+</div>

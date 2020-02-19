@@ -61,6 +61,27 @@ namespace PhenixProject.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> DocumentSearch(string searchString, int? page)
+        {
+            var models = (await _documentService.GetDocumentsAsync()).Where(x => !x.IsArchived);
+            ViewBag.CurrentUserId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+
+                searchString = searchString.ToUpper();
+                models = models.Where(
+                    x => x.Name.ToUpper().Contains(searchString)
+                         || x.Description.ToUpper().Contains(searchString)
+                         || x.ToString().ToUpper().Contains(searchString)
+                );
+
+            }
+
+            var pageNumber = (page ?? 1);
+            return PartialView("_DocumentSearchPartial", await models.ToPagedListAsync(pageNumber, PageSize));
+        }
+
+        [HttpPost]
         public async Task<IActionResult> UploadDocument([FromForm]UploadFileViewModel model)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);

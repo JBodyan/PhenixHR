@@ -1,0 +1,29 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+@model X.PagedList.IPagedList<EmployeeViewModel>
+
+<div class="custom-flex-container">
+    @foreach (var item in Model)
+    {
+        <div class="card custom-card">
+            <img class="card-img-top custom-card-img" src="@item.PersonalInfo.Photo" alt="Photo">
+            <div class="card-body">
+                <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
+                <p class="card-text">Department: @item.Department.Name</p>
+                <p class="card-text">Position: @item.Position.Name</p>
+                @Html.ActionLink("About", "EmployeeDetails", new {id = item.Id}, new {@class = "btn btn-primary"})
+            </div>
+        </div>
+    }
+</div>
+<div>
+    <div class="pagination-custom">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @if (Model.PageCount > 1)
+        {
+            <div class="pagination-custom-action">
+                @Html.PagedListPager(Model, page => Url.Action("EmployeeSearch", new{ page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing( new AjaxOptions(){  HttpMethod = "POST", UpdateTargetId = "result"}))
+            </div>
+        }
+    </div>
+</div>

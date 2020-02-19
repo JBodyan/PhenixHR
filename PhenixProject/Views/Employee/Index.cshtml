@@ -1,5 +1,4 @@
-﻿@using X.PagedList.Mvc.Core
-@model X.PagedList.IPagedList<PhenixProject.Models.EmployeeViewModel>
+﻿@model X.PagedList.IPagedList<PhenixProject.Models.EmployeeViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,32 +14,18 @@
 else
 {
     <h1>Employees</h1>
-    <form class="search-container">
+    <form data-ajax="true"
+          data-ajax-mode="replace"
+          data-ajax-update="#result"
+          asp-action="EmployeeSearch"
+          method="post"
+          class="search-container">
         <input class="search" type="text" name="searchString">
         <input class="btn btn-primary" type="submit" value="Search">
     </form>
-    <hr/>
-    <div class="custom-flex-container">
-        @foreach (var item in Model)
-        {
-            <div class="card custom-card">
-                <img class="card-img-top custom-card-img" src="@item.PersonalInfo.Photo" alt="Photo">
-                <div class="card-body">
-                    <h5 class="card-title">@item.PersonalInfo.FirstName @item.PersonalInfo.LastName</h5>
-                    <p class="card-text">Department: @item.Department.Name</p>
-                    <p class="card-text">Position: @item.Position.Name</p>
-                    @Html.ActionLink("About", "EmployeeDetails", new {id = item.Id}, new {@class = "btn btn-primary"})
-                </div>
-            </div>
-        }
+    <div id="result">
+        @Html.Partial("_EmployeeSearchPartial",Model)
     </div>
-    <div>
-        <div class="pagination-custom">
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            <div class="pagination-custom-action">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
-            </div>
-        </div>
-    </div>
+    
 }
     

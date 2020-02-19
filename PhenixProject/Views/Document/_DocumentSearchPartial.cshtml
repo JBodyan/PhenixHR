@@ -1,0 +1,35 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+@model X.PagedList.IPagedList<DocumentViewModel>
+ 
+<div class="custom-flex-container">
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">Description: @item.Description</p>
+                <p class="card-text">Tags: @string.Join(",", item.Tags)</p>
+                @Html.ActionLink("Download", "DownloadDocument", new { id = item.Id },new{@class="btn btn-primary"})
+                @if (User.Identity.IsAuthenticated
+                     && item.UserId == ViewBag.CurrentUserId
+                     || User.IsInRole("Administrator")
+                     || User.IsInRole("SUAdministrator"))
+                {
+                    @Html.ActionLink("Edit", "EditDocument", new { id = item.Id },new{@class="btn btn-warning"})
+                }
+            </div>
+        </div>
+    }
+</div>
+<div>
+    <div class="pagination-custom">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @if (Model.PageCount > 1)
+        {
+            <div class="pagination-custom-action">
+                @Html.PagedListPager(Model, page => Url.Action("DocumentSearch", new{ page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing( new AjaxOptions(){  HttpMethod = "POST", UpdateTargetId = "result"}))
+            </div>
+        }
+    </div>
+</div>
