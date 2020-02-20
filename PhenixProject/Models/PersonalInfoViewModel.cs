@@ -22,5 +22,9 @@ namespace PhenixProject.Models
         public virtual ContactsViewModel Contacts { get; set; }
         public string Photo { get; set; }
         public Guid EmployeeId { get; set; }
+        public override string ToString()
+        {
+            return string.Join(" ", FirstName, MidName, LastName, BirthDate, Gender);
+        }
     }
 }

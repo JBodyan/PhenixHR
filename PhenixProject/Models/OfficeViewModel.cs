@@ -14,5 +14,10 @@ namespace PhenixProject.Models
 
         public ICollection<MemberViewModel> Members { get; set; }
         public ICollection<DepartmentViewModel> Departments { get; set; }
+
+        public override string ToString()
+        {
+            return FullAddress;
+        }
     }
 }

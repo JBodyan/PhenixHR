@@ -8,5 +8,9 @@ namespace PhenixProject.Models.Contacts
     public class EmailViewModel
     {
         public string Value { get; set; }
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

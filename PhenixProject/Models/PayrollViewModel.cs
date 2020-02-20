@@ -13,6 +13,9 @@ namespace PhenixProject.Models
         public decimal Salary { get; set; }
         public Currency Currency { get; set; }
         public Guid EmployeeId { get; set; }
-
+        public override string ToString()
+        {
+            return string.Join(" ", Employment, Salary, Currency);
+        }
     }
 }

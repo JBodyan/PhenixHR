@@ -31,9 +31,8 @@ namespace PhenixProject.Controllers
                 var models = await _officeService.GetOfficesAsync();
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    searchString = searchString.ToUpper();
                     models = models.Where(
-                        x => x.FullAddress.ToUpper().Contains(searchString)
+                        x => x.ToString().Contains(searchString)
                     );
                 }
                 offices = _mapper.Map<IEnumerable<OfficeViewModel>>(models);
@@ -53,9 +52,8 @@ namespace PhenixProject.Controllers
             var models = await _officeService.GetOfficesAsync();
             if (!string.IsNullOrEmpty(searchString))
             {
-                searchString = searchString.ToUpper();
                 models = models.Where(
-                    x => x.FullAddress.ToUpper().Contains(searchString)
+                    x => x.ToString().Contains(searchString)
                 );
             }
             var offices = _mapper.Map<IEnumerable<OfficeViewModel>>(models);

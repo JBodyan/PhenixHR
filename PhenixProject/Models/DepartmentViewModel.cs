@@ -11,5 +11,9 @@ namespace PhenixProject.Models
         public string Name { get; set; }
         public ICollection<PositionViewModel> Positions { get; set; }
         public Guid OfficeIdentifier { get; set; }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

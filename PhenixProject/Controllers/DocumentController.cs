@@ -41,14 +41,9 @@ namespace PhenixProject.Controllers
                 ViewBag.CurrentUserId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    
-                    searchString = searchString.ToUpper();
                     models = models.Where(
-                        x => x.Name.ToUpper().Contains(searchString)
-                             || x.Description.ToUpper().Contains(searchString)
-                             || x.ToString().ToUpper().Contains(searchString)
+                        x => x.ToString().Contains(searchString)
                     );
-                    
                 }
             }
             catch (Exception ex)
@@ -67,12 +62,8 @@ namespace PhenixProject.Controllers
             ViewBag.CurrentUserId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
             if (!string.IsNullOrEmpty(searchString))
             {
-
-                searchString = searchString.ToUpper();
                 models = models.Where(
-                    x => x.Name.ToUpper().Contains(searchString)
-                         || x.Description.ToUpper().Contains(searchString)
-                         || x.ToString().ToUpper().Contains(searchString)
+                    x => x.ToString().Contains(searchString)
                 );
 
             }

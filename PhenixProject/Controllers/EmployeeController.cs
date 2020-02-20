@@ -55,13 +55,9 @@ namespace PhenixProject.Controllers
                 var models = (await _memberService.GetMembersAsync()).Where(x => x.IsEmployee && !x.IsArchived);
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    searchString = searchString.ToUpper();
                     models = models.Where(
-                        x => x.PersonalInfo.FirstName.ToUpper().Contains(searchString)
-                             || x.PersonalInfo.LastName.ToUpper().Contains(searchString)
-                             || x.PersonalInfo.MidName.ToUpper().Contains(searchString)
-                             || x.EmployeeInfo.Department.Name.ToUpper().Contains(searchString)
-                             || x.EmployeeInfo.Position.Name.ToUpper().Contains(searchString)
+                        x => x.PersonalInfo.ToString().Contains(searchString)
+                             || x.EmployeeInfo.ToString().Contains(searchString)
                     );
                 }
                 employees = _mapper.Map<IEnumerable<EmployeeViewModel>>(models);
@@ -81,13 +77,9 @@ namespace PhenixProject.Controllers
             var models = (await _memberService.GetMembersAsync()).Where(x => x.IsEmployee && !x.IsArchived);
             if (!string.IsNullOrEmpty(searchString))
             {
-                searchString = searchString.ToUpper();
                 models = models.Where(
-                    x => x.PersonalInfo.FirstName.ToUpper().Contains(searchString)
-                         || x.PersonalInfo.LastName.ToUpper().Contains(searchString)
-                         || x.PersonalInfo.MidName.ToUpper().Contains(searchString)
-                         || x.EmployeeInfo.Department.Name.ToUpper().Contains(searchString)
-                         || x.EmployeeInfo.Position.Name.ToUpper().Contains(searchString)
+                    x => x.PersonalInfo.ToString().Contains(searchString)
+                         || x.EmployeeInfo.ToString().Contains(searchString)
                 );
             }
 

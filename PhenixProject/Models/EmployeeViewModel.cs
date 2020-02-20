@@ -19,6 +19,9 @@ namespace PhenixProject.Models
         public Guid OfficeId { get; set; }
         public Guid DepartmentId { get; set; }
         public Guid PositionId { get; set; }
-
+        public override string ToString()
+        {
+            return string.Join(" ",Office, Position, Department, Payroll);
+        }
     }
 }

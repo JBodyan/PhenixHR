@@ -18,6 +18,9 @@ namespace PhenixProject.Models
         public ICollection<EducationViewModel> Educations { get; set; }
         public string CareerObjective { get; set; }
         public string About { get; set; }
-
+        public override string ToString()
+        {
+            return string.Join(" ", Employment, City, DesiredSalary, Currency, CareerObjective, About);
+        }
     }
 }

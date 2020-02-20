@@ -7,5 +7,9 @@ namespace PhenixProject.Models.Contacts
     public class AddressViewModel
     {
         public string Value { get; set; }
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

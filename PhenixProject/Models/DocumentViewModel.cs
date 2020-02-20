@@ -16,10 +16,10 @@ namespace PhenixProject.Models
         public string UserId { get; set; }
         public IEnumerable<DocumentTagViewModel> Tags { get; set; }
         public bool IsArchived { get; set; }
-
+        public string TagsToString => string.Join(", ", Tags);
         public override string ToString()
         {
-            return string.Join(",", Tags);
+            return string.Join(" ", TagsToString, Name, Description, UploadTime);
         }
     }
 }

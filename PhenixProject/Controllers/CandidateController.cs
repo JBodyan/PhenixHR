@@ -37,12 +37,10 @@ namespace PhenixProject.Controllers
                 var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate && !x.IsArchived);
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    searchString = searchString.ToUpper();
                     models = models.Where(
-                        x=> x.PersonalInfo.FirstName.ToUpper().Contains(searchString)
-                        || x.PersonalInfo.LastName.ToUpper().Contains(searchString)
-                        || x.PersonalInfo.MidName.ToUpper().Contains(searchString)
-                        || x.CandidateInfo.CareerObjective.ToUpper().Contains(searchString)
+                        x => x.PersonalInfo.ToString().Contains(searchString)
+                             || x.CandidateInfo.ToString().Contains(searchString)
+                             || x.PersonalInfo.Contacts.ToString().Contains(searchString)
                     );
                 }
                 candidates = _mapper.Map<IEnumerable<CandidateViewModel>>(models);
@@ -63,12 +61,10 @@ namespace PhenixProject.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                searchString = searchString.ToUpper();
                 models = models.Where(
-                    x => x.PersonalInfo.FirstName.ToUpper().Contains(searchString)
-                         || x.PersonalInfo.LastName.ToUpper().Contains(searchString)
-                         || x.PersonalInfo.MidName.ToUpper().Contains(searchString)
-                         || x.CandidateInfo.CareerObjective.ToUpper().Contains(searchString)
+                    x => x.PersonalInfo.ToString().Contains(searchString)
+                         || x.CandidateInfo.ToString().Contains(searchString)
+                         || x.PersonalInfo.Contacts.ToString().Contains(searchString)
                 );
             }
             var candidates = _mapper.Map<IEnumerable<CandidateViewModel>>(models);

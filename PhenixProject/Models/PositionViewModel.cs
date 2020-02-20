@@ -10,5 +10,9 @@ namespace PhenixProject.Models
         public string Name { get; set; }
         public Guid DepartmentIdentifier { get; set; }
         public Guid OfficeIdentifier { get; set; }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

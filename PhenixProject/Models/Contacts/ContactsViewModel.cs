@@ -17,5 +17,9 @@ namespace PhenixProject.Models.Contacts
         public EmailViewModel Email { get; set; }
         public SkypeViewModel Skype { get; set; }
         public AddressViewModel Address { get; set; }
+        public override string ToString()
+        {
+            return string.Join(" ", Phone, SecondPhone, Email, Skype, Address);
+        }
     }
 }
