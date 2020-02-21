@@ -30,5 +30,7 @@ namespace PhenixProject.Models.Identity
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
+        public string Photo { get; set; }
+
     }
 }

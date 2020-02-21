@@ -263,7 +263,8 @@ namespace PhenixProject.Controllers
                     FirstName = manager.FirstName,
                     LastName = manager.LastName,
                     Phone = manager.PhoneNumber,
-                    Username = manager.UserName
+                    Username = manager.UserName,
+                    Photo = manager.Photo
                 };
                 return View(model);
             }
@@ -276,18 +277,19 @@ namespace PhenixProject.Controllers
         [Authorize(Roles = "SUAdministrator")]
         public async Task<IActionResult> EditAdministrator(string id)
         {
-            var manager = await _userManager.FindByIdAsync(id);
+            var admin = await _userManager.FindByIdAsync(id);
 
-            if (manager != null)
+            if (admin != null)
             {
                 var model = new EditAdministratorModel
                 {
-                    Id = manager.Id,
-                    Email = manager.Email,
-                    FirstName = manager.FirstName,
-                    LastName = manager.LastName,
-                    Phone = manager.PhoneNumber,
-                    Username = manager.UserName
+                    Id = admin.Id,
+                    Email = admin.Email,
+                    FirstName = admin.FirstName,
+                    LastName = admin.LastName,
+                    Phone = admin.PhoneNumber,
+                    Username = admin.UserName,
+                    Photo = admin.Photo
                 };
                 return View(model);
             }
@@ -558,7 +560,7 @@ namespace PhenixProject.Controllers
                 ModelState.AddModelError(string.Empty, "Error uploading photo");
             }
 
-            return RedirectToAction("PersonalProfile");
+            return RedirectToAction("Index","Home");
         }
     }
 }
