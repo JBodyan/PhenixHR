@@ -1,4 +1,5 @@
-﻿@model X.PagedList.IPagedList<CandidateViewModel>
+﻿@using Resources.Enums
+@model X.PagedList.IPagedList<CandidateViewModel>
 
 @{
     ViewData["Title"] = "Candidates";
@@ -24,6 +25,8 @@ else
           method="post"
           class="search-container">
         <input class="search" type="text" name="searchString">
+        <select name="gender" asp-items="Html.GetEnumSelectList<GenderFilter>()" class="form-control filter"></select>
+        <select name="archived" asp-items="Html.GetEnumSelectList<ArchivedFilter>()" class="form-control filter"></select>
         <input class="btn btn-primary" type="submit" value="Search">
     </form>
     <div id="result">

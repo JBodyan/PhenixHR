@@ -56,6 +56,7 @@ namespace PhenixProject
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ICalendarService, CalendarService>();
             services.AddScoped<IHistoryService, HistoryService>();
+            services.AddScoped<IFilterService, FilterService>();
 
             services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 

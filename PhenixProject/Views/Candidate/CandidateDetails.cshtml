@@ -10,6 +10,11 @@
     <h4>Candidate</h4>
     <hr />
     @Html.ActionLink("Transfer To Employee", "TransferToEmployee", new {  id = Model.Id })
+    <br/>
+    @if (!Model.IsArchived)
+    {
+        @Html.ActionLink("Send to Archive", "SendToArchive", new {id = Model.Id}, new {@class = "text-danger"})
+    }
     <div class="block-align-center">
         <dl class="space-container">
             <div class="custom-container">

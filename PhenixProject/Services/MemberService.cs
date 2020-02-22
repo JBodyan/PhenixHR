@@ -255,6 +255,14 @@ namespace PhenixProject.Services
             _db.Save();
         }
 
+        public async Task SendToArchive(Guid id)
+        {
+            var data = await _db.Members.GetByIdAsync(id);
+            data.IsArchived = true;
+            await _db.Members.UpdateAsync(data);
+            _db.Save();
+        }
+
         public void Dispose()
         {
             _db.Dispose();

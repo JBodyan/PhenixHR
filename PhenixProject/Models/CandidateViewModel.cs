@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using PhenixProject.Models.Information;
 
 namespace PhenixProject.Models
@@ -18,6 +19,9 @@ namespace PhenixProject.Models
         public ICollection<EducationViewModel> Educations { get; set; }
         public string CareerObjective { get; set; }
         public string About { get; set; }
+        public string PathCV { get; set; }
+        public IFormFile File { get; set; }
+        public bool IsArchived { get; set; }
         public override string ToString()
         {
             return string.Join(" ", Employment, City, DesiredSalary, Currency, CareerObjective, About);

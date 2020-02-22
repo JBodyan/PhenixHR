@@ -113,6 +113,9 @@ namespace PhenixProject.Configuration
                 ).ForMember(
                     dest => dest.Employment,
                     opt => opt.MapFrom(src => src.CandidateInfo.Employment)
+                ).ForMember(
+                    dest => dest.IsArchived,
+                    opt => opt.MapFrom(src => src.IsArchived)
                 );
 
             CreateMap<CandidateViewModel, Member>()
@@ -186,6 +189,9 @@ namespace PhenixProject.Configuration
                 ).ForMember(
                     dest => dest.Employment,
                     opt => opt.MapFrom(src => src.CandidateInfo.Employment)
+                ).ForMember(
+                    dest => dest.IsArchived,
+                    opt => opt.MapFrom(src => src.IsArchived)
                 );
 
             CreateMap<CandidateViewModel, MemberViewModel>()

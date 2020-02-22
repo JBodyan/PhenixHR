@@ -142,6 +142,19 @@ namespace PhenixProject.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SendToArchive(Guid id)
+        {
+            try
+            {
+                await _memberService.SendToArchive(id);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty, e.Message);
+            }
+            return View("Index");
+        }
 
         [HttpGet]
         public async Task<ActionResult> EditPersonalInfoModal(Guid employeeId)

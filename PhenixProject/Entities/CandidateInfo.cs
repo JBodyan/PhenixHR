@@ -22,6 +22,7 @@ namespace PhenixProject.Entities
         public ICollection<WorkInfo> Works { get; set; }
         public ICollection<EducationInfo> Educations { get; set; }
         public string CareerObjective { get; set; }
+        public string PathCV { get; set; }
         public string About { get; set; }
     }
 }

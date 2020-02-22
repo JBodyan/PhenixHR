@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PhenixProject.Entities;
 using PhenixProject.Interfaces;
 using PhenixProject.Models;
+using Resources.Enums;
 using X.PagedList;
 
 namespace PhenixProject.Controllers
@@ -21,12 +22,14 @@ namespace PhenixProject.Controllers
         private readonly IMemberService _memberService;
         private readonly IOfficeService _officeService;
         private readonly IHistoryService _historyService;
+        private readonly IFilterService _filterService;
         private readonly IMapper _mapper;
-        public CandidateController(IMemberService service,IHistoryService historyService,IOfficeService officeService, IMapper mapper)
+        public CandidateController(IMemberService service,IFilterService filterService,IHistoryService historyService,IOfficeService officeService, IMapper mapper)
         {
             _memberService = service;
             _officeService = officeService;
             _historyService = historyService;
+            _filterService = filterService;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index(string searchString, int? page)
@@ -34,7 +37,7 @@ namespace PhenixProject.Controllers
             IEnumerable<CandidateViewModel> candidates;
             try
             {
-                var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate && !x.IsArchived);
+                var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate);
                 if (!string.IsNullOrEmpty(searchString))
                 {
                     models = models.Where(
@@ -55,9 +58,10 @@ namespace PhenixProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CandidateSearch(string searchString, int? page)
+        public async Task<ActionResult> CandidateSearch(string searchString, int? page, ArchivedFilter archived, GenderFilter gender)
         {
-            var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate && !x.IsArchived);
+            var models = (await _memberService.GetMembersAsync()).Where(x => x.IsCandidate);
+            models = await _filterService.FilterCandidatesAsync(models, gender, archived);
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -106,6 +110,20 @@ namespace PhenixProject.Controllers
             }
             
             return View(employee);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SendToArchive(Guid id)
+        {
+            try
+            {
+                await _memberService.SendToArchive(id);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty,e.Message);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

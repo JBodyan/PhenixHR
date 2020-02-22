@@ -25,6 +25,7 @@ namespace PhenixProject.Interfaces
         Task UpdateEmployeeInfoAsync(EmployeeViewModel employee);
         Task UpdatePhotoAsync(Guid id, string path);
         Task UpdateDepartmentAsync(EmployeeDepartmentViewModel model);
+        Task SendToArchive(Guid id);
         void Dispose();
     }
 }
