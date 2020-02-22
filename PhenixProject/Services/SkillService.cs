@@ -30,13 +30,20 @@ namespace PhenixProject.Services
                 {
                     skill
                 };
-                _db.Save();
+                
             }
             else
             {
                 member.EmployeeInfo.Skills.Add(skill);
-                _db.Save();
             }
+            member.EmployeeInfo.Histories.Add(new EmployeeHistory
+            {
+                Id = Guid.NewGuid(),
+                Date = DateTime.Now,
+                Event = $"Added skill ({skill.Name})"
+            });
+            _db.Members.Update(member);
+            _db.Save();
         }
 
         public SkillViewModel GetSkillById(Guid id)

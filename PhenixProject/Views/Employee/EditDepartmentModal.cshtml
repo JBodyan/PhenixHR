@@ -1,6 +1,4 @@
-﻿@using Newtonsoft.Json
-@using Resources.Enums
-@model EmployeeDepartmentViewModel
+﻿@model EmployeeDepartmentViewModel
 
 @{
     ViewData["Title"] = "Edit department";
@@ -21,19 +19,22 @@
                 <div class="form-group">
                     <label class="modal-label">Office</label>
                         <select id="OfficeSelect" asp-for="OfficeId" value="" onchange="changedSelect(this.value, 'DepartmentSelect', '/api/Department/GetDepartments')" asp-items="ViewBag.Offices" class="form-control">
-                            <option>-- select office --</option>
+                            <option class="option-select">-- select office --</option>
                         </select>
                     <span asp-validation-for="OfficeId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label class="modal-label">Department</label>
                     <select id="DepartmentSelect" onchange="changedSelect(this.value, 'PositionSelect', '/api/Department/GetPositions')" asp-for="DepartmentId" class="form-control">
+                        <option class="option-select">-- select department --</option>
                     </select>
                     <span asp-validation-for="DepartmentId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label class="modal-label">Position</label>
-                    <select id="PositionSelect" asp-for="PositionId" class="form-control"></select>
+                    <select id="PositionSelect" asp-for="PositionId" class="form-control">
+                        <option class="option-select">-- select position --</option>
+                    </select>
                     <span asp-validation-for="PositionId" class="text-danger"></span>
                 </div>
                 <div class="form-group">

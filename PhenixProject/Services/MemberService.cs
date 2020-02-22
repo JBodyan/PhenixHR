@@ -98,6 +98,12 @@ namespace PhenixProject.Services
                     link
                 };
             }
+            data.EmployeeInfo.Histories.Add(new EmployeeHistory
+            {
+                Id = Guid.NewGuid(),
+                Date = DateTime.Now,
+                Event = $"Added link ({link.Url})"
+            });
             await _db.Members.UpdateAsync(data);
             _db.Save();
         }
@@ -108,6 +114,12 @@ namespace PhenixProject.Services
             var link = _mapper.Map<Link>(model);
             if (data.EmployeeInfo.Links != null)
             {
+                data.EmployeeInfo.Histories.Add(new EmployeeHistory
+                {
+                    Id = Guid.NewGuid(),
+                    Date = DateTime.Now,
+                    Event = $"Removed link ({link.Url})"
+                });
                 data.EmployeeInfo.Links.Remove(link);
                 await _db.Members.UpdateAsync(data);
                 _db.Save();
@@ -120,8 +132,15 @@ namespace PhenixProject.Services
             var link = data.EmployeeInfo.Links?.FirstOrDefault(x=>x.Id == model.Id);
             if (link != null)
             {
+                data.EmployeeInfo.Histories.Add(new EmployeeHistory
+                {
+                    Id = Guid.NewGuid(),
+                    Date = DateTime.Now,
+                    Event = $"Updated link ({link.Url} to {model.Url})"
+                });
                 link.Name = model.Name;
                 link.Url = model.Url;
+                
                 await _db.Members.UpdateAsync(data);
                 _db.Save();
             }
@@ -228,6 +247,12 @@ namespace PhenixProject.Services
             data.EmployeeInfo.Department = department;
             data.EmployeeInfo.Position = position;
 
+            data.EmployeeInfo.Histories.Add(new EmployeeHistory
+            {
+                Id = Guid.NewGuid(),
+                Date = DateTime.Now,
+                Event = "Updated employee information"
+            });
             await _db.Members.UpdateAsync(data);
             _db.Save();
         }
@@ -236,6 +261,12 @@ namespace PhenixProject.Services
         {
             var data = await _db.Members.GetByIdAsync(id);
             data.PersonalInfo.Photo = path;
+            data.EmployeeInfo.Histories.Add(new EmployeeHistory
+            {
+                Id = Guid.NewGuid(),
+                Date = DateTime.Now,
+                Event = "Changed photo"
+            });
             await _db.Members.UpdateAsync(data);
             _db.Save();
         }
@@ -251,6 +282,12 @@ namespace PhenixProject.Services
             data.EmployeeInfo.Office = office;
             data.EmployeeInfo.Department = department;
             data.EmployeeInfo.Position = position;
+            data.EmployeeInfo.Histories.Add(new EmployeeHistory
+            {
+                Id = Guid.NewGuid(),
+                Date = DateTime.Now,
+                Event = $"Department information (Transfered to {office.City}, {office.Address}, [{department.Name}, {position.Name}])"
+            });
             await _db.Members.UpdateAsync(data);
             _db.Save();
         }
