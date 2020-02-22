@@ -38,6 +38,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Views\Calendar\" />
+    <Folder Include="wwwroot\CV\" />
     <Folder Include="wwwroot\NewsImages\" />
   </ItemGroup>
 

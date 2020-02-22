@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PhenixProject.Entities;
@@ -24,12 +26,16 @@ namespace PhenixProject.Controllers
         private readonly IHistoryService _historyService;
         private readonly IFilterService _filterService;
         private readonly IMapper _mapper;
-        public CandidateController(IMemberService service,IFilterService filterService,IHistoryService historyService,IOfficeService officeService, IMapper mapper)
+        private readonly IHostingEnvironment _webHost;
+        private readonly IMimeMappingService _mimeMappingService;
+        public CandidateController(IHostingEnvironment webHost,IMemberService service,IFilterService filterService,IHistoryService historyService,IOfficeService officeService, IMapper mapper,IMimeMappingService mimeMappingService)
         {
             _memberService = service;
             _officeService = officeService;
             _historyService = historyService;
             _filterService = filterService;
+            _mimeMappingService = mimeMappingService;
+            _webHost = webHost;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index(string searchString, int? page)
@@ -163,10 +169,20 @@ namespace PhenixProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterCandidate(CandidateViewModel model)
+        public async Task<IActionResult> RegisterCandidate([FromForm]CandidateViewModel model)
         {
             try
             {
+                if (model.File != null)
+                {
+                    model.Id = Guid.NewGuid();
+                    var path = "/CV/" + model.Id + model.File.FileName;
+                    using (var fileStream = new FileStream(_webHost.WebRootPath + path, FileMode.Create))
+                    {
+                        await model.File.CopyToAsync(fileStream);
+                    }
+                    model.PathCV = path;
+                }
                 var member = _mapper.Map<MemberViewModel>(model);
                 member.IsCandidate = true;
                 await _memberService.AddMemberAsync(member);
@@ -179,5 +195,22 @@ namespace PhenixProject.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<ActionResult> DownloadCV(Guid id)
+        {
+            var candidate = await _memberService.GetMemberByIdAsync(id);
+            var path = candidate.CandidateInfo.PathCV;
+            if (path != null)
+            {
+                var mimeType = _mimeMappingService.Map(path);
+                var name = string.Join("_", candidate.PersonalInfo.FirstName, candidate.PersonalInfo.LastName, "CV");
+                return PhysicalFile(_webHost.WebRootPath + path, mimeType, name);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Path not found");
+                return View("Index");
+            }
+        }
     }
 }

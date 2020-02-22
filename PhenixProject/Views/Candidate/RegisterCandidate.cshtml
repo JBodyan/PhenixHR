@@ -10,7 +10,7 @@
 <h4>CandidateViewModel</h4>
 <hr />
 <div class="row block-align-center">
-        <form class="space-container" asp-action="RegisterCandidate">
+        <form class="space-container" asp-action="RegisterCandidate" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="custom-container">
                 <h3>Personal information</h3>
@@ -102,6 +102,10 @@
                     <label asp-for="PersonalInfo.Contacts.Address" class="control-label"></label>
                     <input asp-for="PersonalInfo.Contacts.Address.Value" class="form-control" />
                     <span asp-validation-for="PersonalInfo.Contacts.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Upload CV</label>
+                    <input type="file" asp-for="File" name="File" value="Select CV file" class="form-control"/>
                 </div>
             </div>
             <div class="form-group" style="width: 100%;">

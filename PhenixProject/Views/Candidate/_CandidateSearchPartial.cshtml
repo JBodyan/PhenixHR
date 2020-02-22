@@ -16,6 +16,10 @@
                     <p class="card-text">City: @item.City</p>
                     <p class="card-text text-danger">Is archived member</p>
                     @Html.ActionLink("About", "CandidateDetails", new {id = item.Id}, new {@class = "btn btn-primary"})
+                    @if (item.PathCV!=null)
+                    {
+                        @Html.ActionLink("Download CV", "DownloadCV", new {id = item.Id}, new {@class = "btn btn-success"})
+                    }
                 </div>
             </div>
         }
@@ -29,6 +33,10 @@
                     <p class="card-text">Desired salary: @item.DesiredSalary @item.Currency</p>
                     <p class="card-text">City: @item.City</p>
                     @Html.ActionLink("About", "CandidateDetails", new {id = item.Id}, new {@class = "btn btn-primary"})
+                    @if (item.PathCV!=null)
+                    {
+                        @Html.ActionLink("Download CV", "DownloadCV", new {id = item.Id}, new {@class = "btn btn-success"})
+                    }
                 </div>
             </div>
         }

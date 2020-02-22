@@ -192,6 +192,9 @@ namespace PhenixProject.Configuration
                 ).ForMember(
                     dest => dest.IsArchived,
                     opt => opt.MapFrom(src => src.IsArchived)
+                ).ForMember(
+                    dest => dest.PathCV,
+                    opt => opt.MapFrom(src => src.CandidateInfo.PathCV)
                 );
 
             CreateMap<CandidateViewModel, MemberViewModel>()
