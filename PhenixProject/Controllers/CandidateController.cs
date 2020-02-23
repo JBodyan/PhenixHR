@@ -20,7 +20,7 @@ namespace PhenixProject.Controllers
     [Authorize(Roles = "HRManager")]
     public class CandidateController : Controller
     {
-        private const int PageSize = 3;
+        private const int PageSize = 6;
         private readonly IMemberService _memberService;
         private readonly IOfficeService _officeService;
         private readonly IHistoryService _historyService;

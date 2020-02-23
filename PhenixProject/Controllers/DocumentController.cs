@@ -18,7 +18,7 @@ namespace PhenixProject.Controllers
     [Authorize]
     public class DocumentController : Controller
     {
-        private const int PageSize = 3;
+        private const int PageSize = 6;
         private readonly IDocumentService _documentService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;

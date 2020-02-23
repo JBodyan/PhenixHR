@@ -19,7 +19,7 @@ namespace PhenixProject.Controllers
 {
     public class AccountController : Controller
     {
-        private const int PageSize = 3;
+        private const int PageSize = 9;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
