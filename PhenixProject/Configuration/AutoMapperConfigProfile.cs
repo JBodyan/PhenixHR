@@ -195,6 +195,9 @@ namespace PhenixProject.Configuration
                 ).ForMember(
                     dest => dest.PathCV,
                     opt => opt.MapFrom(src => src.CandidateInfo.PathCV)
+                ).ForMember(
+                    dest => dest.Currency,
+                    opt => opt.MapFrom(src => src.CandidateInfo.Currency)
                 );
 
             CreateMap<CandidateViewModel, MemberViewModel>()
